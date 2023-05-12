@@ -36,3 +36,8 @@ app.get('/api/data', (req,res) => {
 app.post('/add-empty-row',(req,res)=>{
     client.query("INSERT INTO department DEFAULT VALUES")
 })
+
+// * RUN APP
+app.listen(3000, () => {
+    console.log('Server started on port 3000');
+});
