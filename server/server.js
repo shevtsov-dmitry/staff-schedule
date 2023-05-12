@@ -31,3 +31,8 @@ app.get('/api/data', (req,res) => {
         
     })
 })
+
+// add row
+app.post('/add-empty-row',(req,res)=>{
+    client.query("INSERT INTO department DEFAULT VALUES")
+})
