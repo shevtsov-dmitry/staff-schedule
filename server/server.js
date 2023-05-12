@@ -20,3 +20,14 @@ const client = new Client({
 });
 
 client.connect()
+
+// *** GETS AND POSTS
+
+// GET * rows
+app.get('/api/data', (req,res) => {
+    client.query("SELECT * FROM department", (err, result)=>{
+        const rows = result.rows
+        res.send(rows)
+        
+    })
+})
