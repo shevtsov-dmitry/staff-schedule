@@ -3,7 +3,27 @@ import 'handsontable/dist/handsontable.full.min.css';
 
 const host = 'http://localhost:3000'
 
-const container = document.querySelector('#example');
+// fill the list with values which will be chosen by user to display certain table
+const table_names_list = document.querySelector('.table-names-list')
+function displayTableNamesList(){
+  table_names_list.innerHTML = "";
+  fetch(`${host}/get-table-names`, {
+    method: "GET",
+    headers: {'Content-Type' : 'application/json '},
+  })
+  .then(response => response.json())
+  .then(data => {
+    for (const key in data) {
+      if (Object.hasOwnProperty.call(data, key)) {
+        const element = data[key];
+        table_names_list.innerHTML += `<li>${element.table_name}</li>`
+      }
+    }
+  })
+}
+displayTableNamesList()
+
+const container = document.querySelector('#table');
 const save_btn = document.querySelector('#save')
 const add_row_btn = document.querySelector('.add-row')
 const remove_row_btn = document.querySelector('.remove-row')
@@ -84,7 +104,6 @@ async function getColumnNames(){
   })
   return columns_names_array
 }
-
 
 function deleteSelectedRows(selectedRows){
   // define and send two id values. between them content will be removed 
