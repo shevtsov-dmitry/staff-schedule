@@ -11,7 +11,7 @@ app.use(function(req, res, next) {
     next();
   });
 
-  // * CLIENT CONNECT TO DB
+  // * ------ CLIENT CONNECT TO DB ------
 const client = new Client({
     user: 'me',
     host: 'localhost',
@@ -22,7 +22,7 @@ const client = new Client({
 
 client.connect()
 
-// *** GETS AND POSTS
+// *** ------ GETS ------
 // GET * table names from database
 app.get('/get-table-names',(req,res)=>{
     const query = `SELECT table_name
@@ -46,17 +46,20 @@ app.get('/get-column-names', (req,res)=>{
     })
 })
 // GET * rows
-app.get('/api/data', (req,res) => {
-    client.query("SELECT * FROM department", (err, result)=>{
+app.get('/get-all-data-from-table', (req,res) => {
+    const table_name = req.query.table 
+    const query = `SELECT * FROM ${table_name}`
+    client.query(query, (err, result)=>{
         const rows = result.rows
         res.send(rows)
-        
     })
 })
 
+// *** ------ POSTS ------
 // add row
 app.post('/add-empty-row',(req,res)=>{
-    client.query("INSERT INTO department DEFAULT VALUES")
+    const table_name = req.query.table
+    client.query(`INSERT INTO ${table_name} DEFAULT VALUES`)
 })
 
 app.use(bodyParser.json())
@@ -70,7 +73,7 @@ app.post('/delete-selected-rows', (req,res) =>{
 
 })
 
-// * RUN APP
+// * ------ RUN APP ------
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });

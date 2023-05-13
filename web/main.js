@@ -3,9 +3,22 @@ import 'handsontable/dist/handsontable.full.min.css';
 
 const host = 'http://localhost:3000'
 
+const container = document.querySelector('#table');
+const hot = new Handsontable(container, {
+  data: [],
+  rowHeaders: false,
+  colHeaders: true,
+  height: 'auto',
+  licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+});
+
+async function main(){
+  await displayTableNamesList()
+}
 // fill the list with values which will be chosen by user to display certain table
 const table_names_list = document.querySelector('.table-names-list')
-function displayTableNamesList(){
+
+async function displayTableNamesList(){
   table_names_list.innerHTML = "";
   fetch(`${host}/get-table-names`, {
     method: "GET",
@@ -19,30 +32,40 @@ function displayTableNamesList(){
         table_names_list.innerHTML += `<li>${element.table_name}</li>`
       }
     }
+    
+    for (const name of table_names_list.children) {
+      name.addEventListener('click', ()=> {
+        retrieveAllDataFromTable(name.textContent)
+      })
+    }
   })
 }
-displayTableNamesList()
 
-const container = document.querySelector('#table');
+
 const save_btn = document.querySelector('#save')
 const add_row_btn = document.querySelector('.add-row')
 const remove_row_btn = document.querySelector('.remove-row')
 
-await retrieveAllDataFromTable()
 
-async function retrieveAllDataFromTable(){
-  fetch(`${host}/api/data`)
+async function retrieveAllDataFromTable(table_name){
+  fetch(`${host}/get-all-data-from-table?table=${table_name}`,{
+    method: 'GET',
+    headers: {'Content-Type': 'application/json'}
+  })
   .then(response => response.json())
   .then(async data => {
   
-  // create table from fetch data
-  let hot = new Handsontable(container, {
+  hot.updateSettings({
     data: data,
-    rowHeaders: false,
-    colHeaders: [],
-    height: 'auto',
-    licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
-  });
+  })
+  // create table from fetch data
+  // let hot = new Handsontable(container, {
+  //   data: data,
+  //   rowHeaders: false,
+  //   colHeaders: [],
+  //   height: 'auto',
+  //   licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+  // });
 
   getColumnNames().then(col_names_array => {
     hot.updateSettings({
@@ -68,22 +91,22 @@ async function retrieveAllDataFromTable(){
     deleteSelectedRows(selectedRows)
     location.reload()
   })
-
-
 });
-
 }
 
 // add new empty row
-add_row_btn.addEventListener('click',()=>{
-  fetch(`${host}/add-empty-row`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  location.reload()
-});
+async function addEmptyRow(table_name){
+  add_row_btn.addEventListener('click',()=>{
+    fetch(`${host}/add-empty-row?table=${table_name}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    hot.alter('insert_row_below', hot.countRows())
+  });
+}
+
 
 // get column names
 async function getColumnNames(){
@@ -121,3 +144,4 @@ function deleteSelectedRows(selectedRows){
 }
 
 
+await main()
