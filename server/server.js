@@ -37,12 +37,19 @@ app.get('/get-table-names',(req,res)=>{
 
 // GET * column names from table
 app.get('/get-column-names', (req,res)=>{
+    const table_name = req.query.table
     const query = `SELECT column_name
     FROM information_schema.columns
-    WHERE table_name = 'department';`
+    WHERE table_name = '${table_name}';`
     client.query(query, (err, result) =>{
-        const rows = result.rows
-        res.send(rows)
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error retrieving column names');
+        }
+        else{
+            const rows = result.rows
+            res.send(rows)
+        }
     })
 })
 // GET * rows
