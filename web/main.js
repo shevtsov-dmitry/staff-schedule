@@ -8,19 +8,27 @@ const save_btn = document.querySelector('#save')
 const add_row_btn = document.querySelector('.add-row')
 const remove_row_btn = document.querySelector('.remove-row')
 
-fetch(`${host}/api/data`)
-  .then(response => response.json())
-  .then(data => {
+await retrieveAllDataFromTable()
 
+async function retrieveAllDataFromTable(){
+  fetch(`${host}/api/data`)
+  .then(response => response.json())
+  .then(async data => {
+  
   // create table from fetch data
   let hot = new Handsontable(container, {
     data: data,
-    rowHeaders: true,
-    colHeaders: true,
+    rowHeaders: false,
+    colHeaders: [],
     height: 'auto',
     licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
   });
 
+  getColumnNames().then(col_names_array => {
+    hot.updateSettings({
+      colHeaders: col_names_array
+    })
+  })
   // preset send all data from table
   // save_btn.addEventListener('click',()=>{
   //   console.log(hot.getData())
@@ -37,23 +45,14 @@ fetch(`${host}/api/data`)
     selectedRows = hot.getSelected()
   });
   remove_row_btn.addEventListener('click', ()=>{
-    // define and send two id values. between them content will be removed 
-    let start_row = selectedRows[0][0]
-    let end_row = selectedRows[0][2]
-    let id_value_start = hot.getDataAtCell(start_row,0)
-    let id_value_end = hot.getDataAtCell(end_row,0)
-    let array_to_send = [id_value_start,id_value_end]
-
-    fetch(`${host}/delete-selected-rows`,{
-      method: 'POST',
-      headers: {'Content-Type' : 'application/json '},
-      body: JSON.stringify(array_to_send)
-    })
-
+    deleteSelectedRows(selectedRows)
     location.reload()
   })
 
+
 });
+
+}
 
 // add new empty row
 add_row_btn.addEventListener('click',()=>{
@@ -66,17 +65,40 @@ add_row_btn.addEventListener('click',()=>{
   location.reload()
 });
 
-function deleteSelectedRows(hot){
-  let selectedRows = hot.getSelected()
-  console.log(selectedRows)
-  // // Extract the start and end row indexes from the selected rows object
-  // var startRow = selectedRows[0];
-  // var endRow = selectedRows[2];
-
-  // // Calculate the number of rows to delete
-  // var numRows = endRow - startRow + 1;
-
-  // // Call the alter() method to delete the selected rows
-  // hot.alter('remove_row', startRow, numRows);
+// get column names
+async function getColumnNames(){
+  let columns_names_array = []
+  fetch(`${host}/get-column-names`,{
+    method: 'GET',
+    headers: {'Content-Type' : 'application/json '},
+  })
+  .then(response => response.json())
+  .then(columns_names_object => {
+    for (const key in columns_names_object) {
+      if (Object.hasOwnProperty.call(columns_names_object, key)) {
+        const element = columns_names_object[key];
+        columns_names_array.push(element.column_name)
+      }
+      else throw new Error(`Object does not have property ${key}`)
+    }
+  })
+  return columns_names_array
 }
+
+
+function deleteSelectedRows(selectedRows){
+  // define and send two id values. between them content will be removed 
+  let start_row = selectedRows[0][0]
+  let end_row = selectedRows[0][2]
+  let id_value_start = hot.getDataAtCell(start_row,0)
+  let id_value_end = hot.getDataAtCell(end_row,0)
+  let array_to_send = [id_value_start,id_value_end]
+
+  fetch(`${host}/delete-selected-rows`,{
+    method: 'POST',
+    headers: {'Content-Type' : 'application/json '},
+    body: JSON.stringify(array_to_send)
+  })
+}
+
 

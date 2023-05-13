@@ -23,7 +23,28 @@ const client = new Client({
 client.connect()
 
 // *** GETS AND POSTS
+// GET * table names from database
+app.get('/get-table-names',(req,res)=>{
+    const query = `SELECT table_name
+    FROM information_schema.tables 
+    WHERE table_schema = 'public' 
+    AND table_catalog = '${client.database}'
+    AND table_type = 'BASE TABLE';`
+    client.query(query, (err,result)=>{
+        res.send(result.rows)
+    })
+})
 
+// GET * column names from table
+app.get('/get-column-names', (req,res)=>{
+    const query = `SELECT column_name
+    FROM information_schema.columns
+    WHERE table_name = 'department';`
+    client.query(query, (err, result) =>{
+        const rows = result.rows
+        res.send(rows)
+    })
+})
 // GET * rows
 app.get('/api/data', (req,res) => {
     client.query("SELECT * FROM department", (err, result)=>{
