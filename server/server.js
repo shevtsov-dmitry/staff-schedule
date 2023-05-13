@@ -1,4 +1,5 @@
-const { Client } = require('pg');
+const { Client } = require('pg')
+const bodyParser = require('body-parser')
 const express = require('express')
 const app = express();
 
@@ -35,6 +36,17 @@ app.get('/api/data', (req,res) => {
 // add row
 app.post('/add-empty-row',(req,res)=>{
     client.query("INSERT INTO department DEFAULT VALUES")
+})
+
+app.use(bodyParser.json())
+app.post('/delete-selected-rows', (req,res) =>{
+    const recievedArray = req.body
+    const start = recievedArray[0]
+    const end = recievedArray[1]
+    // TODO const table_name = recievedArray[3]
+    const query = `DELETE FROM department WHERE department_id BETWEEN ${start} AND ${end}`
+    client.query(query)
+
 })
 
 // * RUN APP
