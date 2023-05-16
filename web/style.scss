@@ -1,0 +1,93 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 100vw;
+}
+$start-margin: 60px;
+
+.title{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0 0 0 $start-margin;
+    padding: 0;
+}
+.aligner-of-table{
+    // background-color: red;
+    height: 100%;
+    width: 100vw;
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+}
+
+#table{
+    margin-left: $start-margin;
+    width: 100%;
+    height: 100%;
+}
+
+
+.header-functions-list{
+    padding: 0;
+    margin: 5px 0px 5px $start-margin;
+    width: 300px;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    li{
+        font-family:Arial, Helvetica, sans-serif;
+        font-size: 0.95em;
+        margin: 0;
+        padding: 0;
+
+    };
+}
+
+.ui-container{
+    margin: 0px 0 0 $start-margin; 
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+
+    .edit-table-image{
+        margin: 0 10px 0 0;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+    }
+    
+    .table-names-list{
+        display: flex;
+        margin: 10px 0 10px 0px;
+        background-color: #e9ecef;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        width: fit-content;
+        padding: 0;
+        list-style: none;
+        border-radius: 7px;
+        li{
+            border-radius: 0;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+            padding: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+            user-select: none;
+            &:hover{
+                background-color: blue;
+                color: white;
+                cursor: pointer;
+            }
+            &:first-child{
+                border-radius: 5px 0px 0px 5px;
+            }
+            &:last-child{
+                border-radius: 0px 5px 5px 0px;
+                padding-bottom: 5px;
+                margin: 0;
+            }
+        }
+    }
+
+    
+}
+
