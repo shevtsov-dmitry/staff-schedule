@@ -80,6 +80,7 @@ async function constructTable(table_name) {
     .then(async data => {
       await getColumnNames(table_name)
         .then(col_names_array => {
+          console.log(col_names_array)
           // add data and column headers to table
           setTimeout(() => {
             hot.updateSettings({
@@ -144,25 +145,22 @@ function deleteSelectedRows(selectedRows) {
 
 // get column names
 async function getColumnNames(table_name) {
-  let columns_names_array = []
+  let column_names = [];
   fetch(`${host}/get-column-names?table=${table_name}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json ' },
   })
     .then(response => response.json())
-    .then(columns_names_object => {
-      for (const key in columns_names_object) {
-        if (Object.hasOwnProperty.call(columns_names_object, key)) {
-          const element = columns_names_object[key];
-          columns_names_array.push(element.column_name)
+    .then(column_names_response => {
+      for (const key in column_names_response) {
+        if (Object.hasOwnProperty.call(column_names_response, key)) {
+          const element = column_names_response[key];
+          column_names.push(element)
         }
         else throw new Error(`Object does not have property ${key}`)
       }
     })
-  return columns_names_array
+    return column_names
 }
-
-
-
 
 await main()

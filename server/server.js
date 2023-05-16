@@ -38,9 +38,11 @@ app.get('/get-table-names', (req, res) => {
 // GET * column names from table
 app.get('/get-column-names', (req, res) => {
     const table_name = req.query.table
-    const query = `SELECT column_name
+    const query =  
+    `SELECT column_name, ordinal_position
     FROM information_schema.columns
-    WHERE table_name = '${table_name}';`
+    WHERE table_name = '${table_name}'
+    ORDER BY ordinal_position;`
     client.query(query, (err, result) => {
         if (err) {
             console.error(err);
@@ -48,7 +50,8 @@ app.get('/get-column-names', (req, res) => {
         }
         else {
             const rows = result.rows
-            res.send(rows)
+            const columnNames = rows.map((row) => row.column_name);
+            res.send(columnNames)
         }
     })
 })
@@ -66,7 +69,6 @@ app.get('/get-all-data-from-table', (req, res) => {
 // add row
 app.post('/add-empty-row', (req, res) => {
     const table_name = req.query.table
-    console.log("****************\n" + table_name)
     client.query(`INSERT INTO ${table_name} DEFAULT VALUES`)
 })
 
