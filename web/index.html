@@ -16,16 +16,21 @@
       <li>Справка</li>
     </ul>
     <div class="ui-container">
-      <img src="static/images/edit-table.png" class="edit-table-image" alt="" srcset="">
+      <div class="choose-table">
+        <img src="static/images/edit-table.png" class="edit-table-image" alt="" srcset="">
+        <p class="placeholder-text">нажмите для выбора таблицы</p>
+      </div>
       <ul class="table-names-list"></ul>
       
     </div>
     
-    <div class="header-table"></div>
+    <div class="placeholder-table"></div>
     <div id="table"></div>
-    <button id="save">Save Changes</button>
-    <button class="add-row">add row</button>
-    <button class="remove-row">remove row</button>
+    <div class="bottom-buttons">
+      <button id="save">Save Changes</button>
+      <button class="add-row">add row</button>
+      <button class="remove-row">remove row</button>
+    </div>
     <script type="module" src="./main.js"></script>
   </body>
 </html>

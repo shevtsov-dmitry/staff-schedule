@@ -1,6 +1,27 @@
 import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
 
+// * placeholder table 
+const placeholder_table = document.querySelector('.placeholder-table')
+let placeholder_hot = new Handsontable(placeholder_table, {
+  data: [['','','','','','','',''],
+         ['','','','','','','',''],
+         ['','','','','','','','']],
+  rowHeaders: true,
+  colHeaders: true,
+  height: 'auto',
+  licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+})
+const choose_table_btn = document.querySelector('.choose-table')
+const placeholder_text = document.querySelector('.placeholder-text')
+const table_names_list = document.querySelector('.table-names-list')
+
+choose_table_btn.addEventListener('click', ()=>{
+  placeholder_text.innerHTML = ""
+  table_names_list.style.display = "flex"
+})
+
+// * actual table 
 const host = 'http://localhost:3000'
 
 const container = document.querySelector('#table');
@@ -13,8 +34,6 @@ const hot = new Handsontable(container, {
 });
 
 // fill the list with values which will be chosen by user to display certain table
-const table_names_list = document.querySelector('.table-names-list')
-
 async function main() {
   // *1. get all table names
   table_names_list.innerHTML = "";
@@ -39,6 +58,7 @@ async function main() {
       // *   to add, delete, change rows and save it in database
       for (const name of table_names_list.children) {
         name.addEventListener('click', () => {
+          placeholder_hot.rootElement.style.display = 'none'
           constructTable(name.textContent)
         })
       }
