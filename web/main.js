@@ -21,6 +21,14 @@ choose_table_btn.addEventListener('click', ()=>{
   table_names_list.style.display = "flex"
 })
 
+// show stored procedures
+const show_procedures_button = document.querySelector('.use-procedure')
+const procedures_ul = document.querySelector('.procedures-ul')
+show_procedures_button.addEventListener('click', ()=>{
+  procedures_ul.style.display = 'initial'
+})
+
+
 // * actual table 
 const host = 'http://localhost:3000'
 
@@ -140,8 +148,6 @@ function deleteSelectedRows(selectedRows) {
     body: JSON.stringify(array_to_send)
   })
 }
-
-
 
 // get column names
 async function getColumnNames(table_name) {
