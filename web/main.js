@@ -113,41 +113,40 @@ async function constructTable(table_name) {
       // * ADD new empty row
       async function addEmptyRow(table_name) {
         add_row_btn.addEventListener('click', () => {
-          fetch(`${host}/add-empty-row?table=${table_name}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
+          // fetch(`${host}/add-empty-row?table=${table_name}`, {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json'
+          //   }
+          // })
           hot.alter('insert_row_below', hot.countRows())
         });
       }
-      // * REMOVE selected rows
-      let selectedRows = [];
-      remove_row_btn.addEventListener("mouseenter", () => {
-        selectedRows = hot.getSelected()
-      });
+      // * REMOVE row
+      // let selectedRows = [];
+      // remove_row_btn.addEventListener("mouseenter", () => {
+      //   selectedRows = hot.getSelected()
+      // });
       remove_row_btn.addEventListener('click', () => {
-        deleteSelectedRows(selectedRows)
-        location.reload()
+        hot.alter('remove_row' , hot.countRows() - 1)
       })
     });
 }
 
-function deleteSelectedRows(selectedRows) {
-  // define and send two id values. between them content will be removed 
-  let start_row = selectedRows[0][0]
-  let end_row = selectedRows[0][2]
-  let id_value_start = hot.getDataAtCell(start_row, 0)
-  let id_value_end = hot.getDataAtCell(end_row, 0)
-  let array_to_send = [id_value_start, id_value_end]
+// function deleteSelectedRows(selectedRows) {
+//   // define and send two id values. between them content will be removed 
+//   let start_row = selectedRows[0][0]
+//   let end_row = selectedRows[0][2]
+//   let id_value_start = hot.getDataAtCell(start_row, 0)
+//   let id_value_end = hot.getDataAtCell(end_row, 0)
+//   let array_to_send = [id_value_start, id_value_end]
 
-  fetch(`${host}/delete-selected-rows`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json ' },
-    body: JSON.stringify(array_to_send)
-  })
-}
+//   fetch(`${host}/delete-selected-rows`, {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json ' },
+//     body: JSON.stringify(array_to_send)
+//   })
+// }
 
 // get column names
 async function getColumnNames(table_name) {
