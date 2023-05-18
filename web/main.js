@@ -100,15 +100,14 @@ async function constructTable(table_name) {
 
       // @addEmptyRow() is event listener for button
       await addEmptyRow(table_name)
-      // TODO save all, which was chanded by user in table
       // preset send all data from table
-      // save_btn.addEventListener('click',()=>{
-      //   const data = hot.getData()
-      //   const xhr = new XMLHttpRequest()
-      //   xhr.open('POST', 'http://localhost:3000/saveData')
-      //   xhr.setRequestHeader('Content-Type', 'application/json')
-      //   xhr.send(JSON.stringify(data))
-      // })
+      save_btn.addEventListener('click',()=>{
+        const data = hot.getData()
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', 'http://localhost:3000/saveData')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(data))
+      })
 
       // * ADD new empty row
       async function addEmptyRow(table_name) {

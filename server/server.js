@@ -83,12 +83,48 @@ app.post('/delete-selected-rows', (req, res) => {
 })
 
 app.post('/save-table', (req, res) => {
-    const query_clear_table = "DELETE FROM"
-    const table = req.body
-
-})
+    const { tableName, table } = req.body;
+    console.log(tableName, table);
+  
+    //  database library like Sequelize
+    const Model = require(`/models/${tableName}`);
+  
+    // Fetch the existing table from the database
+    Model.findOne({ where: { tableName } })
+      .then(existingTable => {
+        if (existingTable) {
+          // Compare the modified table with the existing one
+          const isModified = compareTables(existingTable, table);
+  
+          if (isModified) {
+            // Update the table in the database
+            existingTable.update(table)
+              .then(() => {
+                console.log('Table updated successfully');
+                res.status(200).json({ message: 'Table updated successfully' });
+              })
+              .catch(error => {
+                console.error('Error updating table:', error);
+                res.status(500).json({ error: 'Failed to update table' });
+              });
+          } else {
+            console.log('No changes in the table');
+            res.status(200).json({ message: 'No changes in the table' });
+          }
+        } else {
+          console.log('Table not found');
+          res.status(404).json({ error: 'Table not found' });
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching existing table:', error);
+        res.status(500).json({ error: 'Failed to fetch existing table' });
+      });
+  });
 
 // * ------ RUN APP ------
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
+
+
