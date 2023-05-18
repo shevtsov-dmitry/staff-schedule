@@ -38,6 +38,11 @@ body {
   font-size: 0.95em;
   margin: 0;
   padding: 0;
+  border-radius: 4px;
+}
+.header-functions-list li:hover {
+  cursor: pointer;
+  background-color: lightgray;
 }
 
 .ui-container {

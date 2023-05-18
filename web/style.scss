@@ -40,6 +40,11 @@ $mutual-button-color: #fffffc;
         font-size: 0.95em;
         margin: 0;
         padding: 0;
+        border-radius: 4px;
+        &:hover{
+            cursor: pointer;
+            background-color: lightgray;
+        }
 
     };
 }
