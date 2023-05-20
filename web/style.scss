@@ -199,3 +199,8 @@ $mutual-button-color: #fffffc;
     }
 
 }
+.remove-row{
+    &:hover{
+        background-color: rgb(248, 185, 185);
+    }
+}
