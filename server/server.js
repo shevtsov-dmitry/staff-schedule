@@ -1,12 +1,13 @@
 const { Client } = require('pg')
 const bodyParser = require('body-parser')
 const express = require('express')
-const app = express();
-
-// access between web and server
 const cors = require('cors')
+
+const app = express();
+// access between web and server
+const access_url = "http://localhost:5173"
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:5173"); 
+    res.header("Access-Control-Allow-Origin", access_url); 
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
@@ -25,15 +26,25 @@ client.connect()
 // *** ------ GETS ------
 // GET * table names from database
 app.get('/get-table-names', (req, res) => {
-    const query = `SELECT table_name
-    FROM information_schema.tables 
-    WHERE table_schema = 'public' 
-    AND table_catalog = '${client.database}'
-    AND table_type = 'BASE TABLE';`
-    client.query(query, (err, result) => {
-        res.send(result.rows)
-    })
-})
+  try {
+      const query = `SELECT table_name
+      FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_catalog = '${client.database}'
+      AND table_type = 'BASE TABLE';`;
+      
+      client.query(query, (err, result) => {
+          if (err) {
+              throw err; 
+          }
+          res.send(result.rows);
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
 
 // GET * column names from table
 app.get('/get-column-names', (req, res) => {
@@ -86,7 +97,7 @@ app.post('/save-table', (req, res) => {
     const { tableName, table } = req.body;
     console.log(tableName, table);
   
-    //  database library like Sequelize
+    //  database library Sequelize
     const Model = require(`/models/${tableName}`);
   
     // Fetch the existing table from the database
