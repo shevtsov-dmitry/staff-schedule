@@ -1,4 +1,4 @@
-import {server_url} from "CONSTANTS"
+import {server_url} from "web/scripts/CONSTANTS"
 
 const form = document.querySelector("#form-with-data");
 let loginHeader = document.querySelector(".login-header");
