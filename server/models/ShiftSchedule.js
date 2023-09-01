@@ -1,6 +1,8 @@
 // models/ShiftSchedule.js
+import {database_url} from "server/CONSTANTS"
+
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../path/to/your/database/connection');
+const sequelize = require(database_url);
 const Employee = require('./Employee');
 const Job = require('./Job');
 

@@ -1,3 +1,4 @@
+import {database_url} from "server/CONSTANTS"
 const { Client } = require('pg')
 const bodyParser = require('body-parser')
 const express = require('express')
@@ -5,7 +6,7 @@ const cors = require('cors')
 
 const app = express();
 // access between web and server
-const access_url = "http://localhost:5173"
+const access_url = database_url
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", access_url); 
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
