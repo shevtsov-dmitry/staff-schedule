@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS department
 (
-    department_id      integer not null primary key,
+    department_id      serial not null primary key,
     department_name    varchar(255),
     department_manager varchar(255),
     department_budget  numeric(10, 2),
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS department
 
 CREATE TABLE IF NOT EXISTS employee
 (
-    employee_id   integer not null primary key,
+    employee_id   serial not null primary key,
     first_name    varchar(255),
     last_name     varchar(255),
     phone_number  varchar(20),
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS employee
 
 CREATE TABLE IF NOT EXISTS job
 (
-    job_id           integer not null primary key,
+    job_id           serial not null primary key,
     job_title        varchar(255),
     job_description  text,
     job_requirements text,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS job
 
 CREATE TABLE IF NOT EXISTS location
 (
-    location_id    integer not null primary key,
+    location_id    serial not null primary key,
     location_name  varchar(255),
     address_line_1 varchar(255),
     address_line_2 varchar(255),
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS location
 
 CREATE TABLE IF NOT EXISTS position
 (
-    position_id          integer not null primary key,
+    position_id          serial not null primary key,
     position_title       varchar(255),
     position_description text,
     hourly_rate          numeric(10, 2),
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS position
 
 CREATE TABLE IF NOT EXISTS salary_record
 (
-    salary_record_id  integer not null primary key,
+    salary_record_id  serial not null primary key,
     salary            numeric(10, 2),
     bonus_coefficient numeric(10, 2),
     employee_id       integer
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS salary_record
 
 CREATE TABLE IF NOT EXISTS shift_schedule
 (
-    shift_schedule_id integer not null primary key,
+    shift_schedule_id serial not null primary key,
     shift_start_time  time,
     shift_end_time    time,
     shift_supervisor  varchar(255),
