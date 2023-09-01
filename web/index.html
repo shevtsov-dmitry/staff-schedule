@@ -7,9 +7,9 @@
     <title>Штатное расписание</title>
   </head>
   <body>
-<!-- Заголовок -->
+<!-- Title header -->
     <h1 class="title">Штатное расписание</h1>
-    <!-- Фукциональная панель для выбора действия -->
+    <!-- Function panel for action selection -->
     <ul class="header-functions-list">
       <li class="header-file">Файл</li>
       <li class="header-change">Правка</li>
@@ -17,21 +17,21 @@
       <li class="header-table">Таблица</li>
       <li class="header-help">Справка</li>
     </ul>
-<!-- Блок, являющийся кнопкой выбора таблицы для работы -->
+<!-- Block, which is a button for selecting a table for work -->
     <div class="ui-container">
       <div class="choose-table">
         <img src="static/images/edit-table.png" class="edit-table-image" alt="" srcset="">
         <p class="placeholder-text">нажмите для выбора таблицы</p>
       </div>
-      <!-- Пустой UL в будущем будет заполнен списком из таблиц, которые будут выбраны запросом из БД  -->
+      <!-- The empty UL will be filled in the future with a list of tables that will be selected by a query from the database  -->
       <ul class="table-names-list"></ul>
     </div>
-    <!-- Пустая таблица, встречающая пользователя при первом запуске вебсайта -->
-    <!-- Будет скрыта при первом выборе таблицы из бд -->
+    <!-- An empty table that greets the user when the website is first launched -->
+    <!-- Will be hidden the first time you select a table from the database -->
     <div class="placeholder-table"></div>
-    <!-- Основная таблица, отображающая данные из бд и с которой будет взаимодействовать пользователь -->
+    <!-- The main table that displays data from the database and will be interacted with by the user -->
     <div id="table"></div>
-    <!-- Вспомогательные кнопки на нижней панели для взаимодествования с таблицей -->
+    <!-- Helping buttons on the bottom panel for interfacing with the table -->
     <div class="bottom-buttons">
       <button id="save">Сохранить изменения</button>
       <button class="add-row"><span class="span-plus">+</span> Добавить строку</button>
@@ -39,7 +39,7 @@
     </div>
     <div class="procedure-block">
       <button class="use-procedure">Использовать хранимую процедуру</button>
-      <!-- изначально скрытый блок, появляющийся при выборе использовать хранимую процедуру -->
+      <!-- initially hidden block that appears when you choose to use a stored procedure -->
       <ul class="procedures-ul">
         <li>Посмотреть сотрудников определённого отдела</li>
         <li>Посмотреть зарплату выбранного работника</li>
@@ -48,7 +48,7 @@
         <li>Удалить отдел</li>
       </ul>
     </div>
-    <!-- подключение скриптов -->
+    <!-- adding scripts -->
     <script type="module" src="scripts/main.js"></script>
     <script type="module" src="scripts/authorization_script.js"></script>
   </body>
