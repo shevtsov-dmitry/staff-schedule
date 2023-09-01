@@ -7,9 +7,9 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "vite": "^4.0.4"
+    "vite": "^4.4.9"
   },
   "dependencies": {
-    "handsontable": "^12.3.3"
+    "handsontable": "^12.4.0"
   }
 }
