@@ -6,7 +6,7 @@ web/.github
 web/node_modules
 web/dist
 web/package-lock.json
-web/style.css.map
+web/style/style.css.map
 
 ### SERVER ###
 server/node_modules

@@ -1,0 +1,77 @@
+$body-background-color: #333
+
+body
+  background-color: $body-background-color
+  margin: 0
+  padding: 0
+  height: 100vh
+  display: flex
+  justify-content: center
+  align-items: center
+  font-family: 'Helvetica Neue', sans-serif
+
+.login-form
+  background-color: #ffffff
+  border-radius: 15px
+  width: 33% // Set width of login form to 1.5 times smaller
+  height: 40vh
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  padding: 20px
+  box-shadow: 0 0 10px #888888
+
+h2
+  color: #000000
+  margin-bottom: 20px
+  font-size: 28px // Increased font size
+
+form
+  width: 100%
+
+label
+  display: block
+  margin-bottom: 10px
+  color: #000000
+  font-size: 20px // Increased font size
+
+input[type="text"],
+input[type="password"]
+  width: 90% // Decreased width of input fields
+  padding: 10px
+  margin-bottom: 20px
+  border-radius: 5px
+  border: 1px solid #cccccc
+  font-size: 16px // Increased font size
+
+.button-class-aligner
+  width: 100%
+  display: flex
+  align-items: center
+  justify-content: center
+
+  button
+    margin-top: 5%
+    background-color: #0077cc
+    color: #ffffff
+    border: none
+    border-radius: 5px
+    padding: 10px 10px // Decreased width of button
+    width: 50% // Decreased width of button
+    cursor: pointer
+    font-size: 20px // Increased font size
+
+button:hover
+  background-color: #005faa
+
+.attempts-block
+  margin: 0
+  padding: 0
+  width: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+
+  .attempts-counter
+    display: none
