@@ -1,0 +1,14 @@
+### PROJECT ###
+.idea
+
+### WEB ###
+web/.github
+web/node_modules
+web/dist
+web/package-lock.json
+web/style.css.map
+
+### SERVER ###
+server/node_modules
+server/dist
+server/package-lock.json
