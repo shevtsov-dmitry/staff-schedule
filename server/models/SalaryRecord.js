@@ -15,6 +15,12 @@ SalaryRecord.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    salary: {
+      type: DataTypes.DECIMAL(10, 2),
+    },
+    bonus_coefficient: {
+      type: DataTypes.DECIMAL(10, 2),
+    },
     employee_id: {
       type: DataTypes.INTEGER,
       references: {
@@ -22,22 +28,7 @@ SalaryRecord.init(
         key: 'employee_id',
       },
     },
-    position_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Position,
-        key: 'position_id',
-      },
-    },
-    bonus_coefficient: {
-      type: DataTypes.DECIMAL(10, 2),
-    },
-    salary: {
-      type: DataTypes.DECIMAL(10, 2),
-    },
-    date: {
-      type: DataTypes.DATE,
-    },
+
   },
   {
     sequelize,
