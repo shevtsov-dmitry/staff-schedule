@@ -15,13 +15,6 @@ Position.init(
       autoIncrement: true,
       unique: true,
     },
-    job_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Job,
-        key: 'job_id',
-      },
-    },
     position_title: {
       type: DataTypes.STRING(255),
     },
