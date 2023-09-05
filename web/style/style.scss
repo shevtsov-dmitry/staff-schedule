@@ -165,7 +165,7 @@ $mutual-button-color: #fffffc;
     }
 
     .procedures-ul{
-        display: none;
+        display: initial;
         margin: 10px 0 0 0;
         box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
         width: fit-content;
@@ -194,6 +194,12 @@ $mutual-button-color: #fffffc;
                 color: white;
                 cursor:pointer;
             }
+
+            &:nth-child(3){
+                background-color: blue;
+                color: white;
+            }
+
             
         }
     }
@@ -202,5 +208,30 @@ $mutual-button-color: #fffffc;
 .remove-row{
     &:hover{
         background-color: rgb(248, 185, 185);
+    }
+}
+
+.nice{
+    position: fixed;
+    top: 360px;
+    left:395px;
+}
+
+.not-nice{
+    position: fixed;
+    top: 360px;
+    left:530px;
+
+    li{
+        &:nth-child(3){
+            background-color:white !important;
+            color: black !important;
+        }
+
+        button{
+            border-style: none;
+            background-color: orange;
+            border-radius: 5px;
+        }
     }
 }
