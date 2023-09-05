@@ -29,7 +29,7 @@ $mutual-button-color: #fffffc;
 
 #save{
     &:hover{
-        background-color: lightskyblue;
+        background-color: lavender;
 
     }
 }
@@ -45,7 +45,7 @@ $mutual-button-color: #fffffc;
         font-family:Arial, Helvetica, sans-serif;
         font-size: 0.95em;
         margin: 0;
-        padding: 0;
+        padding: 2px;
         border-radius: 4px;
         &:hover{
             cursor: pointer;
@@ -167,6 +167,8 @@ $mutual-button-color: #fffffc;
 
         &:hover{
             cursor: pointer;
+            background-color: blue;
+            color: white;
         } 
     }
 
