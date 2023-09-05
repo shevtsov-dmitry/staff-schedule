@@ -38,8 +38,7 @@ CREATE TABLE IF NOT EXISTS location
     city           varchar(255),
     region         varchar(255),
     zip_code       varchar(20),
-    country        varchar(50),
-    department_id  integer
+    country        varchar(50)
 );
 
 CREATE TABLE IF NOT EXISTS position
@@ -84,8 +83,6 @@ ALTER TABLE job
 ALTER TABLE job
     ADD CONSTRAINT fk_job_position_id FOREIGN KEY (position_id) REFERENCES position (position_id);
 
-ALTER TABLE location
-    ADD CONSTRAINT fk_location_department_id FOREIGN KEY (department_id) REFERENCES department (department_id);
 
 ALTER TABLE salary_record
     ADD CONSTRAINT fk_salary_record_employee_id FOREIGN KEY (employee_id) REFERENCES employee (employee_id);
