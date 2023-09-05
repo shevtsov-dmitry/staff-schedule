@@ -27,6 +27,12 @@ $mutual-button-color: #fffffc;
     height: 100%;
 }
 
+#save{
+    &:hover{
+        background-color: lightskyblue;
+
+    }
+}
 
 .header-functions-list{
     padding: 0;
@@ -165,7 +171,7 @@ $mutual-button-color: #fffffc;
     }
 
     .procedures-ul{
-        display: initial;
+        display: none;
         margin: 10px 0 0 0;
         box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
         width: fit-content;
@@ -208,6 +214,11 @@ $mutual-button-color: #fffffc;
 .remove-row{
     &:hover{
         background-color: rgb(248, 185, 185);
+    }
+}
+.add-row{
+    &:hover{
+        background-color: lightgreen;
     }
 }
 
