@@ -41,13 +41,6 @@ Location.init(
     location_manager_id: {
       type: DataTypes.INTEGER,
     },
-    department_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Department,
-        key: 'department_id',
-      },
-    },
   },
   {
     sequelize,
