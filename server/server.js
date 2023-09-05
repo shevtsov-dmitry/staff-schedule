@@ -162,7 +162,7 @@ app.post('/save-table', (req, res) => {
 
             let shouldPush = false;
             for (let j = 0; j < requestArrayData.length; j++) {
-                if (requestArrayData[j] !== tempLoopValuesOfObject[j])
+                if (requestArrayData[j] !== tempLoopValuesOfObject[j])shift_end_time
                     shouldPush = true
             }
 
@@ -204,6 +204,7 @@ app.post('/save-table', (req, res) => {
                 composedQuery = composedQuery.substring(0, composedQuery.length - 1)
                 composedQuery += ` WHERE ${columnNames[0]} = ${id}`
 
+                console.log(composedQuery)
                 client.query(composedQuery)
             })
 
@@ -215,10 +216,26 @@ app.post('/save-table', (req, res) => {
 
 })
 
+app.get('/get-employees', (req, res) => {
+    const query = "SELECT first_name, last_name FROM employee"
+    client.query(query, (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error retrieving employees');
+        } else {
+            // const rows = result.rows
+            let array = []
+            for (let rowsKey in result.rows) {
+                array.push(result.rows[rowsKey])
+            }
+            res.send(array)
+        }
+    });
+
+})
+
 
 // * ------ RUN APP ------
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
-
-

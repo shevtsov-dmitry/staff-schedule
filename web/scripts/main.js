@@ -146,7 +146,7 @@ async function constructTable(table_name) {
 
             // preset send all data from table
             save_btn.addEventListener('click', () => {
-                let object= hot.getData()
+                let object = hot.getData()
                 let singletonArray = []
                 singletonArray.push(table_name)
                 object.push(singletonArray)
@@ -156,7 +156,7 @@ async function constructTable(table_name) {
                     headers: {'Content-Type': 'application/json'},
                     body: dataToSend
 
-                }).then( () => location.reload())
+                }).then(() => location.reload())
                 // console.log(hot.getData());
 
             })
@@ -217,3 +217,14 @@ const choose_and_remove_department = procedures_ul.children[1]
 const count_bonus = procedures_ul.children[2]
 const get_available_employees = procedures_ul.children[3]
 const assign_employee_to_shift = procedures_ul.children[4]
+
+count_salary_by_dollar.addEventListener('click', () => {
+    fetch(`${host}/get-employees`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+    }).then(res => res.json())
+        .then(data => {
+            console.log(data)
+
+        })
+})
