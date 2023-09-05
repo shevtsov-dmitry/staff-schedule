@@ -1,4 +1,3 @@
-import {database_url} from "server/CONSTANTS"
 const { Client } = require('pg')
 const bodyParser = require('body-parser')
 const express = require('express')
@@ -6,6 +5,7 @@ const cors = require('cors')
 
 const app = express();
 // access between web and server
+const database_url = "http://localhost:5173";
 const access_url = database_url
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", access_url); 
@@ -15,7 +15,7 @@ app.use(function (req, res, next) {
 
 // * ------ CLIENT CONNECT TO DB ------
 const client = new Client({
-    user: 'me',
+    user: 'postgres',
     host: 'localhost',
     database: 'staff_schedule',
     password: '123123',

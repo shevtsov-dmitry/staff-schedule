@@ -1,5 +1,5 @@
 body {
-  background-color: #333;
+  background-color: #FFF;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -41,7 +41,7 @@ label {
 
 input[type=text],
 input[type=password] {
-  width: 90%;
+  width: 96%;
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -81,4 +81,6 @@ button:hover {
 }
 .attempts-block .attempts-counter {
   display: none;
-}/*# sourceMappingURL=authorization.css.map */
+}
+
+/*# sourceMappingURL=authorization.css.map */

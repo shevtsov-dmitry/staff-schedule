@@ -1,4 +1,4 @@
-import {server_url} from "web/scripts/CONSTANTS"
+const server_url = "http://localhost:8080"
 
 const form = document.querySelector("#form-with-data");
 let loginHeader = document.querySelector(".login-header");
@@ -15,8 +15,7 @@ form.addEventListener("submit", (event)=>{
         password: password
     }
     const url = `${server_url}/admin`;
-    // send the data to the server for validation
-
+    // отправить данные на сервер для проверки
     fetch(url,{
         method:"POST",
         headers:{
@@ -26,7 +25,9 @@ form.addEventListener("submit", (event)=>{
     })
         .then(response =>{
             if(!response.ok){
-                throw new Error('Network response was not completed');
+                throw new Error(
+                    'Network response was not completed'
+                );
             }
             else return response.json();
         })
@@ -37,14 +38,14 @@ form.addEventListener("submit", (event)=>{
                 loginHeader.textContent = `Login ✓`;
                 setTimeout( ()=> {
                         window.location.href = "/html/admin_page.html";
-                    }, 400
+                    }, 3000
                 )
             }
             else{
                 // attempts ++
                 attemptsCounter.style.display = "block";
                 iterator++;
-                attemptsCounter.textContent = `attempts: ${iterator}`;
+                attemptsCounter.textContent = `attempts: ${iterator}`;``````````````````````
                 // header css change
                 loginHeader.style.color = "red";
                 loginHeader.textContent =  "Login ❌";

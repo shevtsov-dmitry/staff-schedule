@@ -96,6 +96,29 @@ function deleteSelectedRows(selectedRows) {
     })
 }
 
+function fixDateIssue(data) {
+    // Format date from redundant long UTC
+    let chosenTableNames = []
+    for (const obj in data[0]) {
+        chosenTableNames.push(obj);
+    }
+    // for employee table
+    if (chosenTableNames.includes('employee_id') && chosenTableNames[0] === 'employee_id') {
+        for (let dataKey in data) {
+            data[dataKey].hire_date = data[dataKey].hire_date.replace("T21:00:00.000Z", "")
+        }
+    }
+
+    // for shift schedule table
+    if (chosenTableNames.includes('shift_schedule_id') && chosenTableNames[0] === 'shift_schedule_id') {
+        for (let dataKey in data) {
+            data[dataKey].shift_date = data[dataKey].shift_date.replace("T21:00:00.000Z", "")
+        }
+    }
+
+    chosenTableNames = []
+}
+
 async function constructTable(table_name) {
   fetch(`${host}/get-all-data-from-table?table=${table_name}`, {
     method: 'GET',
@@ -113,22 +136,10 @@ async function constructTable(table_name) {
                 }
                 return acc;
             }, []);
-
-            // Format date from redundant long UTC
-            let chosenTableNames = []
-            for (const obj in data[0]) {
-                chosenTableNames.push(obj);
-            }
-
-            if(chosenTableNames.includes('employee_id') && chosenTableNames[0] === 'employee_id'){
-                for (let dataKey in data) {
-                    data[dataKey].hire_date = data[dataKey].hire_date.replace("T21:00:00.000Z", "")
-                }
-            }
-            chosenTableNames = []
+            fixDateIssue(data);
 
 
-          // add data and column headers to table
+            // add data and column headers to table
           setTimeout(() => {
             hot.updateSettings({
               data: filteredData,
