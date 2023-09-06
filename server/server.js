@@ -234,6 +234,40 @@ app.get('/get-employees', (req, res) => {
 
 })
 
+app.get('/get-department-names', (req,res) =>{
+    const query = "SELECT department_name FROM department;"
+    client.query(query, (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error retrieving department names');
+        } else {
+            // const rows = result.rows
+            let array = []
+            for (let rowsKey in result.rows) {
+                array.push(result.rows[rowsKey])
+            }
+            res.send(array)
+        }
+    })
+})
+
+app.get('/get-available-employees', (req,res) => {
+    const query = "SELECT first_name, last_name FROM employee WHERE department_id IS NULL "
+    client.query(query, (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error retrieving department names');
+        } else {
+            // const rows = result.rows
+            let array = []
+            for (let rowsKey in result.rows) {
+                array.push(result.rows[rowsKey])
+            }
+            res.send(array)
+        }
+    })
+})
+
 
 // * ------ RUN APP ------
 app.listen(3000, () => {

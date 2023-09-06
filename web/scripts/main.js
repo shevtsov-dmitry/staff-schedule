@@ -208,10 +208,7 @@ async function getColumnNames(table_name) {
 
 await main()
 
-
 // * STORED PROCEDURES
-
-
 
 const count_new_salary = document.querySelector('.count_new_salary')
 const choose_and_remove_department = document.querySelector('.choose_and_remove_department')
@@ -221,26 +218,32 @@ const assign_employee_to_shift = document.querySelector('.assign_employee_to_shi
 
 // count_new_salary
 procedures_ul.children[0].addEventListener('click',() => {
-    showEmployees(procedures_ul.children[0]);
+    fillLi(procedures_ul.children[0], `${host}/get-employees`);
 })
 
 // choose_and_remove_department
-
+procedures_ul.children[1].addEventListener('click', () => {
+    fillLi(procedures_ul.children[1], `${host}/get-department-names`)
+})
 // count_bonus
 procedures_ul.children[2].addEventListener('click',() => {
-    showEmployees(procedures_ul.children[2]);
+    fillLi(procedures_ul.children[2], `${host}/get-employees`);
 })
 
 // get_available_employees
+procedures_ul.children[3].addEventListener('click', () => {
+    // TODO set different fetch
+    fillLi(procedures_ul.children[3], `${host}/get-available-employees`)
+})
 
 // assign_employee_to_shift
 procedures_ul.children[4].addEventListener('click',() => {
-    showEmployees(procedures_ul.children[4]);
+    fillLi(procedures_ul.children[4],`${host}/get-employees`);
 })
 
-const showEmployees = (procedure_name) => {
+const fillLi = (procedure_name, fetch_url) => {
 
-    fetch(`${host}/get-employees`, {
+    fetch(fetch_url, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
     }).then(res => res.json())
@@ -258,21 +261,45 @@ const showEmployees = (procedure_name) => {
             }
             switch(procedure_name.innerHTML){
                 case 'Расчитать новую зарплату': {
-                    console.log("LOG");
                     count_new_salary.innerHTML = composeLi
+                    choose_and_remove_department.innerHTML = ""
                     count_bonus.innerHTML = ""
+                    get_available_employees.innerHTML = ""
                     assign_employee_to_shift.innerHTML = ""
                     break
                 }
+                case 'Выбрать и удалить отдел' : {
+                    count_new_salary.innerHTML = ""
+                    choose_and_remove_department.innerHTML = composeLi
+                    count_bonus.innerHTML = ""
+                    get_available_employees.innerHTML = ""
+                    assign_employee_to_shift.innerHTML = ""
+                    break
+                }
+
                 case 'Рассчитать премию сотрудника': {
                     count_new_salary.innerHTML = ""
-                    count_bonus.innerHTML =  composeLi
+                    choose_and_remove_department.innerHTML = ""
+                    count_bonus.innerHTML = composeLi
+                    get_available_employees.innerHTML = ""
                     assign_employee_to_shift.innerHTML = ""
                     break
                 }
+
+                case 'Узнать доступных сотрудников' : {
+                    count_new_salary.innerHTML = ""
+                    choose_and_remove_department.innerHTML = ""
+                    count_bonus.innerHTML = ""
+                    get_available_employees.innerHTML = composeLi
+                    assign_employee_to_shift.innerHTML = ""
+                    break
+                }
+
                 case 'Назначить сотрудника на смену' : {
                     count_new_salary.innerHTML = ""
-                    count_bonus.innerHTML =  ""
+                    choose_and_remove_department.innerHTML = ""
+                    count_bonus.innerHTML = ""
+                    get_available_employees.innerHTML = ""
                     assign_employee_to_shift.innerHTML = composeLi
                     break
                 }
