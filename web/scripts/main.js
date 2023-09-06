@@ -120,6 +120,7 @@ function fixDateIssue(data) {
     chosenTableNames = []
 }
 
+
 async function constructTable(table_name) {
     fetch(`${host}/get-all-data-from-table?table=${table_name}`, {
         method: 'GET',
@@ -209,7 +210,7 @@ async function getColumnNames(table_name) {
 await main()
 
 // * STORED PROCEDURES
-
+const watermark  = document.querySelector('.watermark')
 // first options
 const count_new_salary = document.querySelector('.count_new_salary')
 const choose_and_remove_department = document.querySelector('.choose_and_remove_department')
@@ -279,7 +280,13 @@ procedures_ul.children[4].addEventListener('click', () => {
                                         'Content-Type': 'application/json'
                                     },
                                     body: dataToSend
-                                }).then() // TODO make success notification
+                                }).then(res => res.json())
+                                    .then(answer => {
+                                        watermark.innerHTML = answer.answer
+                                        setTimeout(()=> {
+                                            watermark.innerHTML = ""
+                                        }, 3000)
+                                    })
                             })
                         }
                     })

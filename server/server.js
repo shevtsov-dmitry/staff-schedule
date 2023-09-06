@@ -333,7 +333,6 @@ app.post('/assign_employee_to_shift', (req, res) => {
                 else {
                     // const rows = result.rows
                     const selected_shift_schedule_id = reslt.rows[0].shift_schedule_id
-                    console.log("SHDL: " + selected_shift_schedule_id)
 
                     const callProcedureQuery = `
                         CALL assign_employee_to_shift(${selected_shift_schedule_id},${selected_employee_id})
@@ -344,7 +343,11 @@ app.post('/assign_employee_to_shift', (req, res) => {
                             res.status(500).send("Error retrieving changing employee's shift");
                         }
                         else {
-                            res.status(200).send("successfully changed")
+                            res.status(200).send({
+                                answer :` Теперь на смене с номером ${selected_shift_schedule_id}` +
+                                    ` работает сотрудник с идентификатором ${selected_employee_id}`
+                                }
+                            )
                         }
                     })
                 }
