@@ -36,40 +36,41 @@
     <button id="save">Сохранить изменения</button>
     <button class="add-row"><span class="span-plus">+</span> Добавить строку</button>
     <button class="remove-row"><span class="span-minus">-</span> Удалить строку</button>
+    <button class="use-procedure">Использовать хранимую процедуру</button>
 
 </div>
-<div class="procedure-block">
-    <button class="use-procedure">Использовать хранимую процедуру</button>
-    <!-- initially hidden block that appears when you choose to use a stored procedure -->
-    <ul class="procedures-ul">
-        <li>Расчитать зарплату сотрудника по курсу доллара</li>
-        <li>Выбрать и удалить отдел</li>
-        <li>Рассчитать премию сотрудника</li>
-        <li>Узнать доступных сотрудников</li>
-        <li>Назначить работника на смену</li>
-    </ul>
 
-<!--    <ul class="nice procedures-ul">-->
-<!--        <li>Иван Иванов</li>-->
-<!--        <li>Петр Петров</li>-->
-<!--        <li>Сидр Сидоров</li>-->
-<!--        <li>Мария Васильева</li>-->
-<!--        <li>Сергей Соколов</li>-->
-<!--        <li>Олег Ковтун</li>-->
-<!--        <li>Василий Пупкин</li>-->
-<!--    </ul>-->
 
-<!--    <ul class="not-nice procedures-ul">-->
-<!--        <li>Зарплата: 50000 ₽</li>-->
-<!--        <li>Премия: 10%</li>-->
-<!--        <li>Итог: 55500 ₽</li>-->
-<!--        <li>-->
-<!--            <button>Изменить коэффициент премии</button>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--            <button>Принять</button>-->
-<!--        </li>-->
-<!--    </ul>-->
+<div class="procedures-flex-view">
+    <div class="procedure-block">
+        <!-- initially hidden block that appears when you choose to use a stored procedure -->
+        <ul class="procedures-ul">
+            <li>Расчитать новую зарплату</li>
+            <li>Выбрать и удалить отдел</li>
+            <li>Рассчитать премию сотрудника</li>
+            <li>Узнать доступных сотрудников</li>
+            <li>Назначить сотрудника на смену</li>
+        </ul>
+
+        <!--    <ul class="not-nice procedures-ul">-->
+        <!--        <li>Зарплата: 50000 ₽</li>-->
+        <!--        <li>Премия: 10%</li>-->
+        <!--        <li>Итог: 55500 ₽</li>-->
+        <!--        <li>-->
+        <!--            <button>Изменить коэффициент премии</button>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <button>Принять</button>-->
+        <!--        </li>-->
+        <!--    </ul>-->
+    </div>
+    <div class="employees-div">
+        <ul class="count_new_salary procedures-ul  "></ul>
+        <ul class="choose_and_remove_department procedures-ul"></ul>
+        <ul class="count_bonus procedures-ul"></ul>
+        <ul class="get_available_employees procedures-ul"></ul>
+        <ul class="assign_employee_to_shift procedures-ul"></ul>
+    </div>
 </div>
 <!-- adding scripts -->
 <script type="module" src="scripts/main.js"></script>

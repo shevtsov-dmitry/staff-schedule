@@ -137,11 +137,12 @@ body {
 }
 
 .procedure-block {
-  margin: 9px 0 0 60px;
+  margin: 0 0 0 60px;
   display: flex;
   flex-direction: column;
 }
-.procedure-block .use-procedure {
+
+.use-procedure {
   margin: 0;
   width: fit-content;
   height: fit-content;
@@ -150,22 +151,27 @@ body {
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
   border-radius: 3px;
 }
-.procedure-block .use-procedure:hover {
+.use-procedure:hover {
   cursor: pointer;
   background-color: blue;
   color: white;
 }
-.procedure-block .procedures-ul {
+
+.hide-figures {
   display: none;
-  margin: 10px 0 0 0;
+}
+
+.procedures-ul {
+  display: compact;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   width: fit-content;
+  margin: 0 13px 0 0;
   padding: 0;
   list-style: none;
   background-color: #fffffc;
   border-radius: 5px;
 }
-.procedure-block .procedures-ul li {
+.procedures-ul li {
   user-select: none;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.85em;
@@ -173,22 +179,29 @@ body {
   line-height: 1.5em;
   padding: 0 5px;
 }
-.procedure-block .procedures-ul li:first-child {
+.procedures-ul li:first-child {
   padding-top: 5px;
   border-radius: 5px 5px 0 0;
 }
-.procedure-block .procedures-ul li:last-child {
+.procedures-ul li:last-child {
   border-radius: 0 0 5px 5px;
   padding-bottom: 5px;
 }
-.procedure-block .procedures-ul li:hover {
+.procedures-ul li:hover {
   background-color: blue;
   color: white;
   cursor: pointer;
 }
-.procedure-block .procedures-ul li:nth-child(3) {
-  background-color: blue;
-  color: white;
+
+.procedures-flex-view {
+  margin-top: 15px;
+  display: flex;
+  width: 100%;
+}
+
+.employees-div {
+  margin: 0;
+  padding: 0;
 }
 
 .remove-row:hover {
@@ -197,27 +210,6 @@ body {
 
 .add-row:hover {
   background-color: lightgreen;
-}
-
-.nice {
-  position: fixed;
-  top: 360px;
-  left: 395px;
-}
-
-.not-nice {
-  position: fixed;
-  top: 360px;
-  left: 530px;
-}
-.not-nice li:nth-child(3) {
-  background-color: white !important;
-  color: black !important;
-}
-.not-nice li button {
-  border-style: none;
-  background-color: orange;
-  border-radius: 5px;
 }
 
 /*# sourceMappingURL=style.css.map */
