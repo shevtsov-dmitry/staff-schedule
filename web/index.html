@@ -34,15 +34,17 @@
 <!-- Helping buttons on the bottom panel for interfacing with the table -->
 <div class="bottom-buttons">
     <button id="save">Сохранить изменения</button>
-    <button class="add-row"><span class="span-plus">+</span> Добавить строку</button>
-    <button class="remove-row"><span class="span-minus">-</span> Удалить строку</button>
+    <div class="plus-and-minus">
+        <button class="add-row"><span class="span-plus">+</span> Добавить строку</button>
+        <button class="remove-row"><span class="span-minus">-</span> Удалить строку</button>
+    </div>
     <button class="use-procedure">Использовать хранимую процедуру</button>
 
 </div>
 
 
 <div class="procedures-flex-view">
-<!--    SELECT PROCEDURE -->
+    <!--    SELECT PROCEDURE -->
     <div class="procedure-block">
         <!-- initially hidden block that appears when you choose to use a stored procedure -->
         <ul class="procedures-ul">
@@ -53,7 +55,7 @@
             <li>Назначить сотрудника на смену</li>
         </ul>
     </div>
-<!--    CHOOSE OPTION -->
+    <!--    CHOOSE OPTION -->
     <div class="employees-div">
         <ul class="count_new_salary procedures-ul  "></ul>
         <ul class="choose_and_remove_department procedures-ul"></ul>
@@ -61,7 +63,7 @@
         <ul class="get_available_employees procedures-ul"></ul>
         <ul class="assign_employee_to_shift procedures-ul"></ul>
     </div>
-<!--    CHOOSE SECONDARY OPTION-->
+    <!--    CHOOSE SECONDARY OPTION-->
     <div class="secondary-option">
         <ul class="shift-times procedures-ul"></ul>
 
@@ -70,6 +72,7 @@
 </div>
 
 <h3 class="watermark"></h3>
+
 <!-- adding scripts -->
 <script type="module" src="scripts/main.js"></script>
 </body>
