@@ -2,6 +2,7 @@ const {Client} = require('pg')
 const bodyParser = require('body-parser')
 const express = require('express')
 const cors = require('cors')
+const {query} = require("express");
 
 const app = express();
 // access between web and server
@@ -162,8 +163,8 @@ app.post('/save-table', (req, res) => {
 
             let shouldPush = false;
             for (let j = 0; j < requestArrayData.length; j++) {
-                if (requestArrayData[j] !== tempLoopValuesOfObject[j])shift_end_time
-                    shouldPush = true
+                if (requestArrayData[j] !== tempLoopValuesOfObject[j]) shift_end_time
+                shouldPush = true
             }
 
             if (shouldPush === true)
@@ -192,7 +193,8 @@ app.post('/save-table', (req, res) => {
                 const rows = result.rows
                 const columnNames = rows.map((row) => row.column_name);
 
-                composedQuery = `UPDATE ${table_name} SET `
+                composedQuery = `UPDATE ${table_name}
+                                 SET `
 
                 for (let i = 0; i < columnNames.length; i++) {
                     const columnName = columnNames[i];
@@ -234,7 +236,7 @@ app.get('/get-employees', (req, res) => {
 
 })
 
-app.get('/get-department-names', (req,res) =>{
+app.get('/get-department-names', (req, res) => {
     const query = "SELECT department_name FROM department;"
     client.query(query, (err, result) => {
         if (err) {
@@ -251,7 +253,7 @@ app.get('/get-department-names', (req,res) =>{
     })
 })
 
-app.get('/get-available-employees', (req,res) => {
+app.get('/get-available-employees', (req, res) => {
     const query = "SELECT first_name, last_name FROM employee WHERE department_id IS NULL "
     client.query(query, (err, result) => {
         if (err) {
@@ -266,6 +268,91 @@ app.get('/get-available-employees', (req,res) => {
             res.send(array)
         }
     })
+})
+
+app.get('/get-shifts-time', (req, res) => {
+    const queryToSelectAvailableShifts = `
+        SELECT shift_start_time, shift_end_time
+        FROM shift_schedule
+    `
+
+    client.query(queryToSelectAvailableShifts, (err, result) => {
+        if (err) {
+            console.error(err);
+            result.status(500).send('Error retrieving department names');
+        } else {
+            // const rows = result.rows
+            let array = []
+            for (let rowsKey in result.rows) {
+                array.push(result.rows[rowsKey])
+            }
+            res.send(array)
+        }
+    })
+})
+app.post('/assign_employee_to_shift', (req, res) => {
+    let first_name, last_name, shift_start_time, shift_end_time
+    const elements = req.body
+
+    let values = []
+    for (let elementsKey in elements) {
+        elements.push(elements[elementsKey])
+    }
+    first_name = elements[0]
+    last_name = elements[1]
+    shift_start_time = elements[2]
+    shift_end_time = elements[3]
+
+    const queryToSelectEmployeeId = `
+        SELECT employee_id
+        FROM employee
+        WHERE first_name = '${first_name}'
+          AND last_name = '${last_name}';
+    `;
+
+    const queryToSelectShiftId = `
+        SELECT shift_schedule_id
+        FROM shift_schedule
+        WHERE shift_start_time = '${shift_start_time}'
+          AND shift_end_time = '${shift_end_time}'
+    `;
+    client.query(queryToSelectEmployeeId, (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Error retrieving changing employee's shift");
+        } else {
+            // const rows = result.rows
+            const selected_employee_id = result.rows[0].employee_id
+            console.log(selected_employee_id);
+
+            client.query(queryToSelectShiftId, (err, reslt) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Error retrieving changing employee's shift");
+                }
+                else {
+                    // const rows = result.rows
+                    const selected_shift_schedule_id = reslt.rows[0].shift_schedule_id
+                    console.log("SHDL: " + selected_shift_schedule_id)
+
+                    const callProcedureQuery = `
+                        CALL assign_employee_to_shift(${selected_shift_schedule_id},${selected_employee_id})
+                    `
+                    client.query(callProcedureQuery, (err, re) => {
+                        if (err) {
+                            console.error(err);
+                            res.status(500).send("Error retrieving changing employee's shift");
+                        }
+                        else {
+                            res.status(200).send("successfully changed")
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+
 })
 
 
