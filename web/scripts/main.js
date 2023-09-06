@@ -212,19 +212,70 @@ await main()
 // * STORED PROCEDURES
 
 
-const count_salary_by_dollar = procedures_ul.children[0]
-const choose_and_remove_department = procedures_ul.children[1]
-const count_bonus = procedures_ul.children[2]
-const get_available_employees = procedures_ul.children[3]
-const assign_employee_to_shift = procedures_ul.children[4]
 
-count_salary_by_dollar.addEventListener('click', () => {
+const count_new_salary = document.querySelector('.count_new_salary')
+const choose_and_remove_department = document.querySelector('.choose_and_remove_department')
+const count_bonus = document.querySelector('.count_bonus')
+const get_available_employees = document.querySelector('.get_available_employees')
+const assign_employee_to_shift = document.querySelector('.assign_employee_to_shift')
+
+// count_new_salary
+procedures_ul.children[0].addEventListener('click',() => {
+    showEmployees(procedures_ul.children[0]);
+})
+
+// choose_and_remove_department
+
+// count_bonus
+procedures_ul.children[2].addEventListener('click',() => {
+    showEmployees(procedures_ul.children[2]);
+})
+
+// get_available_employees
+
+// assign_employee_to_shift
+procedures_ul.children[4].addEventListener('click',() => {
+    showEmployees(procedures_ul.children[4]);
+})
+
+const showEmployees = (procedure_name) => {
+
     fetch(`${host}/get-employees`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
     }).then(res => res.json())
-        .then(data => {
-            console.log(data)
+        .then(arrayOfObject => {
+            console.log(arrayOfObject)
+            let composeLi = ""
+            for (let arrayOfObjectElement of arrayOfObject) {
+                composeLi += "<li>"
+                for (const key in arrayOfObjectElement) {
+                    let val = arrayOfObjectElement[key]
+                    composeLi += `${val} `
 
+                }
+                composeLi += "</li>"
+            }
+            switch(procedure_name.innerHTML){
+                case 'Расчитать новую зарплату': {
+                    console.log("LOG");
+                    count_new_salary.innerHTML = composeLi
+                    count_bonus.innerHTML = ""
+                    assign_employee_to_shift.innerHTML = ""
+                    break
+                }
+                case 'Рассчитать премию сотрудника': {
+                    count_new_salary.innerHTML = ""
+                    count_bonus.innerHTML =  composeLi
+                    assign_employee_to_shift.innerHTML = ""
+                    break
+                }
+                case 'Назначить сотрудника на смену' : {
+                    count_new_salary.innerHTML = ""
+                    count_bonus.innerHTML =  ""
+                    assign_employee_to_shift.innerHTML = composeLi
+                    break
+                }
+            }
         })
-})
+}
