@@ -163,8 +163,7 @@ app.post('/save-table', (req, res) => {
 
             let shouldPush = false;
             for (let j = 0; j < requestArrayData.length; j++) {
-                if (requestArrayData[j] !== tempLoopValuesOfObject[j]) shift_end_time
-                shouldPush = true
+                if (requestArrayData[j] !== tempLoopValuesOfObject[j]) shouldPush = true
             }
 
             if (shouldPush === true)
