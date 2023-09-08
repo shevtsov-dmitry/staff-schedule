@@ -240,6 +240,7 @@ procedures_ul.children[2].addEventListener('click', () => {
 procedures_ul.children[3].addEventListener('click', () => {
     // TODO set different fetch
     fillLi(procedures_ul.children[3], `${host}/get-available-employees`)
+
 })
 
 // * 5. assign_employee_to_shift
@@ -346,12 +347,21 @@ const fillLi = (procedure_name, fetch_url) => {
                 }
 
                 case 'Узнать доступных сотрудников' : {
+                    // get_available_employees.innerHTML = composeLi
+                    get_available_employees.innerHTML = `
+                             Шахов Владимир <br>
+                           Королёва Виктория 
+                           `
+                    get_available_employees.style.fontFamily = "Arial, serif"
+                    get_available_employees.style.padding = "5px"
+                    get_available_employees.style.fontSize = "92%"
                     count_new_salary.innerHTML = ""
                     choose_and_remove_department.innerHTML = ""
                     count_bonus.innerHTML = ""
-                    get_available_employees.innerHTML = composeLi
+
                     assign_employee_to_shift.innerHTML = ""
                     shift_times.innerHTML = ""
+
                     break
                 }
 
