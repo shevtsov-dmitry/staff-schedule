@@ -13,7 +13,7 @@ const access_url = "http://localhost:5173/"
 // }));
 // app.use(function (req, res, next) {
 //     res.header("Access-Control-Allow-Origin", access_url);
-//     // res.header("Access-Control-Allow-Origin", access_url + "$/authorization.html");
+//     // res.header("Access-Control-Allow-Origin", access_url + "$/index.html");
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //     next();
 // });

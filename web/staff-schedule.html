@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="style/style.css">
+    <title>Штатное расписание</title>
+</head>
+<body>
+<!-- Title header -->
+<h1 class="title">Штатное расписание</h1>
+<!-- Function panel for action selection -->
+<ul class="header-functions-list">
+    <li class="header-file">Файл</li>
+    <li class="header-change">Правка</li>
+    <li class="header-view">Вид</li>
+    <li class="header-table">Таблица</li>
+    <li class="header-help">Справка</li>
+</ul>
+<!-- Block, which is a button for selecting a table for work -->
+<div class="ui-container">
+    <div class="choose-table">
+        <img src="static/images/edit-table.png" class="edit-table-image" alt="" srcset="">
+        <p class="placeholder-text">нажмите для выбора таблицы</p>
+    </div>
+    <!-- The empty UL will be filled in the future with a list of tables that will be selected by a query from the database  -->
+    <ul class="table-names-list"></ul>
+</div>
+<!-- An empty table that greets the user when the website is first launched -->
+<!-- Will be hidden the first time you select a table from the database -->
+<div class="placeholder-table"></div>
+<!-- The main table that displays data from the database and will be interacted with by the user -->
+<div id="table"></div>
+<!-- Helping buttons on the bottom panel for interfacing with the table -->
+<div class="bottom-buttons">
+    <button id="save">Сохранить изменения</button>
+    <div class="plus-and-minus">
+        <button class="add-row"><span class="span-plus">+</span> Добавить строку</button>
+        <button class="remove-row"><span class="span-minus">-</span> Удалить строку</button>
+    </div>
+    <button class="use-procedure">Использовать хранимую процедуру</button>
+
+</div>
+
+
+<div class="procedures-flex-view">
+    <!--    SELECT PROCEDURE -->
+    <div class="procedure-block">
+        <!-- initially hidden block that appears when you choose to use a stored procedure -->
+        <ul class="procedures-ul">
+            <li>Расчитать новую зарплату</li>
+            <li>Выбрать и удалить отдел</li>
+            <li>Рассчитать премию сотрудника</li>
+            <li>Узнать доступных сотрудников</li>
+            <li>Назначить сотрудника на смену</li>
+        </ul>
+    </div>
+    <!--    CHOOSE OPTION -->
+    <div class="employees-div">
+        <ul class="count_new_salary procedures-ul  "></ul>
+        <ul class="choose_and_remove_department procedures-ul"></ul>
+        <ul class="count_bonus procedures-ul"></ul>
+        <ul class="get_available_employees procedures-ul"></ul>
+        <ul class="assign_employee_to_shift procedures-ul"></ul>
+    </div>
+    <!--    CHOOSE SECONDARY OPTION-->
+    <div class="secondary-option">
+        <ul class="shift-times procedures-ul"></ul>
+
+    </div>
+
+</div>
+
+<h3 class="watermark"></h3>
+
+<!-- adding scripts -->
+<script type="module" src="scripts/main.js"></script>
+</body>
+</html>
+
