@@ -24,8 +24,9 @@ choose_table_btn.addEventListener('click', () => {
 // show stored procedures
 const show_procedures_button = document.querySelector('.use-procedure')
 const procedures_ul = document.querySelector('.procedures-ul')
+const procedures_flex_view = document.querySelector('.procedures-flex-view')
 show_procedures_button.addEventListener('click', () => {
-    procedures_ul.style.display = 'initial'
+    procedures_flex_view.style.display = 'flex'
 })
 
 
