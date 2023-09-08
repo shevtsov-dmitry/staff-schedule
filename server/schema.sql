@@ -91,3 +91,9 @@ ALTER TABLE shift_schedule
     ADD CONSTRAINT fk_shift_schedule_employee_id FOREIGN KEY (employee_id) REFERENCES employee (employee_id);
 ALTER TABLE shift_schedule
     ADD CONSTRAINT fk_shift_schedule_position_id FOREIGN KEY (position_id) REFERENCES position (position_id);
+
+CREATE TABLE  IF NOT EXISTS admins(
+                                      id serial primary key not null,
+                                      login varchar(20),
+    password varchar(20)
+    );
