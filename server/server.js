@@ -6,13 +6,21 @@ const {query} = require("express");
 
 const app = express();
 // access between web and server
-const database_url = "http://localhost:5173";
-const access_url = database_url
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", access_url);
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+const access_url = "http://localhost:5173/"
+
+// app.use(cors({
+//     origin: access_url
+// }));
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", access_url);
+//     // res.header("Access-Control-Allow-Origin", access_url + "$/authorization.html");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+app.use(cors({
+    origin: '*'
+}));
+
 
 // * ------ CLIENT CONNECT TO DB ------
 const client = new Client({
@@ -217,6 +225,25 @@ app.post('/save-table', (req, res) => {
 
 })
 
+app.post(`/admin`, (req, res) => {
+
+    // let login = req.body.login
+    // let password = req.body.password
+    // const query = `SELECT id
+    //                FROM admins
+    //                WHERE login = ${login}
+    //                 AND password = ${password}`
+    // client.query(query, (err, result) => {
+    //     console.log(result);
+    // console.log(result.rows[0].id);
+    // if (result.rows[0].id === undefined) res.send(true)
+    // else res.send(false)
+    // })
+    let r = req.body
+    res.send(true)
+
+})
+
 app.get('/get-employees', (req, res) => {
     const query = "SELECT first_name, last_name FROM employee"
     client.query(query, (err, result) => {
@@ -328,8 +355,7 @@ app.post('/assign_employee_to_shift', (req, res) => {
                 if (err) {
                     console.error(err);
                     res.status(500).send("Error retrieving changing employee's shift");
-                }
-                else {
+                } else {
                     // const rows = result.rows
                     const selected_shift_schedule_id = reslt.rows[0].shift_schedule_id
 
@@ -340,11 +366,10 @@ app.post('/assign_employee_to_shift', (req, res) => {
                         if (err) {
                             console.error(err);
                             res.status(500).send("Error retrieving changing employee's shift");
-                        }
-                        else {
+                        } else {
                             res.status(200).send({
-                                answer :` Теперь на смене с номером ${selected_shift_schedule_id}` +
-                                    ` работает сотрудник с идентификатором ${selected_employee_id}`
+                                    answer: ` Теперь на смене с номером ${selected_shift_schedule_id}` +
+                                        ` работает сотрудник с идентификатором ${selected_employee_id}`
                                 }
                             )
                         }
@@ -353,6 +378,7 @@ app.post('/assign_employee_to_shift', (req, res) => {
             })
         }
     })
+
 
 
 })

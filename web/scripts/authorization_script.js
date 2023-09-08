@@ -1,4 +1,4 @@
-const server_url = "http://localhost:8080"
+const server_url = "http://localhost:3000"
 
 const form = document.querySelector("#form-with-data");
 let loginHeader = document.querySelector(".login-header");
@@ -38,7 +38,7 @@ form.addEventListener("submit", (event)=>{
                 loginHeader.textContent = `Login ✓`;
                 setTimeout( ()=> {
                         window.location.href = "/html/admin_page.html";
-                    }, 3000
+                    }, 350
                 )
             }
             else{
