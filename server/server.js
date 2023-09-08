@@ -225,6 +225,14 @@ app.post('/save-table', (req, res) => {
 
 })
 
+app.post('/delete-dep',(req, res) => {
+    const id = req.body.id
+    const query = `call sp_DeleteDepartment(${id})`
+    client.query(query, (err, result) => {
+        res.status(200)
+    })
+})
+
 app.post(`/admin`, (req, res) => {
 
     // let login = req.body.login
@@ -263,7 +271,7 @@ app.get('/get-employees', (req, res) => {
 })
 
 app.get('/get-department-names', (req, res) => {
-    const query = "SELECT department_name FROM department;"
+    const query = "SELECT department_id, department_name FROM department;"
     client.query(query, (err, result) => {
         if (err) {
             console.error(err);

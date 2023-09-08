@@ -82,10 +82,10 @@ $$ LANGUAGE plpgsql;
 
 
 -- SP_DELETE_DEPARTMENT
-CREATE OR REPLACE FUNCTION sp_DeleteDepartment(
+CREATE OR REPLACE PROCEDURE sp_DeleteDepartment(
     department_id INTEGER
 )
-    RETURNS VOID AS $$
+    RETURNS NULL AS $$
 BEGIN
     DELETE FROM employee
     WHERE department_id = sp_DeleteDepartment.department_id;

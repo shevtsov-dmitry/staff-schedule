@@ -231,6 +231,23 @@ procedures_ul.children[0].addEventListener('click', () => {
 // * 2. choose_and_remove_department
 procedures_ul.children[1].addEventListener('click', () => {
     fillLi(procedures_ul.children[1], `${host}/get-department-names`)
+
+    setTimeout(() => {
+        for (let child of choose_and_remove_department.children) {
+            child.addEventListener('click', () => {
+                const id = child.innerHTML.replaceAll(/[^\d]/g, "")
+                fetch(`${host}/delete-dep?id=${id}`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id : id})
+                }).then(() => {
+                    console.log("super");
+                })
+            })
+        }
+    }, 200)
 })
 // * 3. count_bonus
 procedures_ul.children[2].addEventListener('click', () => {
