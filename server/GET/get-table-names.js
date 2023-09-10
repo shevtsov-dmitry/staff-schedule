@@ -1,11 +1,11 @@
-function getTableNames(app, client){
+function getTableNames(app, client) {
     app.get('/get-table-names', (req, res) => {
         try {
             const query = `SELECT table_name
-                       FROM information_schema.tables
-                       WHERE table_schema = 'public'
-                         AND table_catalog = '${client.database}'
-                         AND table_type = 'BASE TABLE';`;
+                           FROM information_schema.tables
+                           WHERE table_schema = 'public'
+                             AND table_catalog = '${client.database}'
+                             AND table_type = 'BASE TABLE';`;
 
             client.query(query, (err, result) => {
                 if (err) {
@@ -20,4 +20,4 @@ function getTableNames(app, client){
     });
 }
 
-module.exports = { getTableNames }
+module.exports = {getTableNames}

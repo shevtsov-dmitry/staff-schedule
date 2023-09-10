@@ -1,11 +1,11 @@
-function getColumnNames(app, client){
+function getColumnNames(app, client) {
     app.get('/get-column-names', (req, res) => {
         const table_name = req.query.table
         const query =
             `SELECT column_name, ordinal_position
-         FROM information_schema.columns
-         WHERE table_name = '${table_name}'
-         ORDER BY ordinal_position;`
+             FROM information_schema.columns
+             WHERE table_name = '${table_name}'
+             ORDER BY ordinal_position;`
         client.query(query, (err, result) => {
             if (err) {
                 console.error(err);
@@ -20,4 +20,4 @@ function getColumnNames(app, client){
 
 }
 
-module.exports = { getColumnNames}
+module.exports = {getColumnNames}
