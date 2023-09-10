@@ -1,4 +1,3 @@
-
 const {Client} = require('pg')
 const bodyParser = require('body-parser')
 const express = require('express')
@@ -7,7 +6,16 @@ const {query} = require("express");
 const {getTableNames} = require("./GET/get-table-names");
 const {getColumnNames} = require("./GET/getColumnNames");
 const {getAllDataFromTable} = require("./GET/getAllDataFromTable");
-
+const {addEmptyRow} = require("./POST/addEmptyRow");
+const {deleteSelectedRows} = require("./POST/deleteSelectedRows");
+const {saveTable} = require("./POST/saveTable");
+const {deleteDepartment} = require("./POST/deleteDepartment")
+const {verifyAdmin} = require("./POST/verifyAdmin");
+const {getEmployees} = require("./GET/get-employees");
+const {getDepartmentNames} = require("./GET/getDepartmentNames");
+const {getAvailableEmployees} = require("./GET/getAvailableEmployees");
+const {getShiftsTime} = require("./GET/getShiftsTime");
+const {assignEmployeeToShift} = require("./POST/assignEmployeeToShift");
 const app = express();
 // access between web and server
 const access_url = "http://localhost:5173/"
@@ -36,281 +44,26 @@ const client = new Client({
 });
 
 client.connect()
+app.use(bodyParser.json())
 
 // *** ------ GETs ------
 
 getTableNames(app, client)
 getColumnNames(app, client)
 getAllDataFromTable(app, client)
+getEmployees(app,client)
+getDepartmentNames(app,client)
+getAvailableEmployees(app,client)
+getShiftsTime(app, client)
 
 
-// *** ------ POSTS ------
-// add row
-app.post('/add-empty-row', (req, res) => {
-    const table_name = req.query.table
-    client.query(`INSERT INTO ${table_name} DEFAULT
-                  VALUES`)
-})
-
-app.use(bodyParser.json())
-app.post('/delete-selected-rows', (req, res) => {
-    const receivedArray = req.body
-    const start = receivedArray[0]
-    const end = receivedArray[1]
-    // TODO const table_name = receivedArray[3]
-    const query = `DELETE
-                   FROM department
-                   WHERE department_id BETWEEN ${start} AND ${end}`
-    client.query(query)
-})
-
-app.post('/save-table', (req, res) => {
-    const requestData = req.body
-    const table_name = requestData.pop()[0]
-    // console.log("request data");
-    // console.log(requestData);
-    const query = `SELECT *
-                   FROM ${table_name}`
-    client.query(query, (err, result) => {
-        const databaseData = result.rows
-
-        let valuesToChange = []
-
-        for (let i = 0; i < databaseData.length; i++) {
-            const requestArrayData = requestData[i]
-            const databaseObjectData = databaseData[i]
-
-            let tempLoopValuesOfObject = []
-            for (const databaseObjectDataKey in databaseObjectData) {
-                let objVal = databaseObjectData[databaseObjectDataKey];
-                tempLoopValuesOfObject.push(objVal)
-            }
-
-
-            let shouldPush = false;
-            for (let j = 0; j < requestArrayData.length; j++) {
-                if (requestArrayData[j] !== tempLoopValuesOfObject[j]) shouldPush = true
-            }
-
-            if (shouldPush === true)
-                valuesToChange.push(requestArrayData)
-
-        }
-
-        // console.log(valuesToChange);
-
-        // const values = [['new', 'values'], 30]; // $1 is replaced with ['new', 'values'], $2 is replaced with 30
-        // const query = 'UPDATE $1 SET data_array = $2 WHERE id = $3';
-
-        for (const array of valuesToChange) {
-
-            let composedQuery = ""
-
-            const id = array[0]
-
-            const qr =
-                `SELECT column_name, ordinal_position
-                 FROM information_schema.columns
-                 WHERE table_name = '${table_name}'
-                 ORDER BY ordinal_position;`
-
-            client.query(qr, (err, result) => {
-                const rows = result.rows
-                const columnNames = rows.map((row) => row.column_name);
-
-                composedQuery = `UPDATE ${table_name}
-                                 SET `
-
-                for (let i = 0; i < columnNames.length; i++) {
-                    const columnName = columnNames[i];
-                    let value = array[i];
-                    if (typeof value === "string") value = `'${value}'`
-                    composedQuery += `${columnName} = ${value},`
-                }
-
-                composedQuery = composedQuery.substring(0, composedQuery.length - 1)
-                composedQuery += ` WHERE ${columnNames[0]} = ${id}`
-
-                console.log(composedQuery)
-                client.query(composedQuery)
-            })
-
-        }
-
-
-    })
-    res.sendStatus(200)
-
-})
-
-app.post('/delete-dep', (req, res) => {
-    const id = req.body.id
-    const query = `call sp_DeleteDepartment(${id})`
-    client.query(query, (err, result) => {
-        res.status(200)
-    })
-})
-
-app.post(`/admin`, (req, res) => {
-
-    console.log(req.body);
-    let login = req.body.login
-    let password = req.body.password
-    const query = `
-        SELECT id
-        FROM admins
-        WHERE login = ${login}
-          AND password = ${password}`;
-    client.query(query, (err, result) => {
-        // if (result.rows[0].id === undefined) res.send(true)
-        // else res.send(false)
-
-        res.send(true)
-    })
-
-
-})
-
-app.get('/get-employees', (req, res) => {
-    const query = "SELECT first_name, last_name FROM employee"
-    client.query(query, (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('Error retrieving employees');
-        } else {
-            // const rows = result.rows
-            let array = []
-            for (let rowsKey in result.rows) {
-                array.push(result.rows[rowsKey])
-            }
-            res.send(array)
-        }
-    });
-
-})
-
-app.get('/get-department-names', (req, res) => {
-    const query = "SELECT department_id, department_name FROM department;"
-    client.query(query, (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('Error retrieving department names');
-        } else {
-            // const rows = result.rows
-            let array = []
-            for (let rowsKey in result.rows) {
-                array.push(result.rows[rowsKey])
-            }
-            res.send(array)
-        }
-    })
-})
-
-app.get('/get-available-employees', (req, res) => {
-    const query = "SELECT first_name, last_name FROM employee WHERE department_id IS NULL "
-    client.query(query, (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('Error retrieving department names');
-        } else {
-            // const rows = result.rows
-            let array = []
-            for (let rowsKey in result.rows) {
-                array.push(result.rows[rowsKey])
-            }
-            res.send(array)
-        }
-    })
-})
-
-app.get('/get-shifts-time', (req, res) => {
-    const queryToSelectAvailableShifts = `
-        SELECT shift_start_time, shift_end_time
-        FROM shift_schedule
-    `
-
-    client.query(queryToSelectAvailableShifts, (err, result) => {
-        if (err) {
-            console.error(err);
-            result.status(500).send('Error retrieving department names');
-        } else {
-            // const rows = result.rows
-            let array = []
-            for (let rowsKey in result.rows) {
-                array.push(result.rows[rowsKey])
-            }
-            res.send(array)
-        }
-    })
-})
-app.post('/assign_employee_to_shift', (req, res) => {
-    let first_name, last_name, shift_start_time, shift_end_time
-    const elements = req.body
-
-    let values = []
-    for (let elementsKey in elements) {
-        elements.push(elements[elementsKey])
-    }
-    first_name = elements[0]
-    last_name = elements[1]
-    shift_start_time = elements[2]
-    shift_end_time = elements[3]
-
-    const queryToSelectEmployeeId = `
-        SELECT employee_id
-        FROM employee
-        WHERE first_name = '${first_name}'
-          AND last_name = '${last_name}';
-    `;
-
-    const queryToSelectShiftId = `
-        SELECT shift_schedule_id
-        FROM shift_schedule
-        WHERE shift_start_time = '${shift_start_time}'
-          AND shift_end_time = '${shift_end_time}'
-    `;
-    client.query(queryToSelectEmployeeId, (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Error retrieving changing employee's shift");
-        } else {
-            // const rows = result.rows
-            const selected_employee_id = result.rows[0].employee_id
-            console.log(selected_employee_id);
-
-            client.query(queryToSelectShiftId, (err, reslt) => {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send("Error retrieving changing employee's shift");
-                } else {
-                    // const rows = result.rows
-                    const selected_shift_schedule_id = reslt.rows[0].shift_schedule_id
-
-                    const callProcedureQuery = `
-                        CALL assign_employee_to_shift(${selected_shift_schedule_id},${selected_employee_id})
-                    `
-                    client.query(callProcedureQuery, (err, re) => {
-                        if (err) {
-                            console.error(err);
-                            res.status(500).send("Error retrieving changing employee's shift");
-                        } else {
-                            res.status(200).send({
-                                    answer: ` Теперь на смене с номером ${selected_shift_schedule_id}` +
-                                        ` работает сотрудник с идентификатором ${selected_employee_id}`
-                                }
-                            )
-                        }
-                    })
-                }
-            })
-        }
-    })
-
-
-
-
-})
-
+// *** ------ POSTs ------
+addEmptyRow(app, client)
+deleteSelectedRows(app, client)
+saveTable(app, client)
+deleteDepartment(app, client)
+verifyAdmin(app, client)
+assignEmployeeToShift(app, client)
 
 // * ------ RUN APP ------
 app.listen(3000, () => {
