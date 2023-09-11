@@ -14,15 +14,13 @@ form.addEventListener("submit", (event)=>{
         login: login,
         password: password
     }
-    const url = `${server_url}/admin`;
+    const url = `${server_url}/verify-admin?login=${login}&password=${password}`;
     // отправить данные на сервер для проверки
     fetch(url,{
-        method:"POST",
+        method:"GET",
         headers:{
             'Content-Type':'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
+        }})
         .then(response =>{
             if(!response.ok){
                 throw new Error(
@@ -40,25 +38,21 @@ form.addEventListener("submit", (event)=>{
                         window.location.href = "/staff-schedule.html";
                     }, 350
                 )
-            }
-            else{
+            } else{
                 // attempts ++
                 attemptsCounter.style.display = "block";
                 iterator++;
-                attemptsCounter.textContent = `attempts: ${iterator}`;``````````````````````
+                attemptsCounter.textContent = `attempts: ${iterator}`;
                 // header css change
                 loginHeader.style.color = "red";
                 loginHeader.textContent =  "Login ❌";
             }
         }) // xxxxxxxxxxxxxxx
-        .catch(error =>{
-            console.log("Error sending your request" +"\n" + error);
+        .catch(err =>{
+            console.log("Error sending your request" + "\n" + err);
             attemptsCounter.style.display = "block";
             attemptsCounter.textContent = "Сервер недоступен.";
             attemptsCounter.style.color = "#9D0000";
         });
 
-    console.log(formData) // xxxxxxxxxxxxxxx
-    console.log(form.lastChild);
 })
-// console.log(loginHeader)
