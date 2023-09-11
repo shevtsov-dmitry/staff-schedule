@@ -8,8 +8,8 @@ const {getColumnNames} = require("./GET/getColumnNames");
 const {getAllDataFromTable} = require("./GET/getAllDataFromTable");
 const {addEmptyRow} = require("./POST/addEmptyRow");
 const {deleteSelectedRows} = require("./POST/deleteSelectedRows");
+// const {deleteDepartment} = require("./POST/deleteDepartment")
 const {saveTable} = require("./POST/saveTable");
-const {deleteDepartment} = require("./POST/deleteDepartment")
 const {verifyAdmin} = require("./POST/verifyAdmin");
 const {getEmployees} = require("./GET/get-employees");
 const {getDepartmentNames} = require("./GET/getDepartmentNames");
@@ -45,7 +45,7 @@ getShiftsTime(app, client)
 addEmptyRow(app, client)
 deleteSelectedRows(app, client)
 saveTable(app, client)
-deleteDepartment(app, client)
+// deleteDepartment(app, client)
 verifyAdmin(app, client)
 assignEmployeeToShift(app, client)
 
