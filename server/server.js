@@ -17,6 +17,7 @@ const {getAvailableEmployees} = require("./GET/getAvailableEmployees");
 const {getShiftsTime} = require("./GET/getShiftsTime");
 const {assignEmployeeToShift} = require("./POST/assignEmployeeToShift");
 const databaseConnectionCredentials = require("./configurations/database-connection-credentials");
+const {getEmployeeSalaryAndBonusCoefficient} = require("./GET/get-employee-salary-and-bonus-coefficient");
 const app = express();
 
 // * ------ CORS POLICY ------
@@ -39,7 +40,7 @@ getEmployees(app,client)
 getDepartmentNames(app,client)
 getAvailableEmployees(app,client)
 getShiftsTime(app, client)
-
+getEmployeeSalaryAndBonusCoefficient(app,client)
 
 // *** ------ POSTs ------
 addEmptyRow(app, client)
