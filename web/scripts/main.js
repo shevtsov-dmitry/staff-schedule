@@ -278,15 +278,26 @@ procedures_ul.children[2].addEventListener('click', () => {
                             .then(data => {
                                 const salary = data[0].salary
                                 let bonus_coefficient = data[0].bonus_coefficient
+                                if(bonus_coefficient == '1.00') bonus_coefficient = '1.10'
                                 // parse to percentage
                                 let bonus_coefficient_percent = bonus_coefficient - 1
                                 bonus_coefficient_percent *= 100
                                 let new_salary = salary * bonus_coefficient
+                                const formatSalary = (salary) => {
+                                    let string_salary = salary.toString()
+                                    for (let i = 0; i < string_salary.length; i++) {
+                                        if(string_salary.charAt(i) == '.'){
+                                            string_salary = string_salary.slice(0,i)
+                                            break
+                                        }
+                                    }
+                                    return string_salary
+                                }
 
                                 count_bonus_secondary_option.innerHTML = `
-                                    <li>Зарплата: ${salary} ₽</li>
+                                    <li>Зарплата: ${formatSalary(salary)} ₽</li>
                                     <li>Заслуженная премия: ${bonus_coefficient_percent.toString().slice(0, 2)} %</li>
-                                    <li>Итог: ${new_salary} ₽</li>
+                                    <li>Итог: ${formatSalary(new_salary)} ₽</li>
                                     <li><button class="change-bonus-coeffiecient">Изменить коээфициент премии</button>
                                             <input class="hidden-input" type="text" placeholder="%">
                                             <button class="hidden-input hidden-input-button">ОК</button>
@@ -306,14 +317,16 @@ procedures_ul.children[2].addEventListener('click', () => {
                                         hiddenInput.style.display = 'none'
                                         const new_coef = hiddenInput.value / 100;
                                         bonus_coefficient = new_coef + 1
-                                        const remember_salary = new_salary
+                                        const remember_salary = formatSalary(new_salary)
                                         new_salary = new_salary * bonus_coefficient
 
                                         count_bonus_secondary_option.innerHTML = count_bonus_secondary_option.innerHTML.replace(
                                             `${bonus_coefficient_percent.toString().slice(0, 2)} %`, `${new_coef * 100} %`
                                         );
+
+
                                         count_bonus_secondary_option.innerHTML = count_bonus_secondary_option.innerHTML.replace(
-                                            `${remember_salary}`, `${new_salary}`
+                                            `${remember_salary}`, `${formatSalary(new_salary)}`
                                         )
 
                                         const change_salary_button = document.querySelector('.change-salary-button')
