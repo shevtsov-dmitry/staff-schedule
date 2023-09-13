@@ -231,9 +231,9 @@ procedures_ul.children[0].addEventListener('click', () => {
         for (const child of count_new_salary.children) {
             child.addEventListener('click', () => {
                 let whole_name = child.innerHTML.split(" ")
+                whole_name.pop()
                 let first_name = whole_name[0];
                 let last_name = whole_name[1];
-
                 fetch(`${host}/find-employee-id-by-name?first_name=${first_name}&last_name=${last_name}`, {
                     method: "GET",
                     headers: {'Content-Type': 'application/json '},
@@ -241,6 +241,17 @@ procedures_ul.children[0].addEventListener('click', () => {
                     .then(res => res.json())
                     .then(data => {
                         // TODO process employee_id to get salary and bonus from salary_record
+                        let id = data[0].employee_id
+                        fetch(`${host}/get-employee-salary-and-bonus-coefficient?id=${id}`, {
+                            method: "GET",
+                            headers: {'Content-Type': 'application/json'},
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                const salary = data[0].salary
+                                const bonus_coefficient = data[0].bonus_coefficient
+
+                            })
                     })
             })
 

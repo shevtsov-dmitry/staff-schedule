@@ -44,6 +44,7 @@ getShiftsTime(app, client)
 getEmployeeSalaryAndBonusCoefficient(app,client)
 findEmployeeIdByName(app, client)
 
+
 // *** ------ POSTs ------
 addEmptyRow(app, client)
 deleteSelectedRows(app, client)
