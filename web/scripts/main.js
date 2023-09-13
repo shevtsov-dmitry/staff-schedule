@@ -219,44 +219,14 @@ const count_bonus = document.querySelector('.count_bonus')
 const get_available_employees = document.querySelector('.get_available_employees')
 const assign_employee_to_shift = document.querySelector('.assign_employee_to_shift')
 
-// second options
+// secondary options
 const shift_times = document.querySelector('.shift-times')
-
+const count_bonus_secondary_option = document.querySelector('.count-bonus-secondary-option')
 // * 1. count_new_salary
 procedures_ul.children[0].addEventListener('click', () => {
     fillLi(procedures_ul.children[0], `${host}/get-employees`);
 
-    setTimeout(() => {
 
-        for (const child of count_new_salary.children) {
-            child.addEventListener('click', () => {
-                let whole_name = child.innerHTML.split(" ")
-                whole_name.pop()
-                let first_name = whole_name[0];
-                let last_name = whole_name[1];
-                fetch(`${host}/find-employee-id-by-name?first_name=${first_name}&last_name=${last_name}`, {
-                    method: "GET",
-                    headers: {'Content-Type': 'application/json '},
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        // TODO process employee_id to get salary and bonus from salary_record
-                        let id = data[0].employee_id
-                        fetch(`${host}/get-employee-salary-and-bonus-coefficient?id=${id}`, {
-                            method: "GET",
-                            headers: {'Content-Type': 'application/json'},
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                const salary = data[0].salary
-                                const bonus_coefficient = data[0].bonus_coefficient
-
-                            })
-                    })
-            })
-
-        }
-    }, 200)
 })
 
 
@@ -284,6 +254,94 @@ procedures_ul.children[1].addEventListener('click', () => {
 // * 3. count_bonus
 procedures_ul.children[2].addEventListener('click', () => {
     fillLi(procedures_ul.children[2], `${host}/get-employees`);
+
+    setTimeout(() => {
+
+        for (const child of count_bonus.children) {
+            child.addEventListener('click', () => {
+                let whole_name = child.innerHTML.split(" ")
+                whole_name.pop()
+                let first_name = whole_name[0];
+                let last_name = whole_name[1];
+                fetch(`${host}/find-employee-id-by-name?first_name=${first_name}&last_name=${last_name}`, {
+                    method: "GET",
+                    headers: {'Content-Type': 'application/json '},
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        let id = data[0].employee_id
+                        fetch(`${host}/get-employee-salary-and-bonus-coefficient?id=${id}`, {
+                            method: "GET",
+                            headers: {'Content-Type': 'application/json'},
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                const salary = data[0].salary
+                                let bonus_coefficient = data[0].bonus_coefficient
+                                // parse to percentage
+                                let bonus_coefficient_percent = bonus_coefficient - 1
+                                bonus_coefficient_percent *= 100
+                                let new_salary = salary * bonus_coefficient
+
+                                count_bonus_secondary_option.innerHTML = `
+                                    <li>Зарплата: ${salary} ₽</li>
+                                    <li>Заслуженная премия: ${bonus_coefficient_percent.toString().slice(0, 2)} %</li>
+                                    <li>Итог: ${new_salary} ₽</li>
+                                    <li><button class="change-bonus-coeffiecient">Изменить коээфициент премии</button>
+                                            <input class="hidden-input" type="text" placeholder="%">
+                                            <button class="hidden-input hidden-input-button">ОК</button>
+                                        </button></li>
+                                    <li><button class="change-salary-button">Принять</button></li>
+                                `;
+
+                                const change_bonus_coefficient = document.querySelector('.change-bonus-coeffiecient')
+                                change_bonus_coefficient.addEventListener('click', () => {
+                                    const hiddenInput = document.querySelector('.hidden-input')
+                                    hiddenInput.style.display = 'block';
+                                    const hidden_input_button = document.querySelector('.hidden-input-button')
+                                    hidden_input_button.style.display = 'block'
+
+                                    hidden_input_button.addEventListener('click', () => {
+                                        hidden_input_button.style.display = 'none'
+                                        hiddenInput.style.display = 'none'
+                                        const new_coef = hiddenInput.value / 100;
+                                        bonus_coefficient = new_coef + 1
+                                        const remember_salary = new_salary
+                                        new_salary = new_salary * bonus_coefficient
+
+                                        count_bonus_secondary_option.innerHTML = count_bonus_secondary_option.innerHTML.replace(
+                                            `${bonus_coefficient_percent.toString().slice(0, 2)} %`, `${new_coef * 100} %`
+                                        );
+                                        count_bonus_secondary_option.innerHTML = count_bonus_secondary_option.innerHTML.replace(
+                                            `${remember_salary}`, `${new_salary}`
+                                        )
+
+                                        const change_salary_button = document.querySelector('.change-salary-button')
+                                        change_salary_button.addEventListener('click', () => {
+                                            fetch(`${host}/change-employee-salary?employee_id=${id}&new_salary=${new_salary}`, {
+                                                method: "POST",
+                                                headers: {'Content-Type': 'application/json'},
+                                            })
+                                                .then(() => {
+                                                    watermark.innerHTML = `Сотрудник ${child.innerHTML} получил премию в ${new_coef * 100} % 
+                                                                            <br> в этом месяце его зарплата составила ${new_salary} ₽`
+
+                                                    setTimeout(() => {
+                                                        watermark.innerHTML = ''
+                                                    }, 5000)
+                                                })
+                                        })
+                                    })
+
+                                })
+
+
+                            })
+                    })
+            })
+
+        }
+    }, 200)
 })
 
 // * 4. get_available_employees
@@ -371,6 +429,7 @@ const fillLi = (procedure_name, fetch_url) => {
                     count_new_salary.innerHTML = composeLi
                     choose_and_remove_department.innerHTML = ""
                     count_bonus.innerHTML = ""
+                    count_bonus_secondary_option.innerHTML = ""
                     get_available_employees.innerHTML = ""
                     assign_employee_to_shift.innerHTML = ""
                     shift_times.innerHTML = ""
@@ -380,6 +439,7 @@ const fillLi = (procedure_name, fetch_url) => {
                     count_new_salary.innerHTML = ""
                     choose_and_remove_department.innerHTML = composeLi
                     count_bonus.innerHTML = ""
+                    count_bonus_secondary_option.innerHTML = ""
                     get_available_employees.innerHTML = ""
                     assign_employee_to_shift.innerHTML = ""
                     shift_times.innerHTML = ""
@@ -408,7 +468,7 @@ const fillLi = (procedure_name, fetch_url) => {
                     count_new_salary.innerHTML = ""
                     choose_and_remove_department.innerHTML = ""
                     count_bonus.innerHTML = ""
-
+                    count_bonus_secondary_option.innerHTML = ""
                     assign_employee_to_shift.innerHTML = ""
                     shift_times.innerHTML = ""
 
@@ -419,6 +479,7 @@ const fillLi = (procedure_name, fetch_url) => {
                     count_new_salary.innerHTML = ""
                     choose_and_remove_department.innerHTML = ""
                     count_bonus.innerHTML = ""
+                    count_bonus_secondary_option.innerHTML = ""
                     get_available_employees.innerHTML = ""
                     assign_employee_to_shift.innerHTML = composeLi
                     shift_times.innerHTML = ""
