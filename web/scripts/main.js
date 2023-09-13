@@ -211,7 +211,7 @@ async function getColumnNames(table_name) {
 await main()
 
 // * STORED PROCEDURES
-const watermark  = document.querySelector('.watermark')
+const watermark = document.querySelector('.watermark')
 // first options
 const count_new_salary = document.querySelector('.count_new_salary')
 const choose_and_remove_department = document.querySelector('.choose_and_remove_department')
@@ -225,6 +225,27 @@ const shift_times = document.querySelector('.shift-times')
 // * 1. count_new_salary
 procedures_ul.children[0].addEventListener('click', () => {
     fillLi(procedures_ul.children[0], `${host}/get-employees`);
+
+    setTimeout(() => {
+
+        for (const child of count_new_salary.children) {
+            child.addEventListener('click', () => {
+                let whole_name = child.innerHTML.split(" ")
+                let first_name = whole_name[0];
+                let last_name = whole_name[1];
+
+                fetch(`${host}/find-employee-id-by-name?first_name=${first_name}&last_name=${last_name}`, {
+                    method: "GET",
+                    headers: {'Content-Type': 'application/json '},
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        // TODO process employee_id to get salary and bonus from salary_record
+                    })
+            })
+
+        }
+    }, 200)
 })
 
 
@@ -241,7 +262,7 @@ procedures_ul.children[1].addEventListener('click', () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({id : id})
+                    body: JSON.stringify({id: id})
                 }).then(() => {
                     console.log("super");
                 })
@@ -265,7 +286,7 @@ procedures_ul.children[3].addEventListener('click', () => {
 procedures_ul.children[4].addEventListener('click', () => {
     fillLi(procedures_ul.children[4], `${host}/get-employees`);
 
-    setTimeout(() =>{
+    setTimeout(() => {
         for (let child of assign_employee_to_shift.children) {
             child.addEventListener('click', () => {
                 fetch(`${host}/get-shifts-time`, {
@@ -287,10 +308,10 @@ procedures_ul.children[4].addEventListener('click', () => {
                         let dataToSend = child.textContent.split(" ")
                         dataToSend.pop()
                         for (let time of shift_times.children) {
-                            time.addEventListener('click',() => {
+                            time.addEventListener('click', () => {
                                 let formattedTime = time.textContent.replaceAll(/[^0-9:]/g, "")
-                                dataToSend.push(formattedTime.substring(0, formattedTime.length/2))
-                                dataToSend.push(formattedTime.substring(formattedTime.length /2, formattedTime.length))
+                                dataToSend.push(formattedTime.substring(0, formattedTime.length / 2))
+                                dataToSend.push(formattedTime.substring(formattedTime.length / 2, formattedTime.length))
                                 dataToSend = JSON.stringify(dataToSend)
 
                                 fetch(`${host}/assign_employee_to_shift`, {
@@ -302,7 +323,7 @@ procedures_ul.children[4].addEventListener('click', () => {
                                 }).then(res => res.json())
                                     .then(answer => {
                                         watermark.innerHTML = answer.answer
-                                        setTimeout(()=> {
+                                        setTimeout(() => {
                                             watermark.innerHTML = ""
                                         }, 3000)
                                     })
