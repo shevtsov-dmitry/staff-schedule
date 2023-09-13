@@ -228,4 +228,35 @@ body {
   font-size: 90%;
 }
 
+.count-bonus-secondary-option li button {
+  background-color: orange;
+  border-style: none;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+.count-bonus-secondary-option li button:hover {
+  cursor: pointer;
+}
+.count-bonus-secondary-option li:hover {
+  background-color: white;
+  color: black;
+  cursor: default;
+}
+.count-bonus-secondary-option li:nth-child(4) {
+  display: flex;
+}
+.count-bonus-secondary-option li:nth-child(4) button, .count-bonus-secondary-option li:nth-child(4) input {
+  margin-right: 5px;
+}
+
+.hidden-input {
+  display: none;
+  width: 50px;
+  height: fit-content;
+}
+
+.hidden-input-button {
+  display: none;
+}
+
 /*# sourceMappingURL=style.css.map */
