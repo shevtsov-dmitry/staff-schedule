@@ -85,7 +85,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE PROCEDURE sp_DeleteDepartment(
     department_id INTEGER
 )
-    RETURNS NULL AS $$
+AS $$
 BEGIN
     DELETE FROM employee
     WHERE department_id = sp_DeleteDepartment.department_id;
@@ -102,15 +102,17 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
+
 -- SP_UPDATE_SALARY
-CREATE OR REPLACE FUNCTION sp_UpdateSalary(
+CREATE OR REPLACE PROCEDURE sp_UpdateSalary(
     employee_id INTEGER,
     position_id INTEGER,
     bonus_coefficient NUMERIC(10, 2),
     salary NUMERIC(10, 2),
     date DATE
 )
-    RETURNS VOID AS $$
+AS $$
 BEGIN
     UPDATE salary_record
     SET
