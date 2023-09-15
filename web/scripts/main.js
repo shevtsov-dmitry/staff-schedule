@@ -226,6 +226,84 @@ const count_bonus_secondary_option = document.querySelector('.count-bonus-second
 procedures_ul.children[0].addEventListener('click', () => {
     fillLi(procedures_ul.children[0], `${host}/get-employees`);
 
+    setTimeout(() => {
+        for (let child of count_new_salary.children) {
+
+            child.addEventListener('click', () => {
+                count_new_salary.classList.add('count-bonus-secondary-option')
+                let whole_name = child.innerHTML.split(' ')
+                whole_name.pop()
+                let first_name = whole_name[0];
+                let last_name = whole_name[1];
+                fetch(`${host}/find-employee-id-by-name?first_name=${first_name}&last_name=${last_name}`, {
+                    method: "GET",
+                    headers: {'Content-Type': 'application/json '},
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        const id = data[0].employee_id
+                        fetch(`${host}/get-employee-salary-and-bonus-coefficient?id=${id}`, {
+                            method: "GET",
+                            headers: {'Content-Type': 'application/json '},
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                const current_salary = data[0].salary
+                                let preparedHTML = `
+                                    <li>Нынешняя Зарплата: ${current_salary} ₽</li>
+                                    <li><button class="change-salary-btn">Изменить ЗП</button>
+                                            <input class="hidden-input" type="text" placeholder="%">
+                                            <button class="hidden-input hidden-input-button">ОК</button>
+                                        </button></li>
+                                    <li><button class="change-salary-button">Принять</button></li>
+                                `;
+                                count_new_salary.innerHTML = preparedHTML
+                                count_new_salary.children[1].style.display = 'flex'
+                                count_new_salary.children[1].children[0].style.margin = "0px 5px 0px 0px"
+                                count_new_salary.children[1].children[2].style.margin = "0px 0px 0px 5px"
+                                count_new_salary.children[2].children[0].style.marginTop = "5px"
+
+                                const hiddenInput = document.querySelector('.hidden-input')
+                                const hidden_input_button = document.querySelector('.hidden-input-button')
+
+                                const change_salary_button = document.querySelector('.change-salary-btn')
+
+                                change_salary_button.addEventListener('click', ()=>{
+                                    hiddenInput.style.display = 'block';
+                                    hidden_input_button.style.display = 'block'
+                                    hidden_input_button.addEventListener('click', () => {
+                                        hidden_input_button.style.display = 'none'
+                                        hiddenInput.style.display = 'none'
+                                        let new_salary = hiddenInput.value
+
+                                        preparedHTML = preparedHTML.replace('Нынешняя', 'Новая')
+                                        preparedHTML = preparedHTML.replace(`${current_salary}`, `${new_salary}`)
+                                        count_new_salary.innerHTML = preparedHTML
+
+
+                                        const change_salary_button = document.querySelector('.change-salary-button')
+                                        change_salary_button.addEventListener('click', () => {
+                                            fetch(`${host}/update-salary?id=${id}&new_salary=${new_salary}`, {
+                                                method: "POST",
+                                                headers: {'Content-Type': 'application/json'},
+                                            })
+                                                .then(() => {
+                                                    watermark.innerHTML = `Зарплата сотрудника ${first_name} ${last_name} изменена.`
+                                                    setTimeout(() => {
+                                                        watermark.innerHTML = ''
+                                                    }, 5000)
+                                                })
+                                        })
+                                    })
+                                })
+
+
+                            })
+                    })
+
+            })
+        }
+    }, 200)
 
 })
 
@@ -278,7 +356,7 @@ procedures_ul.children[2].addEventListener('click', () => {
                             .then(data => {
                                 const salary = data[0].salary
                                 let bonus_coefficient = data[0].bonus_coefficient
-                                if(bonus_coefficient == '1.00') bonus_coefficient = '1.10'
+                                if (bonus_coefficient == '1.00') bonus_coefficient = '1.10'
                                 // parse to percentage
                                 let bonus_coefficient_percent = bonus_coefficient - 1
                                 bonus_coefficient_percent *= 100
@@ -286,8 +364,8 @@ procedures_ul.children[2].addEventListener('click', () => {
                                 const formatSalary = (salary) => {
                                     let string_salary = salary.toString()
                                     for (let i = 0; i < string_salary.length; i++) {
-                                        if(string_salary.charAt(i) == '.'){
-                                            string_salary = string_salary.slice(0,i)
+                                        if (string_salary.charAt(i) == '.') {
+                                            string_salary = string_salary.slice(0, i)
                                             break
                                         }
                                     }

@@ -20,6 +20,7 @@ const databaseConnectionCredentials = require("./configurations/database-connect
 const {getEmployeeSalaryAndBonusCoefficient} = require("./GET/get-employee-salary-and-bonus-coefficient");
 const {findEmployeeIdByName} = require("./GET/findEmployeeIdByName");
 const {changeEmployeeSalary} = require("./POST/changeEmployeeSalary");
+const {updateEmployeeSalaryWithStoredProcedure} = require("./POST/updateEmployeeSalaryWithStoredProcedure");
 const app = express();
 
 // * ------ CORS POLICY ------
@@ -54,6 +55,7 @@ saveTable(app, client)
 verifyAdmin(app, client)
 assignEmployeeToShift(app, client)
 changeEmployeeSalary(app, client)
+updateEmployeeSalaryWithStoredProcedure(app, client)
 
 // * ------ RUN APP ------
 app.listen(3000, () => {
