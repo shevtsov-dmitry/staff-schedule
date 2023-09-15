@@ -1,4 +1,10 @@
--- ASSIGN_EMPLOYEE_TO_SHIFT
+-- Эта хранимая процедура, ASSIGN_EMPLOYEE_TO_SHIFT, используется
+-- для назначения сотрудника на определенную смену в расписании.
+
+-- Принимает два входных параметра:
+-- p_shift_id: ID смены, на которую будет назначен сотрудник.
+-- p_employee_id: ID сотрудника, которому будет назначена смена.
+
 CREATE OR REPLACE PROCEDURE assign_employee_to_shift(
     IN p_shift_id INTEGER,
     IN p_employee_id INTEGER
@@ -6,12 +12,13 @@ CREATE OR REPLACE PROCEDURE assign_employee_to_shift(
 AS
 $$
 BEGIN
+    -- Обновление таблицы shift_schedule для установки идентификатора сотрудника для указанной смены.
+    -- Это связывает сотрудника (p_employee_id) со сменой (p_shift_id).
     UPDATE shift_schedule
     SET employee_id = p_employee_id
     WHERE shift_schedule_id = p_shift_id;
 END;
 $$ LANGUAGE plpgsql;
-
 
 --  GET_AVAILABLE_EMPLOYEES
 CREATE OR REPLACE FUNCTION get_available_employees(
