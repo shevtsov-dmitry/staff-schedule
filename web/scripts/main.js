@@ -323,7 +323,6 @@ procedures_ul.children[1].addEventListener('click', () => {
                     },
                     body: JSON.stringify({id: id})
                 }).then(() => {
-                    console.log("super");
                 })
             })
         }
@@ -550,12 +549,9 @@ const fillLi = (procedure_name, fetch_url) => {
                 case 'Узнать доступных сотрудников' : {
                     // get_available_employees.innerHTML = composeLi
                     get_available_employees.innerHTML = `
-                             Шахов Владимир <br>
-                           Королёва Виктория 
-                           `
-                    get_available_employees.style.fontFamily = "Arial, serif"
-                    get_available_employees.style.padding = "5px"
-                    get_available_employees.style.fontSize = "92%"
+                             <li>Шахов Владимир</li> 
+                           <li>Королёва Виктория</li> 
+                           `;
                     count_new_salary.innerHTML = ""
                     choose_and_remove_department.innerHTML = ""
                     count_bonus.innerHTML = ""
