@@ -26,88 +26,83 @@ CREATE OR REPLACE FUNCTION get_available_employees(
     IN p_start_time TIME,
     IN p_end_time TIME
 )
-    RETURNS TABLE (
-                      employee_id   INTEGER,
-                      first_name    VARCHAR(255),
-                      last_name     VARCHAR(255)
-                  )
-AS $$
+    RETURNS TABLE
+            (
+                employee_id INTEGER,
+                first_name  VARCHAR(255),
+                last_name   VARCHAR(255)
+            )
+AS
+$$
 BEGIN
     RETURN QUERY
         SELECT e.employee_id, e.first_name, e.last_name
         FROM employee e
-        WHERE e.employee_id NOT IN (
-            SELECT ss.employee_id
-            FROM shift_schedule ss
-            WHERE ss.date = p_date
-              AND (
-                    (ss.shift_start_time <= p_start_time AND ss.shift_end_time > p_start_time)
-                    OR (ss.shift_start_time < p_end_time AND ss.shift_end_time >= p_end_time)
-                    OR (ss.shift_start_time >= p_start_time AND ss.shift_end_time <= p_end_time)
-                )
-        );
+        WHERE e.employee_id NOT IN (SELECT ss.employee_id
+                                    FROM shift_schedule ss
+                                    WHERE ss.date = p_date
+                                      AND (
+                                            (ss.shift_start_time <= p_start_time AND ss.shift_end_time > p_start_time)
+                                            OR (ss.shift_start_time < p_end_time AND ss.shift_end_time >= p_end_time)
+                                            OR (ss.shift_start_time >= p_start_time AND ss.shift_end_time <= p_end_time)
+                                        ));
 END;
 $$ LANGUAGE plpgsql;
 
 
--- CALCULATE_EMPLOYEE_BONUS
-CREATE OR REPLACE FUNCTION CalculateEmployeeBonus(
-    p_employee_id INTEGER,
-    p_date DATE
-)
-    RETURNS NUMERIC(10, 2)
-AS $$
+CREATE OR REPLACE PROCEDURE calculateEmployeeBonus(
+    IN p_employee_id INT,
+    IN p_bonus_coefficient DECIMAL
+) AS
+$$
 DECLARE
-    v_bonus_coefficient NUMERIC(10, 2);
-    v_performance_score NUMERIC(10, 2);
-    v_bonus_amount NUMERIC(10, 2);
+    v_employee_salary DECIMAL;
+    v_new_salary DECIMAL;
 BEGIN
-    -- Retrieve the bonus coefficient for the employee
-    SELECT bonus_coefficient
-    INTO v_bonus_coefficient
+    -- Получение текущей зарплаты сотрудника из таблицы salary_record
+        SELECT salary INTO v_employee_salary
     FROM salary_record
-    WHERE employee_id = p_employee_id
-      AND date <= p_date
-    ORDER BY date DESC
-    LIMIT 1;
+    WHERE employee_id = p_employee_id;
 
-    -- Retrieve the performance score for the employee
-    SELECT performance_score
-    INTO v_performance_score
-    FROM employee_performance
-    WHERE employee_id = p_employee_id
-      AND performance_date <= p_date
-    ORDER BY performance_date DESC
-    LIMIT 1;
+    -- Рассчитать новую зарплату с учетом премии
+    v_new_salary := v_employee_salary * (1 + p_bonus_coefficient);
 
-    -- Calculate the bonus amount
-    v_bonus_amount := v_performance_score * v_bonus_coefficient;
+    -- Обновление зарплаты сотрудника в таблице salary_record
+    UPDATE salary_record
+    SET salary = v_new_salary
+    WHERE employee_id = p_employee_id;
 
-    RETURN v_bonus_amount;
+-- Завершить операцию (транзакцию)
+    COMMIT;
 END;
-$$ LANGUAGE plpgsql;
+$$
+    LANGUAGE plpgsql;
 
 
 -- SP_DELETE_DEPARTMENT
 CREATE OR REPLACE PROCEDURE sp_DeleteDepartment(
     department_id INTEGER
 )
-AS $$
+AS
+$$
 BEGIN
-    DELETE FROM employee
+    DELETE
+    FROM employee
     WHERE department_id = sp_DeleteDepartment.department_id;
 
-    DELETE FROM job
+    DELETE
+    FROM job
     WHERE department_id = sp_DeleteDepartment.department_id;
 
-    DELETE FROM location
+    DELETE
+    FROM location
     WHERE department_id = sp_DeleteDepartment.department_id;
 
-    DELETE FROM department
+    DELETE
+    FROM department
     WHERE department_id = sp_DeleteDepartment.department_id;
 END;
 $$ LANGUAGE plpgsql;
-
 
 
 
@@ -119,16 +114,15 @@ CREATE OR REPLACE PROCEDURE sp_UpdateSalary(
     salary NUMERIC(10, 2),
     date DATE
 )
-AS $$
+AS
+$$
 BEGIN
     UPDATE salary_record
-    SET
-        position_id = sp_UpdateSalary.position_id,
+    SET position_id       = sp_UpdateSalary.position_id,
         bonus_coefficient = sp_UpdateSalary.bonus_coefficient,
-        salary = sp_UpdateSalary.salary,
-        date = sp_UpdateSalary.date
-    WHERE
-            employee_id = sp_UpdateSalary.employee_id;
+        salary            = sp_UpdateSalary.salary,
+        date              = sp_UpdateSalary.date
+    WHERE employee_id = sp_UpdateSalary.employee_id;
 END;
 $$ LANGUAGE plpgsql;
 

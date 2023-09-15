@@ -6,21 +6,24 @@ let attemptsCounter = document.querySelector(".attempts-counter");
 let iterator = 0;
 // Function: send the form to the server for processing
 form.addEventListener("submit", (event)=>{
-    // blocking standard form execution
+    // block standard form execution
     event.preventDefault();
+    // Get data from form
     const login = form.querySelector("#username").value;
     const password = form.querySelector("#password").value;
     const formData = {
         login: login,
         password: password
     }
-    const url = `${server_url}/verify-admin?login=${login}&password=${password}`;
-    // отправить данные на сервер для проверки
+    const url = `${server_url}/verify-admin`;
+    // send data to the server for verification
     fetch(url,{
-        method:"GET",
+        method:"POST",
         headers:{
             'Content-Type':'application/json'
-        }})
+        },
+        body: JSON.stringify(formData) // JS object -> JSON
+        })
         .then(response =>{
             if(!response.ok){
                 throw new Error(
