@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS department
 (
-    department_id      serial not null primary key,
+    department_id      int not null primary key,
     department_name    varchar(255),
 --     department_manager_id int,
     department_budget  numeric(10, 2),
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS department
 
 CREATE TABLE IF NOT EXISTS employee
 (
-    employee_id   serial not null primary key,
+    employee_id   int not null primary key,
     first_name    varchar(255),
     last_name     varchar(255),
     phone_number  varchar(20),
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS employee
 
 CREATE TABLE IF NOT EXISTS job
 (
-    job_id           serial not null primary key,
+    job_id           int not null primary key,
     job_title        varchar(255),
     job_description  text,
     job_requirements text,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS job
 
 CREATE TABLE IF NOT EXISTS location
 (
-    location_id    serial not null primary key,
+    location_id    int not null primary key,
     location_name  varchar(255),
     address_line_1 varchar(255),
     address_line_2 varchar(255),
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS location
 
 CREATE TABLE IF NOT EXISTS position
 (
-    position_id             serial not null primary key,
+    position_id             int not null primary key,
     position_title          varchar(255),
     position_description    text,
     required_hours_per_week double precision
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS position
 
 CREATE TABLE IF NOT EXISTS salary_record
 (
-    salary_record_id  serial not null primary key,
+    salary_record_id  int not null primary key,
     salary            numeric(10, 2),
     hourly_rate       numeric(10, 2),
     bonus_coefficient numeric(10, 2),
