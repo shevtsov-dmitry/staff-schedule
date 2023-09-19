@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS salary_record
 
 CREATE TABLE IF NOT EXISTS shift_schedule
 (
-    shift_schedule_id serial not null primary key,
+    shift_schedule_id int not null primary key,
     shift_start_time  time,
     shift_end_time    time
 --     shift_date        date
