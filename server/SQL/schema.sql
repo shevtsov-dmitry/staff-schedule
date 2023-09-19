@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS department
 (
     department_id      serial not null primary key,
     department_name    varchar(255),
-    department_manager varchar(255),
+--     department_manager_id int,
     department_budget  numeric(10, 2),
     location_id        integer
 );
@@ -43,17 +43,18 @@ CREATE TABLE IF NOT EXISTS location
 
 CREATE TABLE IF NOT EXISTS position
 (
-    position_id          serial not null primary key,
-    position_title       varchar(255),
-    position_description text,
-    hourly_rate          numeric(10, 2),
-    hours_per_week       double precision
+    position_id             serial not null primary key,
+    position_title          varchar(255),
+    position_description    text,
+    required_hours_per_week double precision
+
 );
 
 CREATE TABLE IF NOT EXISTS salary_record
 (
     salary_record_id  serial not null primary key,
     salary            numeric(10, 2),
+    hourly_rate       numeric(10, 2),
     bonus_coefficient numeric(10, 2),
     employee_id       integer
 );
@@ -63,15 +64,22 @@ CREATE TABLE IF NOT EXISTS shift_schedule
 (
     shift_schedule_id serial not null primary key,
     shift_start_time  time,
-    shift_end_time    time,
-    shift_supervisor  varchar(255),
-    shift_date        date,
-    employee_id       integer,
-    position_id       integer
+    shift_end_time    time
+--     shift_date        date
 );
+
+-- MANY TO MANY
+CREATE TABLE IF NOT EXISTS employee_shiftSchedule
+(
+    employee_id       int,
+    shift_schedule_id int
+);
+
 
 ALTER TABLE department
     ADD CONSTRAINT fk_department_location_id FOREIGN KEY (location_id) REFERENCES location (location_id);
+-- ALTER TABLE department
+--     ADD CONSTRAINT fk_department_employee_id FOREIGN KEY (department_manager_id) REFERENCES employee(employee_id);
 
 ALTER TABLE employee
     ADD CONSTRAINT fk_employee_department_id FOREIGN KEY (department_id) REFERENCES department (department_id);
@@ -87,13 +95,14 @@ ALTER TABLE job
 ALTER TABLE salary_record
     ADD CONSTRAINT fk_salary_record_employee_id FOREIGN KEY (employee_id) REFERENCES employee (employee_id);
 
-ALTER TABLE shift_schedule
-    ADD CONSTRAINT fk_shift_schedule_employee_id FOREIGN KEY (employee_id) REFERENCES employee (employee_id);
-ALTER TABLE shift_schedule
-    ADD CONSTRAINT fk_shift_schedule_position_id FOREIGN KEY (position_id) REFERENCES position (position_id);
+ALTER TABLE employee_shiftSchedule
+    ADD CONSTRAINT fk_employee_shiftSchedule_employee_id FOREIGN KEY (employee_id) REFERENCES employee (employee_id);
+ALTER TABLE employee_shiftSchedule
+    ADD CONSTRAINT fk_employee_shiftSchedule_shift_schedule_id FOREIGN KEY (shift_schedule_id) REFERENCES shift_schedule (shift_schedule_id);
 
-CREATE TABLE  IF NOT EXISTS admins(
-                                      id serial primary key not null,
-                                      login varchar(20),
+CREATE TABLE IF NOT EXISTS admins
+(
+    id       serial primary key not null,
+    login    varchar(20),
     password varchar(20)
-    );
+);
