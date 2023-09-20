@@ -263,4 +263,15 @@ body {
   margin-bottom: 2px;
 }
 
+@media screen and (max-width: 1250px) {
+  .table-names-list {
+    font-size: 80%;
+  }
+}
+@media screen and (max-width: 1040px) {
+  .table-names-list {
+    font-size: 70%;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */

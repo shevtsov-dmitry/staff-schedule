@@ -318,3 +318,17 @@ $mutual-button-color: #fffffc;
 .change-bonus-coeffiecient{
   margin-bottom: 2px;
 }
+
+
+// change tables names font size if screen small
+@media screen and (max-width: 1250px){
+    .table-names-list{
+      font-size: 80%;
+    }
+}
+
+@media screen and (max-width: 1040px){
+  .table-names-list{
+    font-size: 70%;
+  }
+}
