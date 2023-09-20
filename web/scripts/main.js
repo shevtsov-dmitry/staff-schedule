@@ -735,3 +735,31 @@ reportComposeBtn.addEventListener('click', () => {
 
 })
 
+const btnDownloadReport = document.querySelector('.download-report-btn')
+
+btnDownloadReport.addEventListener('click', ()=>{
+    fetch(`${host}/get-csv-report`,{
+            method: "GET",
+            headers: {'Content-Type': 'application/json '},
+    })
+        .then(res => res.blob())
+        .then(blob => {
+            // Create a temporary URL for the blob
+            const url = window.URL.createObjectURL(blob);
+
+            // Create a temporary <a> element to trigger the download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.csv'; // Specify the desired file name
+            document.body.appendChild(a);
+
+            // Trigger the click event on the <a> element to start the download
+            a.click();
+
+            // Clean up by removing the temporary <a> element and revoking the blob URL
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('File download failed:', error);
+        });
+})
