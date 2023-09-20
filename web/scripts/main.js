@@ -44,6 +44,7 @@ const hot = new Handsontable(container, {
 
 // fill the list with values which will be chosen by user to display certain table
 
+
 async function main() {
     // 1. get all table names
     table_names_list.innerHTML = "";
@@ -58,7 +59,10 @@ async function main() {
             for (const key in data) {
                 if (Object.hasOwnProperty.call(data, key)) {
                     const element = data[key];
-                    table_names_list.innerHTML += `<li>${element.table_name}</li>`
+                    let tableName = element.table_name // Incomming table is in english
+                    // parse each table name to russian lang respectively
+                    tableName = parseTableNameToRussian(tableName)
+                    table_names_list.innerHTML += `<li>${tableName}</li>`
                 }
             }
 
@@ -571,4 +575,32 @@ const fillLi = (procedure_name, fetch_url) => {
             }
         })
 }
+
+
+
+function parseTableNameToRussian(tableName) {
+    switch (tableName) {
+        case 'job': tableName = 'рабочие вакансии'
+            break
+        case 'employee': tableName = 'сотрудники'
+            break
+        case 'location': tableName = 'местоположение'
+            break
+        case 'salary_record': tableName = 'финансы'
+            break
+        case 'shift_schedule': tableName = 'расписание смен'
+            break
+        case 'department': tableName =  'отдел'
+            break
+        case 'position': tableName =  'должность сотрудника'
+            break
+        case 'employee_shiftschedule': tableName = 'связь сотрдуники смены'
+            break
+        case 'admins': tableName =  'администраторы'
+            break
+    }
+    return tableName;
+}
+
+
 
