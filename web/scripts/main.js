@@ -607,7 +607,7 @@ function parseTableNameToRussian(tableName) {
             break
         case 'position': tableName =  'должность сотрудника'
             break
-        case 'employee_shiftschedule': tableName = 'связь сотрдуники смены'
+        case 'employee_shiftschedule': tableName = 'связь сотрудники-смены'
             break
         case 'admins': tableName =  'администраторы'
             break
