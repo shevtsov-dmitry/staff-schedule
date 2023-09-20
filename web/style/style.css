@@ -111,6 +111,18 @@ body {
   margin: 0;
 }
 
+.beautiful-button-style {
+  margin-top: 8px;
+  margin-right: 5px;
+  border: none;
+  background-color: #fffffc;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  border-radius: 3px;
+}
+.beautiful-button-style:hover {
+  cursor: pointer;
+}
+
 .placeholder-table {
   margin: 5px 0 0 60px;
 }
@@ -272,6 +284,24 @@ body {
   .table-names-list {
     font-size: 70%;
   }
+}
+.report-employees-and-shifts {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-report-employees-and-shifts {
+  width: fit-content;
+  margin: 0 0 10px 60px;
+}
+
+.report-table {
+  margin-left: 60px;
+}
+
+.download-report-btn {
+  width: fit-content;
+  margin-left: 60px;
 }
 
 /*# sourceMappingURL=style.css.map */

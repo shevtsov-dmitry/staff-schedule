@@ -133,6 +133,19 @@ $mutual-button-color: #fffffc;
 
 }
 
+.beautiful-button-style {
+  margin-top: 8px;
+  margin-right: 5px;
+  border: none;
+  background-color: $mutual-button-color;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  border-radius: 3px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .placeholder-table {
   margin: 5px 0 0 $start-margin;
 }
@@ -297,7 +310,7 @@ $mutual-button-color: #fffffc;
     &:nth-child(4) {
       display: flex;
 
-      button, input{
+      button, input {
         margin-right: 5px;
       }
     }
@@ -305,30 +318,55 @@ $mutual-button-color: #fffffc;
 
 }
 
-.hidden-input{
+.hidden-input {
   display: none;
   width: 50px;
   height: fit-content;
 }
 
-.hidden-input-button{
+.hidden-input-button {
   display: none;
 }
 
-.change-bonus-coeffiecient{
+.change-bonus-coeffiecient {
   margin-bottom: 2px;
 }
 
 
 // change tables names font size if screen small
-@media screen and (max-width: 1250px){
-    .table-names-list{
-      font-size: 80%;
-    }
+@media screen and (max-width: 1250px) {
+  .table-names-list {
+    font-size: 80%;
+  }
 }
 
-@media screen and (max-width: 1040px){
-  .table-names-list{
+@media screen and (max-width: 1040px) {
+  .table-names-list {
     font-size: 70%;
   }
+}
+
+// report table div styles
+.report-employees-and-shifts{
+  display: flex;
+  flex-direction: column;
+
+}
+
+.btn-report-employees-and-shifts{
+  width: fit-content;
+  margin: 0 0 10px $start-margin ;
+
+}
+
+.report-table{
+  margin-left: $start-margin;
+}
+
+.download-report-btn {
+  width: fit-content;
+  margin-left: $start-margin;
+
+  //display: none // will show this btn when @btn-report-employees-and-shifts clicked
+
 }
