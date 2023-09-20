@@ -55,14 +55,20 @@ async function main() {
         .then(response => response.json())
         .then(data => {
 
+            let engTableNames = []
+            let rusTableNames = []
+
             // *2. show received data as list
             for (const key in data) {
                 if (Object.hasOwnProperty.call(data, key)) {
                     const element = data[key];
-                    let tableName = element.table_name // Incomming table is in english
+                    let engTableName = element.table_name
                     // parse each table name to russian lang respectively
-                    tableName = parseTableNameToRussian(tableName)
-                    table_names_list.innerHTML += `<li>${tableName}</li>`
+                    let russianTableName = parseTableNameToRussian(engTableName)
+                    // fill arrays respectively
+                    engTableNames.push(engTableName)
+                    rusTableNames.push(russianTableName)
+                    table_names_list.innerHTML += `<li>${russianTableName}</li>`
                 }
             }
 
@@ -70,11 +76,18 @@ async function main() {
             // *   function @constructTable(), which will create table,
             // *   fill it with data, show column names, make interactions
             // *   to add, delete, change rows and save it in database
+            // FIXME !!!!
             for (const name of table_names_list.children) {
 
                 name.addEventListener('click', () => {
                     placeholder_hot.rootElement.style.display = 'none'
-                    constructTable(name.textContent)
+                    const russianWordIndex = rusTableNames.indexOf(name.textContent)
+                    if(russianWordIndex !== -1){
+                        constructTable(engTableNames[russianWordIndex])
+                    }
+                    else{
+                        console.log("didn't find eng version of table name:" + " " + name.textContent)
+                    }
                 })
             }
 
@@ -601,6 +614,5 @@ function parseTableNameToRussian(tableName) {
     }
     return tableName;
 }
-
 
 
