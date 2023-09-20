@@ -716,7 +716,17 @@ function translateColumnNameIntoRussian(element) {
 
 const reportComposeBtn = document.querySelector('.btn-report-employees-and-shifts')
 const reportTableDOM = document.querySelector('.report-table')
+const btnDownloadReport = document.querySelector('.download-report-btn')
+
+let reportBtnPressCounter = 0
 reportComposeBtn.addEventListener('click', () => {
+    // delete old table if pressed again
+    if(reportBtnPressCounter == 1){
+        reportTableDOM.rootElement.style.display = 'none'
+
+    }
+    reportBtnPressCounter++
+
     fetch(`${host}/get-employees-names-and-their-shifts`, {
         method: "GET",
         headers: {'Content-Type': 'application/json '},
@@ -733,9 +743,9 @@ reportComposeBtn.addEventListener('click', () => {
             })
         })
 
+//      display @btnDownloadReport
+        btnDownloadReport.style.display = "block"
 })
-
-const btnDownloadReport = document.querySelector('.download-report-btn')
 
 btnDownloadReport.addEventListener('click', ()=>{
     fetch(`${host}/get-csv-report`,{
