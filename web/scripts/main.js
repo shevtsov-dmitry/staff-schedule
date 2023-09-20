@@ -44,6 +44,7 @@ const hot = new Handsontable(container, {
 
 // fill the list with values which will be chosen by user to display certain table
 
+
 async function main() {
     // 1. get all table names
     table_names_list.innerHTML = "";
@@ -54,11 +55,20 @@ async function main() {
         .then(response => response.json())
         .then(data => {
 
+            let engTableNames = []
+            let rusTableNames = []
+
             // *2. show received data as list
             for (const key in data) {
                 if (Object.hasOwnProperty.call(data, key)) {
                     const element = data[key];
-                    table_names_list.innerHTML += `<li>${element.table_name}</li>`
+                    let engTableName = element.table_name
+                    // parse each table name to russian lang respectively
+                    let russianTableName = parseTableNameToRussian(engTableName)
+                    // fill arrays respectively
+                    engTableNames.push(engTableName)
+                    rusTableNames.push(russianTableName)
+                    table_names_list.innerHTML += `<li>${russianTableName}</li>`
                 }
             }
 
@@ -66,11 +76,17 @@ async function main() {
             // *   function @constructTable(), which will create table,
             // *   fill it with data, show column names, make interactions
             // *   to add, delete, change rows and save it in database
+            // FIXME !!!!
             for (const name of table_names_list.children) {
 
                 name.addEventListener('click', () => {
                     placeholder_hot.rootElement.style.display = 'none'
-                    constructTable(name.textContent)
+                    const russianWordIndex = rusTableNames.indexOf(name.textContent)
+                    if (russianWordIndex !== -1) {
+                        constructTable(engTableNames[russianWordIndex])
+                    } else {
+                        console.log("didn't find eng version of table name:" + " " + name.textContent)
+                    }
                 })
             }
 
@@ -183,6 +199,7 @@ async function constructTable(table_name) {
         });
 }
 
+
 // get column names
 async function getColumnNames(table_name) {
     let column_names = [];
@@ -194,7 +211,8 @@ async function getColumnNames(table_name) {
         .then(column_names_response => {
             for (const key in column_names_response) {
                 if (Object.hasOwnProperty.call(column_names_response, key)) {
-                    const element = column_names_response[key];
+                    let element = column_names_response[key];
+                    element = translateColumnNameIntoRussian(element)
                     column_names.push(element)
                 } else throw new Error(`Object does not have property ${key}`)
             }
@@ -264,7 +282,7 @@ procedures_ul.children[0].addEventListener('click', () => {
 
                                 const change_salary_button = document.querySelector('.change-salary-btn')
 
-                                change_salary_button.addEventListener('click', ()=>{
+                                change_salary_button.addEventListener('click', () => {
                                     hiddenInput.style.display = 'block';
                                     hidden_input_button.style.display = 'block'
                                     hidden_input_button.addEventListener('click', () => {
@@ -572,3 +590,186 @@ const fillLi = (procedure_name, fetch_url) => {
         })
 }
 
+
+function parseTableNameToRussian(tableName) {
+    switch (tableName) {
+        case 'job':
+            tableName = 'рабочие вакансии'
+            break
+        case 'employee':
+            tableName = 'сотрудники'
+            break
+        case 'location':
+            tableName = 'местоположение'
+            break
+        case 'salary_record':
+            tableName = 'финансы'
+            break
+        case 'shift_schedule':
+            tableName = 'расписание смен'
+            break
+        case 'department':
+            tableName = 'отдел'
+            break
+        case 'position':
+            tableName = 'должность сотрудника'
+            break
+        case 'employee_shiftschedule':
+            tableName = 'связь сотрудники-смены'
+            break
+        case 'admins':
+            tableName = 'администраторы'
+            break
+    }
+    return tableName;
+}
+
+function translateColumnNameIntoRussian(element) {
+    switch (element) {
+        case 'login':
+            element = 'логин';
+            break;
+        case 'password':
+            element = 'пароль';
+            break;
+        case 'department_name':
+            element = 'название';
+            break;
+        case 'department_budget':
+            element = 'бюджет';
+            break;
+        case 'first_name':
+            element = 'имя';
+            break;
+        case 'last_name':
+            element = 'фамилия';
+            break;
+        case 'phone_number':
+            element = 'номер телефона';
+            break;
+        case 'email':
+            element = 'электронная почта';
+            break;
+        case 'hire_date':
+            element = 'дата найма';
+            break;
+        case 'job_title':
+            element = 'название';
+            break;
+        case 'job_description':
+            element = 'описание';
+            break;
+        case 'job_requirements':
+            element = 'требования';
+            break;
+        case 'location_name':
+            element = 'название';
+            break;
+        case 'address_line_1':
+            element = 'адрес';
+            break;
+        case 'address_line_2':
+            element = 'дополнительный адрес';
+            break;
+        case 'city':
+            element = 'город';
+            break;
+        case 'region':
+            element = 'регион';
+            break;
+        case 'zip_code':
+            element = 'почтовый код';
+            break;
+        case 'country':
+            element = 'страна';
+            break;
+        case 'position_title':
+            element = 'название';
+            break;
+        case 'position_description':
+            element = 'описание';
+            break;
+        case 'required_hours_per_week':
+            element = 'требуемое время работы';
+            break;
+        case 'salary':
+            element = 'зарплата';
+            break;
+        case 'hourly_rate':
+            element = 'почасовая ставка';
+            break;
+        case 'bonus_coefficient':
+            element = 'надбавка';
+            break;
+        case 'shift_start_time':
+            element = 'начало смены';
+            break;
+        case 'shift_end_time':
+            element = 'конец смены';
+            break;
+    }
+
+    return element;
+}
+
+// compose report
+
+const reportComposeBtn = document.querySelector('.btn-report-employees-and-shifts')
+const reportTableDOM = document.querySelector('.report-table')
+const btnDownloadReport = document.querySelector('.download-report-btn')
+
+let reportBtnPressCounter = 0
+reportComposeBtn.addEventListener('click', () => {
+    // delete old table if pressed again
+    if(reportBtnPressCounter == 1){
+        reportTableDOM.rootElement.style.display = 'none'
+
+    }
+    reportBtnPressCounter++
+
+    fetch(`${host}/get-employees-names-and-their-shifts`, {
+        method: "GET",
+        headers: {'Content-Type': 'application/json '},
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            let report_table = new Handsontable(reportTableDOM, {
+                data: data,
+                rowHeaders: true,
+                colHeaders: true,
+                height: 'auto',
+                licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+            })
+        })
+
+//      display @btnDownloadReport
+        btnDownloadReport.style.display = "block"
+})
+
+btnDownloadReport.addEventListener('click', ()=>{
+    fetch(`${host}/get-csv-report`,{
+            method: "GET",
+            headers: {'Content-Type': 'application/json '},
+    })
+        .then(res => res.blob())
+        .then(blob => {
+            // Create a temporary URL for the blob
+            const url = window.URL.createObjectURL(blob);
+
+            // Create a temporary <a> element to trigger the download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.csv'; // Specify the desired file name
+            document.body.appendChild(a);
+
+            // Trigger the click event on the <a> element to start the download
+            a.click();
+
+            // Clean up by removing the temporary <a> element and revoking the blob URL
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('File download failed:', error);
+        });
+})

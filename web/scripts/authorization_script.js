@@ -36,7 +36,7 @@ form.addEventListener("submit", (event)=>{
             console.log(`Response success from server: ${bool}`);
             if(bool){
                 loginHeader.style.color = "green";
-                loginHeader.textContent = `Login ✓`;
+                loginHeader.textContent = `Авторизация ✓`;
                 setTimeout( ()=> {
                         window.location.href = "/staff-schedule.html";
                     }, 350
@@ -45,10 +45,10 @@ form.addEventListener("submit", (event)=>{
                 // attempts ++
                 attemptsCounter.style.display = "block";
                 iterator++;
-                attemptsCounter.textContent = `attempts: ${iterator}`;
+                attemptsCounter.textContent = `количество попыток: ${iterator}`;
                 // header css change
                 loginHeader.style.color = "red";
-                loginHeader.textContent =  "Login ❌";
+                loginHeader.textContent =  "Авторизация ❌";
             }
         }) // xxxxxxxxxxxxxxx
         .catch(err =>{
