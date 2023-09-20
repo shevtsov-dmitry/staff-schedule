@@ -111,13 +111,6 @@ function fixDateIssue(data) {
         }
     }
 
-    // for shift schedule table
-    if (chosenTableNames.includes('shift_schedule_id') && chosenTableNames[0] === 'shift_schedule_id') {
-        for (let dataKey in data) {
-            data[dataKey].shift_date = data[dataKey].shift_date.replace("T21:00:00.000Z", "")
-        }
-    }
-
     chosenTableNames = []
 }
 
