@@ -364,9 +364,17 @@ $mutual-button-color: #fffffc;
 }
 
 .download-report-btn {
+  display: none;
   width: fit-content;
   margin-left: $start-margin;
 
   //display: none // will show this btn when @btn-report-employees-and-shifts clicked
 
+}
+
+.blue-white-on-hover{
+  &:hover{
+    background-color: #1982c4;
+    color: white;
+  }
 }

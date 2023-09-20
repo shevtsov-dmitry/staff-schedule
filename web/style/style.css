@@ -300,8 +300,14 @@ body {
 }
 
 .download-report-btn {
+  display: none;
   width: fit-content;
   margin-left: 60px;
+}
+
+.blue-white-on-hover:hover {
+  background-color: #1982c4;
+  color: white;
 }
 
 /*# sourceMappingURL=style.css.map */
