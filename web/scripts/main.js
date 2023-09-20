@@ -105,7 +105,10 @@ function fixDateIssue(data) {
         chosenTableNames.push(obj);
     }
     // for employee table
-    if (chosenTableNames.includes('employee_id') && chosenTableNames[0] === 'employee_id') {
+    // ! hardcoded
+    if (chosenTableNames.includes('employee_id')
+        && chosenTableNames[0] === 'employee_id'
+        && !chosenTableNames.includes('shift_schedule_id')) {
         for (let dataKey in data) {
             data[dataKey].hire_date = data[dataKey].hire_date.replace("T21:00:00.000Z", "")
         }
