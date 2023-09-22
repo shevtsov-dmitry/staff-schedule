@@ -39,7 +39,7 @@ enter name: staff_schedule
    enter: staff_schedule \
    click save
 5. click on database name and open query tool with mouse click or with __CTRL + SHIFT + Q__
-6. open downloaded repo. \
+6. open downloaded repo.
 7. go to staff_schedule -> server -> SQL
 8. Simply drag file __schema.sql__ into query tool into pgadmin or copy text from it there. Press execute with F5.\
 Make the same with __prepared_test_insertion_statement.sql__, __views.sql__ files.
