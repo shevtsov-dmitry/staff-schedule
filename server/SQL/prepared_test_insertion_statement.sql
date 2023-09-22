@@ -82,13 +82,13 @@ VALUES (1,'09:00:00', '18:00:00'),
 -- employee_shiftSchedule
 INSERT INTO employee_shiftSchedule (employee_id, shift_schedule_id)
 VALUES (1, 1),
-       (1, 2),
+       (2, 2),
        (3, 1),
-       (3, 1),
-       (2, 6),
-       (1, 6),
-       (1, 1),
-       (6, 1);
+       (4, 1),
+       (5, 6),
+       (6, 6),
+       (7, 1),
+       (8, 1);
 
 INSERT INTO admins(login, password)
 VALUES ('admin', 'admin'),
