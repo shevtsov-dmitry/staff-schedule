@@ -760,7 +760,7 @@ btnDownloadReport.addEventListener('click', ()=>{
             // Create a temporary <a> element to trigger the download
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'data.csv'; // Specify the desired file name
+            a.download = 'отчет.csv'; // Specify the desired file name
             document.body.appendChild(a);
 
             // Trigger the click event on the <a> element to start the download
