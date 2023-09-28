@@ -24,6 +24,7 @@ const {updateEmployeeSalaryWithStoredProcedure} = require("./POST/updateEmployee
 const {getEmployeeNamesAndTheirShifts} = require("./GET/getEmployeeNamesAndTheirShifts");
 const {Parser} = require("@json2csv/plainjs");
 const {parseCSV, downloadReport} = require("./UTILS/parseCSVreport");
+const {downloadTXTReport} = require("./UTILS/parseTXTreport");
 const app = express();
 
 // * ------ CORS POLICY ------
@@ -62,6 +63,7 @@ updateEmployeeSalaryWithStoredProcedure(app, client)
 
 // *** CSV PARSER
 downloadReport(app, client)
+downloadTXTReport(app, client)
 
 // * ------ RUN APP ------
 app.listen(3000, () => {
