@@ -23,7 +23,7 @@ const {changeEmployeeSalary} = require("./POST/changeEmployeeSalary");
 const {updateEmployeeSalaryWithStoredProcedure} = require("./POST/updateEmployeeSalaryWithStoredProcedure");
 const {getEmployeeNamesAndTheirShifts} = require("./GET/getEmployeeNamesAndTheirShifts");
 const {Parser} = require("@json2csv/plainjs");
-const {parseCSV, downloadReport} = require("./UTILS/parseCSVreport");
+const {downloadCSVReport} = require("./UTILS/parseCSVreport");
 const {downloadTXTReport} = require("./UTILS/parseTXTreport");
 const app = express();
 
@@ -61,8 +61,8 @@ assignEmployeeToShift(app, client)
 changeEmployeeSalary(app, client)
 updateEmployeeSalaryWithStoredProcedure(app, client)
 
-// *** CSV PARSER
-downloadReport(app, client)
+// *** DOWNLOADS
+downloadCSVReport(app, client)
 downloadTXTReport(app, client)
 
 // * ------ RUN APP ------
