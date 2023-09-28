@@ -9,7 +9,7 @@
 4. install npm and node js
    - `sudo apt update`
    - `sudo apt install npm`
-   - `sudo apt install node`
+   - `sudo apt install nodejs`
 5. install pgadmin4
     - `sudo apt install curl`
     - `sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add`
