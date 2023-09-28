@@ -302,12 +302,16 @@ body {
 .download-report-btn {
   display: none;
   width: fit-content;
-  margin-left: 60px;
 }
 
 .blue-white-on-hover:hover {
   background-color: #1982c4;
   color: white;
+}
+
+.download-btns-block {
+  margin-left: 60px;
+  display: flex;
 }
 
 /*# sourceMappingURL=style.css.map */
