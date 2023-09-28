@@ -714,9 +714,9 @@ function translateColumnNameIntoRussian(element) {
 
 // compose report
 
-const reportComposeBtn = document.querySelector('.btn-report-employees-and-shifts')
+const reportComposeBtn = document.querySelector('#btn-report-employees-and-shifts')
 const reportTableDOM = document.querySelector('.report-table')
-const btnDownloadReport = document.querySelector('.download-report-btn')
+const btnDownloadCSVreport = document.querySelector('#download-report-csv-btn')
 
 let reportBtnPressCounter = 0
 reportComposeBtn.addEventListener('click', () => {
@@ -743,11 +743,11 @@ reportComposeBtn.addEventListener('click', () => {
             })
         })
 
-//      display @btnDownloadReport
-        btnDownloadReport.style.display = "block"
+//      display @btnDownloadCSVreport
+        btnDownloadCSVreport.style.display = "block"
 })
 
-btnDownloadReport.addEventListener('click', ()=>{
+btnDownloadCSVreport.addEventListener('click', ()=>{
     fetch(`${host}/get-csv-report`,{
             method: "GET",
             headers: {'Content-Type': 'application/json '},
