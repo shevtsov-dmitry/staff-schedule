@@ -716,7 +716,13 @@ function translateColumnNameIntoRussian(element) {
 
 const reportComposeBtn = document.querySelector('#btn-report-employees-and-shifts')
 const reportTableDOM = document.querySelector('.report-table')
+
 const btnDownloadCSVreport = document.querySelector('#download-report-csv-btn')
+const btnDownloadTXTreport = document.querySelector("#download-report-txt-btn")
+const DownloadFormat = {
+    CSV: 'CSV',
+    TXT: 'TXT'
+}
 
 let reportBtnPressCounter = 0
 reportComposeBtn.addEventListener('click', () => {
@@ -743,14 +749,35 @@ reportComposeBtn.addEventListener('click', () => {
             })
         })
 
-//      display @btnDownloadCSVreport
+//      display @btnDownloadCSVreport and @btnDownloadTXTreport
         btnDownloadCSVreport.style.display = "block"
+        btnDownloadTXTreport.style.display = "block"
 })
 
-btnDownloadCSVreport.addEventListener('click', ()=>{
-    fetch(`${host}/get-csv-report`,{
-            method: "GET",
-            headers: {'Content-Type': 'application/json '},
+/*
+* @param URLmethod type: string
+* @param downloadFileFormat type: DownloadFormat
+* */
+const downloadFile = (downloadFileFormat)=>{
+    let url = ""
+    let fileName = ""
+    switch (downloadFileFormat){
+        case DownloadFormat.CSV: {
+            url = "get-csv-report"
+            fileName = "отчет.csv"
+            break;
+        }
+
+        case DownloadFormat.TXT: {
+            url = "get-txt-report"
+            fileName = "отчет.txt"
+            break;
+        }
+        default: url = ""
+    }
+    fetch(`${host}/${url}`,{
+        method: "GET",
+        headers: {'Content-Type': 'application/json '},
     })
         .then(res => res.blob())
         .then(blob => {
@@ -760,7 +787,7 @@ btnDownloadCSVreport.addEventListener('click', ()=>{
             // Create a temporary <a> element to trigger the download
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'отчет.csv'; // Specify the desired file name
+            a.download = fileName; // Specify the desired file name
             document.body.appendChild(a);
 
             // Trigger the click event on the <a> element to start the download
@@ -772,4 +799,6 @@ btnDownloadCSVreport.addEventListener('click', ()=>{
         .catch(error => {
             console.error('File download failed:', error);
         });
-})
+}
+btnDownloadCSVreport.addEventListener('click', () => downloadFile(DownloadFormat.CSV))
+btnDownloadTXTreport.addEventListener('click', ()=> downloadFile(DownloadFormat.TXT))
