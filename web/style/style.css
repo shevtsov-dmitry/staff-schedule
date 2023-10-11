@@ -178,6 +178,10 @@ body {
   background-color: #1982c4;
   color: white;
 }
+.use-procedure:active {
+  background-color: #06d6a0;
+  color: white;
+}
 
 .plus-and-minus {
   display: flex;
@@ -296,6 +300,10 @@ body {
 #btn-report-employees-and-shifts {
   margin: 0 0 10px 60px;
 }
+#btn-report-employees-and-shifts:active {
+  background-color: #06d6a0;
+  color: white;
+}
 
 .report-employees-and-shifts {
   display: flex;
@@ -313,7 +321,7 @@ body {
 
 #download-report-btn {
   margin-right: 10px;
-  display: block;
+  display: none;
   width: fit-content;
   height: fit-content;
 }
