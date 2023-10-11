@@ -717,25 +717,18 @@ function translateColumnNameIntoRussian(element) {
 const reportComposeBtn = document.querySelector('#btn-report-employees-and-shifts')
 const reportTableDOM = document.querySelector('.report-table')
 
-// const btnDownloadCSVreport = document.querySelector('#download-report-csv-btn')
-// const btnDownloadTXTreport = document.querySelector("#download-report-txt-btn")
 const btnDownloadReport = document.querySelector('#download-report-btn')
 const ulDownloadFormats = document.querySelector('.ul-download-formats')
 
-btnDownloadReport.addEventListener('click', ()=> {
+btnDownloadReport.addEventListener('click', () => {
     ulDownloadFormats.style.display = 'block'
 })
-
-const DownloadFormat = {
-    CSV: 'CSV',
-    TXT: 'TXT'
-}
 
 // this element is needed to not dupe report each time @reportComposeBtn pressed
 let reportBtnPressCounter = 0
 reportComposeBtn.addEventListener('click', () => {
     // delete old table if pressed again
-    if(reportBtnPressCounter === 1){
+    if (reportBtnPressCounter === 1) {
         reportTableDOM.rootElement.style.display = 'none'
 
     }
@@ -757,33 +750,34 @@ reportComposeBtn.addEventListener('click', () => {
             })
         })
 
-//      display @btnDownloadCSVreport and @btnDownloadTXTreport
-//         btnDownloadCSVreport.style.display = "block"
-//         btnDownloadTXTreport.style.display = "block"
 })
 
 /*
 * @param URLmethod type: string
 * @param downloadFileFormat type: DownloadFormat
 * */
-const downloadFile = (downloadFileFormat)=>{
-    let url = ""
+const downloadFile = (fileExtensionName) => {
+    let url = "download-report-in-format?format="
     let fileName = ""
-    switch (downloadFileFormat){
-        case DownloadFormat.CSV: {
-            url = "get-csv-report"
-            fileName = "отчет.csv"
-            break;
-        }
+    if (fileExtensionName.includes("CSV")) {
+        url += "csv"
+        fileName = "отчет.csv"
+    } else if (fileExtensionName.includes("TXT")) {
+        url += "txt"
+        fileName = "отчет.txt"
 
-        case DownloadFormat.TXT: {
-            url = "get-txt-report"
-            fileName = "отчет.txt"
-            break;
-        }
-        default: url = ""
+    } else if (fileExtensionName.includes("JSON")) {
+        url += "json"
+        fileName = "отчет.json"
+
+    } else if (fileExtensionName.includes("XML")) {
+        url += "xml"
+        fileName = "отчет.xml"
+
+    } else {
+        url = ""
     }
-    fetch(`${host}/${url}`,{
+    fetch(`${host}/${url}`, {
         method: "GET",
         headers: {'Content-Type': 'application/json '},
     })
@@ -809,3 +803,8 @@ const downloadFile = (downloadFileFormat)=>{
         });
 }
 
+for (let child of ulDownloadFormats.children) {
+    child.addEventListener('click', ()=> {
+        downloadFile(child.textContent)
+    })
+}
