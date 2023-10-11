@@ -117,9 +117,8 @@ body {
 }
 
 .beautiful-button-style {
-  margin-top: 8px;
-  margin-right: 5px;
   border: none;
+  width: fit-content;
   background-color: #fffffc;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
   border-radius: 3px;
@@ -294,23 +293,33 @@ body {
     font-size: 70%;
   }
 }
+#btn-report-employees-and-shifts {
+  margin: 0 0 10px 60px;
+}
+
 .report-employees-and-shifts {
   display: flex;
   flex-direction: column;
-}
-
-#btn-report-employees-and-shifts {
-  width: fit-content;
-  margin: 0 0 10px 60px;
 }
 
 .report-table {
   margin-left: 60px;
 }
 
-.download-report-btn {
-  display: none;
+.download-btns-block {
+  margin: 10px 0 0 60px;
+  display: flex;
+}
+
+#download-report-btn {
+  margin-right: 10px;
+  display: block;
   width: fit-content;
+  height: fit-content;
+}
+#download-report-btn:active {
+  background-color: #06d6a0;
+  color: white;
 }
 
 .blue-white-on-hover:hover {
@@ -318,9 +327,22 @@ body {
   color: white;
 }
 
-.download-btns-block {
-  margin-left: 60px;
-  display: flex;
+.ul-download-formats {
+  font-family: monospace;
+  font-weight: bolder;
+  margin: 0;
+  width: fit-content;
+  list-style: none;
+  padding: 0;
+}
+
+.li-download-formats {
+  user-select: none;
+  padding: 0 5px;
+}
+.li-download-formats:active {
+  background-color: #06d6a0;
+  color: white;
 }
 
 /*# sourceMappingURL=style.css.map */
