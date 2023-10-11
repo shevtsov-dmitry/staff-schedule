@@ -192,7 +192,7 @@ body {
 }
 
 .procedures-ul {
-  display: compact;
+  display: block;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   width: fit-content;
   margin: 0;
@@ -339,7 +339,7 @@ body {
   display: none;
   font-family: monospace;
   font-weight: bolder;
-  margin: 0;
+  margin: 0 10px 0 0;
   width: fit-content;
   list-style: none;
   padding: 0;
@@ -359,6 +359,7 @@ footer {
 }
 
 #btn-download-with-timer {
+  display: none;
   width: fit-content;
   height: fit-content;
 }

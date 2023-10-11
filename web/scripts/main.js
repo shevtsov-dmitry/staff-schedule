@@ -720,6 +720,9 @@ const reportTableDOM = document.querySelector('.report-table')
 const btnDownloadReport = document.querySelector('#download-report-btn')
 const ulDownloadFormats = document.querySelector('.ul-download-formats')
 
+const btnActivateTimer = document.querySelector("#btn-download-with-timer")
+
+
 let countTimesBtnDownloadReportClicked = 0
 btnDownloadReport.addEventListener('click', () => {
     countTimesBtnDownloadReportClicked++;
@@ -738,9 +741,10 @@ reportComposeBtn.addEventListener('click', () => {
     // delete old table if pressed again
     if (reportBtnPressCounter === 1) {
         reportTableDOM.rootElement.style.display = 'none'
-
     }
     reportBtnPressCounter++
+
+    btnActivateTimer.style.display = 'block'
 
     fetch(`${host}/get-employees-names-and-their-shifts`, {
         method: "GET",
@@ -820,7 +824,6 @@ for (let child of ulDownloadFormats.children) {
 }
 
 // download with timer
-const btnActivateTimer = document.querySelector("#btn-download-with-timer")
 const timerInHtml = document.querySelector("#timer")
 
 let timesBtnActivateTimerWasClicked = 0
