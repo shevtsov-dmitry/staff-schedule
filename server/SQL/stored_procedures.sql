@@ -14,7 +14,7 @@ $$
 BEGIN
     -- Обновление таблицы shift_schedule для установки идентификатора сотрудника для указанной смены.
     -- Это связывает сотрудника (p_employee_id) со сменой (p_shift_id).
-    UPDATE shift_schedule
+    UPDATE employee_shiftschedule
     SET employee_id = p_employee_id
     WHERE shift_schedule_id = p_shift_id;
 END;
