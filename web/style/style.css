@@ -111,6 +111,11 @@ body {
   margin: 0;
 }
 
+.secondary-option {
+  margin-left: -7px;
+  height: fit-content;
+}
+
 .beautiful-button-style {
   margin-top: 8px;
   margin-right: 5px;
