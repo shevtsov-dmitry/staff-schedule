@@ -748,6 +748,8 @@ reportComposeBtn.addEventListener('click', () => {
                 height: 'auto',
                 licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
             })
+
+            btnDownloadReport.style.display = "block"
         })
 
 })

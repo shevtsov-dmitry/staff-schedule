@@ -216,6 +216,8 @@ $mutual-button-color: #fffffc;
     background-color: #1982c4;
     color: white;
   }
+
+  @include green-on-click;
 }
 
 .plus-and-minus {
@@ -362,6 +364,8 @@ $mutual-button-color: #fffffc;
 
 #btn-report-employees-and-shifts {
   margin: 0 0 10px $start-margin;
+
+  @include green-on-click;
 }
 
 // report table div styles
@@ -385,7 +389,7 @@ $mutual-button-color: #fffffc;
 
 #download-report-btn {
   margin-right: 10px;
-  display: block;
+  display: none;
   width: fit-content;
   height: fit-content;
   @include green-on-click;
