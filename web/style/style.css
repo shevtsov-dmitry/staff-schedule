@@ -112,8 +112,8 @@ body {
 }
 
 .secondary-option {
-  margin-left: -7px;
   height: fit-content;
+  width: fit-content;
 }
 
 .beautiful-button-style {
@@ -192,7 +192,7 @@ body {
   display: compact;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   width: fit-content;
-  margin: 0 13px 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
   background-color: #fffffc;
@@ -227,7 +227,7 @@ body {
 }
 
 .employees-div {
-  margin: 0;
+  margin: 0 15px;
   padding: 0;
 }
 
