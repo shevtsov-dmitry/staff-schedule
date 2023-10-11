@@ -249,9 +249,15 @@ $mutual-button-color: #fffffc;
     }
 
     &:hover {
-      background-color: blue;
+      background-color: #1982c4;
       color: white;
       cursor: pointer;
+    }
+
+    &:active {
+      background-color: #06d6a0;
+      //color: white;
+      color: white;
     }
   }
 }

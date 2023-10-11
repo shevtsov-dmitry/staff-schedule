@@ -215,9 +215,13 @@ body {
   padding-bottom: 5px;
 }
 .procedures-ul li:hover {
-  background-color: blue;
+  background-color: #1982c4;
   color: white;
   cursor: pointer;
+}
+.procedures-ul li:active {
+  background-color: #06d6a0;
+  color: white;
 }
 
 .procedures-flex-view {
