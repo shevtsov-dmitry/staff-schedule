@@ -9,6 +9,15 @@ body {
 
 $start-margin: 60px;
 $mutual-button-color: #fffffc;
+
+@mixin green-on-click {
+  &:active {
+    background-color: #06d6a0;
+    color: white;
+  }
+}
+
+
 .title {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0 0 0px $start-margin;
@@ -131,16 +140,15 @@ $mutual-button-color: #fffffc;
   }
 }
 
-.secondary-option{
+.secondary-option {
   height: fit-content;
   width: fit-content;
 }
 
 
 .beautiful-button-style {
-  margin-top: 8px;
-  margin-right: 5px;
   border: none;
+  width: fit-content;
   background-color: $mutual-button-color;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
   border-radius: 3px;
@@ -208,6 +216,8 @@ $mutual-button-color: #fffffc;
     background-color: #1982c4;
     color: white;
   }
+
+  @include green-on-click;
 }
 
 .plus-and-minus {
@@ -254,11 +264,7 @@ $mutual-button-color: #fffffc;
       cursor: pointer;
     }
 
-    &:active {
-      background-color: #06d6a0;
-      //color: white;
-      color: white;
-    }
+    @include green-on-click;
   }
 }
 
@@ -356,41 +362,63 @@ $mutual-button-color: #fffffc;
   }
 }
 
+#btn-report-employees-and-shifts {
+  margin: 0 0 10px $start-margin;
+  @include green-on-click;
+}
+
 // report table div styles
-.report-employees-and-shifts{
+.report-employees-and-shifts {
   display: flex;
   flex-direction: column;
 
 }
 
-#btn-report-employees-and-shifts{
-  width: fit-content;
-  margin: 0 0 10px $start-margin ;
-
-}
-
-.report-table{
+.report-table {
   margin-left: $start-margin;
 }
 
-.download-report-btn {
+
+
+.download-btns-block {
+  margin: 10px 0 0 $start-margin;
+  display: flex;
+
+}
+
+#download-report-btn {
+  margin-right: 10px;
   display: none;
   width: fit-content;
-
-
+  height: fit-content;
+  @include green-on-click;
   //display: none // will show this btn when @btn-report-employees-and-shifts clicked
 
 }
 
-.blue-white-on-hover{
-  &:hover{
+.blue-white-on-hover {
+  &:hover {
     background-color: #1982c4;
     color: white;
   }
 }
 
-.download-btns-block{
-  margin-left: $start-margin;
-  display: flex;
+.ul-download-formats {
+  display: none;
+  font-family: monospace;
+  font-weight: bolder;
+  margin: 0;
+  width: fit-content;
+  list-style: none;
+  padding: 0;
+}
 
+.li-download-formats {
+  user-select: none;
+  padding: 0 5px;
+  @include green-on-click;
+}
+
+footer{
+  height: 10vh;
 }
