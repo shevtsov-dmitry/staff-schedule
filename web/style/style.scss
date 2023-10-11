@@ -422,3 +422,15 @@ $mutual-button-color: #fffffc;
 footer{
   height: 10vh;
 }
+
+#btn-download-with-timer{
+  width: fit-content;
+  height: fit-content;
+
+  @include green-on-click
+}
+
+#timer{
+  margin: 0 0 0 10px;
+  font-family: monospace;
+}

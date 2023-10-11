@@ -358,4 +358,18 @@ footer {
   height: 10vh;
 }
 
+#btn-download-with-timer {
+  width: fit-content;
+  height: fit-content;
+}
+#btn-download-with-timer:active {
+  background-color: #06d6a0;
+  color: white;
+}
+
+#timer {
+  margin: 0 0 0 10px;
+  font-family: monospace;
+}
+
 /*# sourceMappingURL=style.css.map */
