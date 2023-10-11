@@ -717,17 +717,25 @@ function translateColumnNameIntoRussian(element) {
 const reportComposeBtn = document.querySelector('#btn-report-employees-and-shifts')
 const reportTableDOM = document.querySelector('.report-table')
 
-const btnDownloadCSVreport = document.querySelector('#download-report-csv-btn')
-const btnDownloadTXTreport = document.querySelector("#download-report-txt-btn")
+// const btnDownloadCSVreport = document.querySelector('#download-report-csv-btn')
+// const btnDownloadTXTreport = document.querySelector("#download-report-txt-btn")
+const btnDownloadReport = document.querySelector('#download-report-btn')
+const ulDownloadFormats = document.querySelector('.ul-download-formats')
+
+btnDownloadReport.addEventListener('click', ()=> {
+    ulDownloadFormats.style.display = 'block'
+})
+
 const DownloadFormat = {
     CSV: 'CSV',
     TXT: 'TXT'
 }
 
+// this element is needed to not dupe report each time @reportComposeBtn pressed
 let reportBtnPressCounter = 0
 reportComposeBtn.addEventListener('click', () => {
     // delete old table if pressed again
-    if(reportBtnPressCounter == 1){
+    if(reportBtnPressCounter === 1){
         reportTableDOM.rootElement.style.display = 'none'
 
     }
@@ -750,8 +758,8 @@ reportComposeBtn.addEventListener('click', () => {
         })
 
 //      display @btnDownloadCSVreport and @btnDownloadTXTreport
-        btnDownloadCSVreport.style.display = "block"
-        btnDownloadTXTreport.style.display = "block"
+//         btnDownloadCSVreport.style.display = "block"
+//         btnDownloadTXTreport.style.display = "block"
 })
 
 /*
@@ -800,5 +808,4 @@ const downloadFile = (downloadFileFormat)=>{
             console.error('File download failed:', error);
         });
 }
-btnDownloadCSVreport.addEventListener('click', () => downloadFile(DownloadFormat.CSV))
-btnDownloadTXTreport.addEventListener('click', ()=> downloadFile(DownloadFormat.TXT))
+
