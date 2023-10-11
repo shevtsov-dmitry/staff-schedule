@@ -720,8 +720,16 @@ const reportTableDOM = document.querySelector('.report-table')
 const btnDownloadReport = document.querySelector('#download-report-btn')
 const ulDownloadFormats = document.querySelector('.ul-download-formats')
 
+let countTimesBtnDownloadReportClicked = 0
 btnDownloadReport.addEventListener('click', () => {
-    ulDownloadFormats.style.display = 'block'
+    countTimesBtnDownloadReportClicked++;
+    if(countTimesBtnDownloadReportClicked < 2){
+        ulDownloadFormats.style.display = 'block'
+    } else {
+        ulDownloadFormats.style.display = 'none'
+        countTimesBtnDownloadReportClicked = 0
+
+    }
 })
 
 // this element is needed to not dupe report each time @reportComposeBtn pressed
