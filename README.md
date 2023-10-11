@@ -51,7 +51,7 @@ Make the same with __prepared_test_insertion_statement.sql__, __views.sql__ file
 `cd /staff_schedule/server`
 3. run commands
    - `sudo npm install -g nodemon`
-   - `npm install @json2csv/plainjs body-parser cors express pg`
+   - `npm install @json2csv/plainjs body-parser cors express pg jstoxml`
 4. move one folder back and into web
 5. run commands
    - `sudo npm install -g vite`
