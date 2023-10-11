@@ -723,7 +723,7 @@ const ulDownloadFormats = document.querySelector('.ul-download-formats')
 let countTimesBtnDownloadReportClicked = 0
 btnDownloadReport.addEventListener('click', () => {
     countTimesBtnDownloadReportClicked++;
-    if(countTimesBtnDownloadReportClicked < 2){
+    if (countTimesBtnDownloadReportClicked < 2) {
         ulDownloadFormats.style.display = 'block'
     } else {
         ulDownloadFormats.style.display = 'none'
@@ -814,7 +814,37 @@ const downloadFile = (fileExtensionName) => {
 }
 
 for (let child of ulDownloadFormats.children) {
-    child.addEventListener('click', ()=> {
+    child.addEventListener('click', () => {
         downloadFile(child.textContent)
     })
 }
+
+// download with timer
+const btnActivateTimer = document.querySelector("#btn-download-with-timer")
+const timerInHtml = document.querySelector("#timer")
+
+let timesBtnActivateTimerWasClicked = 0
+btnActivateTimer.addEventListener("click", () => {
+    if(timesBtnActivateTimerWasClicked < 1){
+        const updateEveryHowMuchSeconds = 15
+        let countdown = updateEveryHowMuchSeconds
+        setInterval(() => {
+            updateCountdown()
+        }, 1000);
+        function updateCountdown() {
+            timerInHtml.innerHTML = `${countdown}`;
+            countdown--;
+            if (countdown === -1) {
+                countdown = updateEveryHowMuchSeconds
+                downloadFile("CSV")
+            }
+
+
+
+        }
+    }
+    timesBtnActivateTimerWasClicked++;
+
+})
+
+
