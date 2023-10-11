@@ -1,3 +1,5 @@
+const { toXML } = require("jstoxml");
+
 // constructors
 function Employee(firstName, lastName) {
     this.firstName = firstName
@@ -20,6 +22,7 @@ function downloadXMLorJSONreport(app, client) {
     app.get("/download-report-in-format", (req, res) => {
         const format = req.query.format
         //create JSON object
+        // TODO hardcoded shift values. Better to change as incoming params
         const QUERY = `SELECT *
                        FROM show_employees_shifts
                        WHERE shift_start_time = '09:00:00'
@@ -46,7 +49,7 @@ function downloadXMLorJSONreport(app, client) {
                     break
                 }
                 case "xml": {
-
+                    res.send(toXML(answerObject))
                     break
                 }
             }
