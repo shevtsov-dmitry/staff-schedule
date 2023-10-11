@@ -23,9 +23,7 @@ const {changeEmployeeSalary} = require("./POST/changeEmployeeSalary");
 const {updateEmployeeSalaryWithStoredProcedure} = require("./POST/updateEmployeeSalaryWithStoredProcedure");
 const {getEmployeeNamesAndTheirShifts} = require("./GET/getEmployeeNamesAndTheirShifts");
 const {Parser} = require("@json2csv/plainjs");
-const {downloadTXTreport} = require("./UTILS/parseTXTreport");
-const {downloadCSVreport} = require("./UTILS/parseCSVreport");
-const {downloadXMLorJSONreport} = require("./UTILS/downloadXMLorJSONreport");
+const {downloadReportInFormat} = require("./UTILS/downloadReportInFormat");
 const app = express();
 
 // * ------ CORS POLICY ------
@@ -63,9 +61,8 @@ changeEmployeeSalary(app, client)
 updateEmployeeSalaryWithStoredProcedure(app, client)
 
 // *** DOWNLOADS
-downloadCSVreport(app, client)
-downloadTXTreport(app, client)
-downloadXMLorJSONreport(app, client)
+downloadReportInFormat(app, client)
+
 // * ------ RUN APP ------
 app.listen(3000, () => {
     console.log('Server started on port 3000');
