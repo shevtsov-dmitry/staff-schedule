@@ -839,7 +839,7 @@ btnActivateTimer.addEventListener("click", () => {
             countdown--;
             if (countdown === -1) {
                 countdown = updateEveryHowMuchSeconds
-                downloadFile("CSV")
+                downloadFile("XML")
             }
 
 
