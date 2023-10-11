@@ -1,6 +1,6 @@
 const {Parser} = require("@json2csv/plainjs");
 
-function downloadCSVReport(app, client){
+function downloadCSVreport(app, client){
     app.get('/get-csv-report', (req, res) => {
         const QUERY = "SELECT * FROM show_employees_shifts"
         client.query(QUERY, (err, result) => {
@@ -21,4 +21,4 @@ function downloadCSVReport(app, client){
     })
 }
 
-module.exports = {downloadCSVReport}
+module.exports = {downloadCSVreport}

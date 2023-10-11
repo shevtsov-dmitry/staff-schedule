@@ -23,8 +23,9 @@ const {changeEmployeeSalary} = require("./POST/changeEmployeeSalary");
 const {updateEmployeeSalaryWithStoredProcedure} = require("./POST/updateEmployeeSalaryWithStoredProcedure");
 const {getEmployeeNamesAndTheirShifts} = require("./GET/getEmployeeNamesAndTheirShifts");
 const {Parser} = require("@json2csv/plainjs");
-const {downloadCSVReport} = require("./UTILS/parseCSVreport");
-const {downloadTXTReport} = require("./UTILS/parseTXTreport");
+const {downloadTXTreport} = require("./UTILS/parseTXTreport");
+const {downloadCSVreport} = require("./UTILS/parseCSVreport");
+const {downloadXMLorJSONreport} = require("./UTILS/downloadXMLorJSONreport");
 const app = express();
 
 // * ------ CORS POLICY ------
@@ -43,11 +44,11 @@ app.use(bodyParser.json())
 getTableNames(app, client)
 getColumnNames(app, client)
 getAllDataFromTable(app, client)
-getEmployees(app,client)
-getDepartmentNames(app,client)
-getAvailableEmployees(app,client)
+getEmployees(app, client)
+getDepartmentNames(app, client)
+getAvailableEmployees(app, client)
 getShiftsTime(app, client)
-getEmployeeSalaryAndBonusCoefficient(app,client)
+getEmployeeSalaryAndBonusCoefficient(app, client)
 findEmployeeIdByName(app, client)
 getEmployeeNamesAndTheirShifts(app, client)
 
@@ -62,9 +63,9 @@ changeEmployeeSalary(app, client)
 updateEmployeeSalaryWithStoredProcedure(app, client)
 
 // *** DOWNLOADS
-downloadCSVReport(app, client)
-downloadTXTReport(app, client)
-
+downloadCSVreport(app, client)
+downloadTXTreport(app, client)
+downloadXMLorJSONreport(app, client)
 // * ------ RUN APP ------
 app.listen(3000, () => {
     console.log('Server started on port 3000');
