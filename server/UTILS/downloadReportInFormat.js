@@ -56,7 +56,11 @@ function downloadReportInFormat(app, client) {
                 case "xml": {
                     res.setHeader('Content-Type', 'text/xml');
                     res.setHeader('Content-Disposition', 'attachment; filename="report.csv"');
-                    res.send(toXML(answerObject))
+                    const XML = `<?xml version="1.0" encoding="UTF-8" ?>
+                                        <root>
+                                            ${toXML(answerObject)}
+                                        </root>`;
+                    res.send(XML)
                     break
                 }
                 case "csv": {
