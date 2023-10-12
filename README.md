@@ -6,12 +6,14 @@
 `git clone https://github.com/shevtsov-dmitry/staff_schedule.git`
 3. install posgtreSQL\
 `sudo apt install postgresql`
-4. install npm and node js
+4. install curl
+   - `sudo apt install curl`
+6. install npm and node js (latest LTS version)
    - `sudo apt update`
-   - `sudo apt install npm`
-   - `sudo apt install nodejs`
-5. install pgadmin4
-    - `sudo apt install curl`
+   - `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash`
+   - `source ~/.bashrc`
+   - `nvm install v18.18.1`
+7. install pgadmin4
     - `sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add`
     - `sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && sudo apt update'`
     - `sudo apt install pgadmin4 -y`
