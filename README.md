@@ -1,73 +1,61 @@
-## launch on ubuntu
+## launch on ubuntu/debian
 ### install software
 1. install git \
-`sudo apt install git` 
+`sudo apt install git`
 2. clone repo anywhere you want \
 `git clone https://github.com/shevtsov-dmitry/staff-schedule.git`
 3. install posgtreSQL\
 `sudo apt install postgresql`
-4. install curl
-   - `sudo apt install curl`
-6. install npm and node js (latest LTS version)
-   - `sudo apt update`
-   - `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash`
-   - `source ~/.bashrc`
-   - `nvm install v18.18.1`
-7. install pgadmin4
-    - `sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add`
-    - `sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && sudo apt update'`
-    - `sudo apt install pgadmin4 -y`
+4. install curl \
+   `sudo apt install curl`
+5. install npm and node js (latest LTS version) 
+   * `sudo apt update` 
+   * `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash` 
+   * `source ~/.bashrc` 
+   * `nvm install v18.18.1` 
 
 ### change database user password
 1. make sure database is running (should be active) \
  `systemctl status postgresql`
-2. enter database with administrator rules \
+2. enter database with sudo rules \
    `sudo -u postgres psql`
-3. change main user (postgres) password. Contain your password into braces __' '__  In my case it is __123123__ \
+3. change postgres user password. Initially it set to 123123. \
+If you **want to change** user credentials you should modify database autoconfig bash script _(look at the next step in this guide)_ \
  `ALTER USER postgres WITH PASSWORD '123123';` \
- on access you will see <u>ALTER USER</u>.
-4. exit posgteSQL CLI with __CTRL + Z__
+ on success you will see ALTER USER
+4. exit postgreSQL CLI with __CTRL + Z__
 
-### execute schema scripts in pgadmin4
-1. open pgadmin.
-2. click servers -> register -> server... \
-enter name: staff_schedule 
-3. click connection 
-   - enter host name/address: localhost
-   - enter password: 123123
-   - click: save password
-   - click save
-4. click  databases -> create database \
-   enter: staff_schedule \
-   click save
-5. click on database name and open query tool with mouse click or with __CTRL + SHIFT + Q__
-6. open downloaded repo.
-7. go to staff_schedule -> server -> SQL
-8. Simply drag file __schema.sql__ into query tool into pgadmin or copy text from it there. Press execute with F5.\
-Make the same with __prepared_test_insertion_statement.sql__, __views.sql__ files.
-9. You can close pgadmin. 
+### execute database autoconfig
+It will create database, fill it with schema, views, stored procedures and exemplary insert values.
+1. go to SQL folder \
+   `cd server/SQL`
+2. execute script \
+   `./launch-database-autoconfig.sh`
 
 ### download node.js dependencies
 1. open repo with terminal.
 2. go to server folder \
-`cd /staff_schedule/server`
-3. run commands
-   - `sudo npm install -g nodemon`
-   - `npm install @json2csv/plainjs body-parser cors express pg jstoxml`
-4. move one folder back and into web
-5. run commands
-   - `sudo npm install -g vite`
-   - `npm install handsontable`
+   `cd /server`
+3. install execution environment _(if some problems will occur in a future with launching try this command again **without sudo**)_ \
+   `sudo npm install -g nodemon`
+4. install dependencies \
+   `npm install @json2csv/plainjs body-parser cors express pg jstoxml`
+5. move one folder back and into web \
+   `cd ..`
+6. install execution environment _(if some problems will occur in a future with launching try this command again **without sudo**)_ \
+   `sudo npm install -g vite` 
+7. install dependencies \
+   `npm install handsontable`
 
 ### run project
 1. go to server folder. \
-`cd /staff_schedule/server`
+`cd /server`
 2. run command \
 `nodemon server.js` \
 you should see: server started on port 3000.
-3. __open new terminal__ (you can press + button on top-left corner).
+3. __open new terminal__ _(you can press + button on top-left corner to open new tab or pres **CTRL + SHIFT + T**)._
 4. go to web folder \
-   `cd /staff_schedule/web`
+   `cd /web`
 5. run command \
 `npm start`
 6. you will see that app successfully started.
