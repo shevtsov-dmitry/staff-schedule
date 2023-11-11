@@ -3,7 +3,7 @@
 1. install git \
 `sudo apt install git` 
 2. clone repo anywhere you want \
-`git clone https://github.com/shevtsov-dmitry/staff_schedule.git`
+`git clone https://github.com/shevtsov-dmitry/staff-schedule.git`
 3. install posgtreSQL\
 `sudo apt install postgresql`
 4. install curl
