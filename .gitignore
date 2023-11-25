@@ -16,3 +16,6 @@ server/package-lock.json
 ### CSS ###
 web/style/style.css.map
 web/style/authorization.css.map
+
+### CREDENTIALS ###
+configurations/EMAIL_CREDENTIALS.js
