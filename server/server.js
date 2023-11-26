@@ -63,7 +63,7 @@ downloadReportInFormat(app, client)
 
 // *** Email operations
 sendEmail(app)
-// getReportFromEmail(app)
+getReportFromEmail(app)
 
 
 // * ------ RUN APP ------
