@@ -2,13 +2,11 @@ const {Client} = require('pg')
 const bodyParser = require('body-parser')
 const express = require('express')
 const cors = require('cors')
-const {query} = require("express");
 const {getTableNames} = require("./GET/get-table-names");
 const {getColumnNames} = require("./GET/getColumnNames");
 const {getAllDataFromTable} = require("./GET/getAllDataFromTable");
 const {addEmptyRow} = require("./POST/addEmptyRow");
 const {deleteSelectedRows} = require("./POST/deleteSelectedRows");
-// const {deleteDepartment} = require("./POST/deleteDepartment")
 const {saveTable} = require("./POST/saveTable");
 const {verifyAdmin} = require("./POST/verifyAdmin");
 const {getEmployees} = require("./GET/get-employees");
@@ -22,8 +20,9 @@ const {findEmployeeIdByName} = require("./GET/findEmployeeIdByName");
 const {changeEmployeeSalary} = require("./POST/changeEmployeeSalary");
 const {updateEmployeeSalaryWithStoredProcedure} = require("./POST/updateEmployeeSalaryWithStoredProcedure");
 const {getEmployeeNamesAndTheirShifts} = require("./GET/getEmployeeNamesAndTheirShifts");
-const {Parser} = require("@json2csv/plainjs");
 const {downloadReportInFormat} = require("./UTILS/downloadReportInFormat");
+const {sendEmail} = require("./POST/sendEmail");
+const {getReportFromEmail} = require("./GET/getReportFromEmail");
 const app = express();
 
 // * ------ CORS POLICY ------
@@ -54,7 +53,6 @@ getEmployeeNamesAndTheirShifts(app, client)
 addEmptyRow(app, client)
 deleteSelectedRows(app, client)
 saveTable(app, client)
-// deleteDepartment(app, client)
 verifyAdmin(app, client)
 assignEmployeeToShift(app, client)
 changeEmployeeSalary(app, client)
@@ -62,6 +60,11 @@ updateEmployeeSalaryWithStoredProcedure(app, client)
 
 // *** DOWNLOADS
 downloadReportInFormat(app, client)
+
+// *** Email operations
+sendEmail(app)
+// getReportFromEmail(app)
+
 
 // * ------ RUN APP ------
 app.listen(3000, () => {
