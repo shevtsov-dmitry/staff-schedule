@@ -163,7 +163,7 @@ $mutual-button-color: #fffffc;
 }
 
 .bottom-buttons {
-  margin: 10px 0 0 $start-margin;
+  margin: 8px 0 0 $start-margin;
   display: flex;
   flex-direction: column;
 
@@ -229,9 +229,8 @@ $mutual-button-color: #fffffc;
 }
 
 .procedures-ul {
-
   display: block;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
   width: fit-content;
   margin: 0;
   padding: 0;
@@ -275,13 +274,13 @@ $mutual-button-color: #fffffc;
 
 $procedures-flex-view-display: none;
 .procedures-flex-view {
-  margin-top: 15px;
+  margin-top: 8px;
   display: $procedures-flex-view-display;
   width: 100%;
 }
 
 .employees-div {
-  margin: 0 15px;
+  margin: 0 10px;
   padding: 0;
 }
 
@@ -364,7 +363,7 @@ $procedures-flex-view-display: none;
 }
 
 #btn-report-employees-and-shifts {
-  margin: 0 0 10px $start-margin;
+  margin: -6px 0 10px $start-margin;
   @include green-on-click;
 
 }
