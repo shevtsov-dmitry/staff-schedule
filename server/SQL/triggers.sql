@@ -1,8 +1,6 @@
--- Триггер «check_shift_overlap»
 CREATE OR REPLACE FUNCTION check_shift_overlap()
 RETURNS TRIGGER AS $$
 BEGIN
-  -- Check for overlapping shifts within the same department and location
   IF EXISTS (
     SELECT 1
     FROM shift_schedule ss
@@ -29,21 +27,16 @@ CREATE TRIGGER shift_overlap_trigger
                          FOR EACH ROW
                          EXECUTE FUNCTION check_shift_overlap();
 
-
-
--- Триггер «prevent_department_deletion»
 CREATE OR REPLACE FUNCTION prevent_department_deletion()
 RETURNS TRIGGER AS $$
 DECLARE
 employee_count INTEGER;
     location_count INTEGER;
 BEGIN
-    -- Check if there are any employees referencing the department being deleted
 SELECT COUNT(*) INTO employee_count
 FROM employee
 WHERE department_id = OLD.department_id;
 
--- Check if there are any locations referencing the department being deleted
 SELECT COUNT(*) INTO location_count
 FROM location
 WHERE department_id = OLD.department_id;
@@ -61,16 +54,11 @@ CREATE TRIGGER trigger_prevent_department_deletion
     FOR EACH ROW
     EXECUTE FUNCTION prevent_department_deletion();
 
-
-
-
--- Триггер «auto_assign_shift_supervisor»
 CREATE OR REPLACE FUNCTION auto_assign_shift_supervisor()
 RETURNS TRIGGER AS $$
 DECLARE
 supervisor_id INTEGER;
 BEGIN
-    -- Retrieve the department manager's employee ID
 SELECT department_manager INTO supervisor_id
 FROM department
 WHERE department_id = (
@@ -79,7 +67,6 @@ WHERE department_id = (
     WHERE employee_id = NEW.employee_id
 );
 
--- Update the shift supervisor column with the department manager's name
 UPDATE shift_schedule
 SET shift_supervisor = (
     SELECT CONCAT(first_name, ' ', last_name)
@@ -97,30 +84,25 @@ CREATE TRIGGER assign_shift_supervisor_trigger
     FOR EACH ROW
     EXECUTE FUNCTION auto_assign_shift_supervisor();
 
-
-
--- Триггер «enforce_max_hours_per_week»
 CREATE OR REPLACE FUNCTION enforce_max_hours_per_week()
 RETURNS TRIGGER AS $$
 DECLARE
 total_hours numeric;
   max_hours_per_week numeric;
 BEGIN
-  -- Calculate the total number of hours scheduled for the employee in a week
 SELECT SUM(EXTRACT(HOUR FROM (ss.shift_end_time - ss.shift_start_time))) INTO total_hours
 FROM shift_schedule ss
 WHERE ss.employee_id = NEW.employee_id
   AND ss.date >= (NEW.date - interval '6 days')
   AND ss.date <= NEW.date;
 
--- Get the maximum hours per week allowed for the employee's position
 SELECT p.hours_per_week INTO max_hours_per_week
 FROM position p
 WHERE p.position_id = NEW.position_id;
 
--- Check if the total hours exceed the maximum hours per week
 IF total_hours > max_hours_per_week THEN
-    RAISE EXCEPTION 'Employee % has exceeded the maximum hours per week limit of %. Current total: %', NEW.employee_id, max_hours_per_week, total_hours;
+    RAISE EXCEPTION 'Employee % has exceeded the maximum hours per week limit of %. Current total: %',
+        NEW.employee_id, max_hours_per_week, total_hours;
 END IF;
 
 RETURN NEW;

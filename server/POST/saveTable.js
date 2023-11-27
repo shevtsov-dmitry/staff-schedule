@@ -2,8 +2,6 @@ function saveTable(app, client) {
     app.post('/save-table', (req, res) => {
         const requestData = req.body
         const table_name = requestData.pop()[0]
-        // console.log("request data");
-        // console.log(requestData);
         const query = `SELECT *
                        FROM ${table_name}`
         client.query(query, (err, result) => {
@@ -21,28 +19,19 @@ function saveTable(app, client) {
                     tempLoopValuesOfObject.push(objVal)
                 }
 
-
                 let shouldPush = false;
                 for (let j = 0; j < requestArrayData.length; j++) {
                     if (requestArrayData[j] !== tempLoopValuesOfObject[j]) shouldPush = true
                 }
 
-                if (shouldPush === true)
+                if (shouldPush === true){
                     valuesToChange.push(requestArrayData)
-
+                }
             }
 
-            // console.log(valuesToChange);
-
-            // const values = [['new', 'values'], 30]; // $1 is replaced with ['new', 'values'], $2 is replaced with 30
-            // const query = 'UPDATE $1 SET data_array = $2 WHERE id = $3';
-
             for (const array of valuesToChange) {
-
                 let composedQuery = ""
-
                 const id = array[0]
-
                 const qr =
                     `SELECT column_name, ordinal_position
                      FROM information_schema.columns

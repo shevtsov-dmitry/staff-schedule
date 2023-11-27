@@ -17,7 +17,6 @@ $mutual-button-color: #fffffc;
   }
 }
 
-
 .title {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0 0 0px $start-margin;
@@ -254,7 +253,7 @@ $mutual-button-color: #fffffc;
 
     &:last-child {
       border-radius: 0 0 5px 5px;
-      padding-bottom: 5px;;
+      padding-bottom: 5px;
     }
 
     &:hover {
@@ -392,7 +391,6 @@ $procedures-flex-view-display: none;
   width: fit-content;
   height: fit-content;
   @include green-on-click;
-  //display: none // will show this btn when @btn-report-employees-and-shifts clicked
 
 }
 

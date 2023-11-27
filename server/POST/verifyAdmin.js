@@ -1,10 +1,8 @@
 function verifyAdmin(app, client) {
     app.post(`/verify-admin`, (req, res) => {
         const data = req.body
-        console.log(data);
         const login = data.login
         const password = data.password
-        console.log(login + " \t" +  password)
         const query = `
             SELECT id
             FROM admins
@@ -22,9 +20,7 @@ function verifyAdmin(app, client) {
             else
                 res.send(true)
         })
-
     })
-
 }
 
 module.exports = {verifyAdmin}

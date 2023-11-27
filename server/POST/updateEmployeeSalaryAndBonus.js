@@ -5,15 +5,12 @@ function updateEmployeeSalaryAndBonus(app, client) {
 
         client.query(query, [employeeId, bonusCoefficient], (err, result) => {
             if (err) {
-                // Обрабатываем возможную ошибку здесь
-                console.error('Error:', err);
+                console.error('Произошла ошибка: ', err);
                 res.status(500).json({ error: 'An error occurred while updating the salary and bonus' });
             } else {
-                // Проверка результата
                 if (result.rowCount === 0) {
                     res.status(400).json({ message: 'Cannot perform the action' });
                 } else {
-                    // Successful operation
                     res.status(200).json({ message: 'Salary and bonus updated successfully' });
                 }
             }

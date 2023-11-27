@@ -1,7 +1,8 @@
 import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
 
-// placeholder table
+const host = 'http://localhost:3000'
+
 const placeholder_table = document.querySelector('.placeholder-table')
 let placeholder_hot = new Handsontable(placeholder_table, {
     data: [['', '', '', '', '', '', '', ''],
@@ -21,17 +22,12 @@ choose_table_btn.addEventListener('click', () => {
     table_names_list.style.display = "flex"
 })
 
-// show stored procedures
 const show_procedures_button = document.querySelector('.use-procedure')
 const procedures_ul = document.querySelector('.procedures-ul')
 const procedures_flex_view = document.querySelector('.procedures-flex-view')
 show_procedures_button.addEventListener('click', () => {
     procedures_flex_view.style.display = 'flex'
 })
-
-
-// actual table
-const host = 'http://localhost:3000'
 
 const container = document.querySelector('#table');
 const hot = new Handsontable(container, {
@@ -41,9 +37,6 @@ const hot = new Handsontable(container, {
     height: 'auto',
     licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
 });
-
-// fill the list with values which will be chosen by user to display certain table
-
 
 async function main() {
     // 1. get all table names
@@ -72,11 +65,6 @@ async function main() {
                 }
             }
 
-            // *3. For each name add event listener to make action to run
-            // *   function @constructTable(), which will create table,
-            // *   fill it with data, show column names, make interactions
-            // *   to add, delete, change rows and save it in database
-            // FIXME !!!!
             for (const name of table_names_list.children) {
 
                 name.addEventListener('click', () => {
@@ -89,8 +77,6 @@ async function main() {
                     }
                 })
             }
-
-
         })
 
 }
@@ -99,29 +85,12 @@ const save_btn = document.querySelector('#save')
 const add_row_btn = document.querySelector('.add-row')
 const remove_row_btn = document.querySelector('.remove-row')
 
-// function deleteSelectedRows(selectedRows) {
-//     // define and send two id values. between them content will be removed
-//     let start_row = selectedRows[0][0]
-//     let end_row = selectedRows[0][2]
-//     let id_value_start = hot.getDataAtCell(start_row, 0)
-//     let id_value_end = hot.getDataAtCell(end_row, 0)
-//     let array_to_send = [id_value_start, id_value_end]
-//
-//     fetch(`${host}/delete-selected-rows`, {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json '},
-//         body: JSON.stringify(array_to_send)
-//     })
-// }
-
-function fixDateIssue(data) {
+function formatDateToRULocale(data) {
     // Format date from redundant long UTC
     let chosenTableNames = []
     for (const obj in data[0]) {
         chosenTableNames.push(obj);
     }
-    // for employee table
-    // ! hardcoded
     if (chosenTableNames.includes('employee_id')
         && chosenTableNames[0] === 'employee_id'
         && !chosenTableNames.includes('shift_schedule_id')) {
@@ -129,7 +98,6 @@ function fixDateIssue(data) {
             data[dataKey].hire_date = data[dataKey].hire_date.replace("T21:00:00.000Z", "")
         }
     }
-
     chosenTableNames = []
 }
 
@@ -143,10 +111,7 @@ async function constructTable(table_name) {
         .then(async data => {
             await getColumnNames(table_name)
                 .then(col_names_array => {
-
-                    fixDateIssue(data);
-
-                    // add data and column headers to table
+                    formatDateToRULocale(data);
                     setTimeout(() => {
                         hot.updateSettings({
                             data: data,
@@ -154,11 +119,7 @@ async function constructTable(table_name) {
                         })
                     }, 200);
                 })
-
-            // @addEmptyRow() is event listener for button
             await addEmptyRow(table_name)
-
-            // preset send all data from table
             save_btn.addEventListener('click', () => {
                 let object = hot.getData()
                 let singletonArray = []
@@ -171,7 +132,6 @@ async function constructTable(table_name) {
                     body: dataToSend
 
                 }).then(() => location.reload())
-                // console.log(hot.getData());
 
             })
 
@@ -187,20 +147,12 @@ async function constructTable(table_name) {
                     hot.alter('insert_row_below', hot.countRows())
                 });
             }
-
-            // REMOVE row
-            // let selectedRows = [];
-            // remove_row_btn.addEventListener("mouseenter", () => {
-            //   selectedRows = hot.getSelected()
-            // });
             remove_row_btn.addEventListener('click', () => {
                 hot.alter('remove_row', hot.countRows() - 1)
             })
         });
 }
 
-
-// get column names
 async function getColumnNames(table_name) {
     let column_names = [];
     fetch(`${host}/get-column-names?table=${table_name}`, {
@@ -293,7 +245,6 @@ procedures_ul.children[0].addEventListener('click', () => {
                                         preparedHTML = preparedHTML.replace('Нынешняя', 'Новая')
                                         preparedHTML = preparedHTML.replace(`${current_salary}`, `${new_salary}`)
                                         count_new_salary.innerHTML = preparedHTML
-
 
                                         const change_salary_button = document.querySelector('.change-salary-button')
                                         change_salary_button.addEventListener('click', () => {
@@ -450,9 +401,7 @@ procedures_ul.children[2].addEventListener('click', () => {
 
 // * 4. get_available_employees
 procedures_ul.children[3].addEventListener('click', () => {
-    // TODO set different fetch
     fillLi(procedures_ul.children[3], `${host}/get-available-employees`)
-
 })
 
 // * 5. assign_employee_to_shift
@@ -503,8 +452,6 @@ procedures_ul.children[4].addEventListener('click', () => {
                             })
                         }
                     })
-
-
             })
         }
     }, 150)
@@ -512,7 +459,6 @@ procedures_ul.children[4].addEventListener('click', () => {
 
 
 const fillLi = (procedure_name, fetch_url) => {
-
     fetch(fetch_url, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
@@ -713,7 +659,6 @@ function translateColumnNameIntoRussian(element) {
 }
 
 // compose report
-
 const reportComposeBtn = document.querySelector("#btn-report-employees-and-shifts")
 const reportTableDOM = document.querySelector('.report-table')
 const emailOperationsDiv = document.querySelector(".email-operations-div")
@@ -733,9 +678,8 @@ btnDownloadReport.addEventListener('click', () => {
     }
 })
 
-// this element is needed to not dupe report each time @reportComposeBtn pressed
+// this element needed for not to dupe report each time @reportComposeBtn pressed
 let reportBtnPressCounter = 0
-
 function displayAdditionalActionButtonsForReportBlock() {
     btnActivateTimer.style.display = 'block'
     emailOperationsDiv.style.display = 'flex'
@@ -767,10 +711,6 @@ reportComposeBtn.addEventListener('click', () => {
         })
 })
 
-/*
-* @param URLmethod type: string
-* @param downloadFileFormat type: DownloadFormat
-* */
 const downloadFile = (fileExtensionName) => {
     let url = "download-report-in-format?format="
     let fileName = ""
@@ -798,19 +738,12 @@ const downloadFile = (fileExtensionName) => {
     })
         .then(res => res.blob())
         .then(blob => {
-            // Create a temporary URL for the blob
             const url = window.URL.createObjectURL(blob);
-
-            // Create a temporary <a> element to trigger the download
             const a = document.createElement('a');
             a.href = url;
-            a.download = fileName; // Specify the desired file name
+            a.download = fileName;
             document.body.appendChild(a);
-
-            // Trigger the click event on the <a> element to start the download
             a.click();
-
-            // Clean up by removing the temporary <a> element and revoking the blob URL
             window.URL.revokeObjectURL(url);
         })
         .catch(error => {
@@ -843,8 +776,6 @@ btnActivateTimer.addEventListener("click", () => {
                 countdown = updateEveryHowMuchSeconds
                 downloadFile("XML")
             }
-
-
         }
     }
     timesBtnActivateTimerWasClicked++;
