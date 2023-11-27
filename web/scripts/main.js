@@ -714,12 +714,11 @@ function translateColumnNameIntoRussian(element) {
 
 // compose report
 
-const reportComposeBtn = document.querySelector('#btn-report-employees-and-shifts')
+const reportComposeBtn =document.querySelector("#btn-report-employees-and-shifts")
 const reportTableDOM = document.querySelector('.report-table')
-
+const emailOperationsDiv = document.querySelector(".email-operations-div")
 const btnDownloadReport = document.querySelector('#download-report-btn')
 const ulDownloadFormats = document.querySelector('.ul-download-formats')
-
 const btnActivateTimer = document.querySelector("#btn-download-with-timer")
 
 
@@ -736,6 +735,12 @@ btnDownloadReport.addEventListener('click', () => {
 
 // this element is needed to not dupe report each time @reportComposeBtn pressed
 let reportBtnPressCounter = 0
+
+function displayAdditionalActionButtonsForReportBlock() {
+    btnActivateTimer.style.display = 'block'
+    emailOperationsDiv.style.display = 'flex'
+}
+
 reportComposeBtn.addEventListener('click', () => {
     // delete old table if pressed again
     if (reportBtnPressCounter === 1) {
@@ -743,7 +748,7 @@ reportComposeBtn.addEventListener('click', () => {
     }
     reportBtnPressCounter++
 
-    btnActivateTimer.style.display = 'block'
+    displayAdditionalActionButtonsForReportBlock();
 
     fetch(`${host}/get-employees-names-and-their-shifts?time="09:00:00"`, {
         method: "GET",
@@ -846,10 +851,39 @@ btnActivateTimer.addEventListener("click", () => {
 
 })
 
-const emailOperationsDiv = document.querySelector(".email-operations-div")
 const mailStorage = document.querySelector('#storage-email-announcer')
+const mailSenderSuccessMessage = document.querySelector("#announce-successful-email-send")
+const storageEmailAnnouncer = document.querySelector("#storage-email-announcer")
+const storageEmailShowBtn = document.querySelector("#storage-email-show-btn")
+const sendReportToEmailButton = document.querySelector("#send-report-to-email-btn")
+
 fetch(`${host}` + '/get-mail-storage')
-.then(response => response.text())
-.then(mailName => {
-    mailStorage.textContent = mailName
+    .then(response => response.text())
+    .then(mailName => {
+        mailStorage.textContent = mailName
+        mailSenderSuccessMessage.textContent = `Отчёт отправлен на ${mailName}`
+    })
+
+function displayAndHideRecieverEmailAnouncerOnClick() {
+    if (storageEmailAnnouncer.style.display === "initial") {
+        storageEmailAnnouncer.style.display = "none"
+    } else {
+        storageEmailAnnouncer.style.display = "initial"
+    }
+}
+
+storageEmailShowBtn.addEventListener('click', () => {
+    displayAndHideRecieverEmailAnouncerOnClick();
 })
+
+function temporaryDisplayOperationStatusMessage() {
+    mailSenderSuccessMessage.style.display = "initial"
+    setTimeout(() => {
+        mailSenderSuccessMessage.style.display = "none"
+    }, 1600)
+}
+
+sendReportToEmailButton.addEventListener("click", () => {
+    temporaryDisplayOperationStatusMessage();
+})
+
