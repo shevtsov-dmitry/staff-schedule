@@ -731,7 +731,6 @@ btnDownloadReport.addEventListener('click', () => {
     } else {
         ulDownloadFormats.style.display = 'none'
         countTimesBtnDownloadReportClicked = 0
-
     }
 })
 
@@ -746,7 +745,7 @@ reportComposeBtn.addEventListener('click', () => {
 
     btnActivateTimer.style.display = 'block'
 
-    fetch(`${host}/get-employees-names-and-their-shifts`, {
+    fetch(`${host}/get-employees-names-and-their-shifts?time="09:00:00"`, {
         method: "GET",
         headers: {'Content-Type': 'application/json '},
     })
