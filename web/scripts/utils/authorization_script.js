@@ -1,4 +1,4 @@
-import {host} from "../configurations/hostServer";
+import {host} from "../configurations/HOST_SERVER";
 
 const form = document.querySelector("#form-with-data");
 let loginHeader = document.querySelector(".login-header");
