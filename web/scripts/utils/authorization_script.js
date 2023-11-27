@@ -1,4 +1,4 @@
-const server_url = "http://localhost:3000"
+import {host} from "../configurations/hostServer";
 
 const form = document.querySelector("#form-with-data");
 let loginHeader = document.querySelector(".login-header");
@@ -12,7 +12,7 @@ form.addEventListener("submit", (event)=>{
         login: login,
         password: password
     }
-    const url = `${server_url}/verify-admin`;
+    const url = `${host}/verify-admin`;
     fetch(url,{
         method:"POST",
         headers:{
@@ -28,7 +28,7 @@ form.addEventListener("submit", (event)=>{
             }
             else return response.json();
         })
-        .then(bool =>{ // utf's ✓ ❌
+        .then(bool =>{
             console.log(`Response success from server: ${bool}`);
             if(bool){
                 loginHeader.style.color = "green";
