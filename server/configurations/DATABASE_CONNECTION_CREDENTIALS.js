@@ -1,4 +1,4 @@
-const databaseConnectionCredentials =
+const DATABASE_CONNECTION_CREDENTIALS =
     {
         user: 'postgres',
         host: 'localhost',
@@ -7,4 +7,4 @@ const databaseConnectionCredentials =
         port: 5432,
     }
 
-    module.exports = databaseConnectionCredentials
+    module.exports = DATABASE_CONNECTION_CREDENTIALS
