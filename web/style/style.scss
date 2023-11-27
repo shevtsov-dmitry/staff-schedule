@@ -383,7 +383,7 @@ $procedures-flex-view-display: none;
 
 
 .download-btns-block {
-  margin: 10px 0 0 $start-margin;
+  margin: 8px 0 0 $start-margin;
   display: flex;
 
 }
@@ -453,6 +453,7 @@ footer{
   button{
     width: fit-content;
     height: fit-content;
+    @include green-on-click
   }
   .email-operations-announce-text{
     margin: 0 0 0 15px;
