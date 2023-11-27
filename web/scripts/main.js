@@ -891,6 +891,15 @@ const getEmailDataBtn = document.querySelector("#get-email-data-btn")
 const xmlReportArticle = document.querySelector("#xml-report")
 const jsonReportArticle = document.querySelector("#json-report")
 
+getEmailDataBtn.addEventListener('click', () => {
+    fetch(`${host}` + "/get-data-from-email")
+        .then(response => response.json())
+        .then(data => {
+            xmlReportArticle.innerHTML = stringifyXML(data.xml);
+            jsonReportArticle.textContent = JSON.stringify(data.json)
+        })
+})
+
 function stringifyXML(rawXML) {
     let string = rawXML
     string = string.replace("?>", "?>\n")
@@ -902,12 +911,3 @@ function stringifyXML(rawXML) {
     string += "</root>"
     return string
 }
-
-getEmailDataBtn.addEventListener('click', () => {
-    fetch(`${host}` + "/get-data-from-email")
-        .then(response => response.json())
-        .then(data => {
-            xmlReportArticle.innerHTML = stringifyXML(data.xml);
-            jsonReportArticle.textContent = JSON.stringify(data.json)
-        })
-})
