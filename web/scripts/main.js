@@ -892,11 +892,16 @@ const xmlReportArticle = document.querySelector("#xml-report")
 const jsonReportArticle = document.querySelector("#json-report")
 
 getEmailDataBtn.addEventListener('click', () => {
+
+    const xmlPlaceholder = document.querySelector("#XML-placeholder")
+    const jsonPlaceholder = document.querySelector("#JSON-placeholder")
+    xmlPlaceholder.style.display = "initial"
+    jsonPlaceholder.style.display = "initial"
     fetch(`${host}` + "/get-data-from-email")
         .then(response => response.json())
         .then(data => {
-            xmlReportArticle.innerHTML = stringifyXML(data.xml);
-            jsonReportArticle.textContent = JSON.stringify(data.json)
+            xmlReportArticle.innerText = stringifyXML(data.xml);
+            jsonReportArticle.innerHTML = JSON.stringify(data.json)
         })
 })
 
