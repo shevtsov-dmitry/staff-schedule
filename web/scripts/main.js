@@ -752,18 +752,15 @@ reportComposeBtn.addEventListener('click', () => {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
-            let report_table = new Handsontable(reportTableDOM, {
+            new Handsontable(reportTableDOM, {
                 data: data,
                 rowHeaders: true,
-                colHeaders: true,
+                colHeaders: ["имя", "фамилия", "начало смены", "конец смены"],
                 height: 'auto',
                 licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
             })
-
             btnDownloadReport.style.display = "block"
         })
-
 })
 
 /*
@@ -828,12 +825,13 @@ const timerInHtml = document.querySelector("#timer")
 
 let timesBtnActivateTimerWasClicked = 0
 btnActivateTimer.addEventListener("click", () => {
-    if(timesBtnActivateTimerWasClicked < 1){
+    if (timesBtnActivateTimerWasClicked < 1) {
         const updateEveryHowMuchSeconds = 15
         let countdown = updateEveryHowMuchSeconds
         setInterval(() => {
             updateCountdown()
         }, 1000);
+
         function updateCountdown() {
             timerInHtml.innerHTML = `${countdown}`;
             countdown--;
@@ -843,7 +841,6 @@ btnActivateTimer.addEventListener("click", () => {
             }
 
 
-
         }
     }
     timesBtnActivateTimerWasClicked++;
@@ -851,3 +848,4 @@ btnActivateTimer.addEventListener("click", () => {
 })
 
 
+const emailOperationsDiv = document.querySelector(".email-operations-div")
