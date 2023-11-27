@@ -846,5 +846,10 @@ btnActivateTimer.addEventListener("click", () => {
 
 })
 
-
 const emailOperationsDiv = document.querySelector(".email-operations-div")
+const mailStorage = document.querySelector('#storage-email-announcer')
+fetch(`${host}` + '/get-mail-storage')
+.then(response => response.text())
+.then(mailName => {
+    mailStorage.textContent = mailName
+})

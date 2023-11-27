@@ -23,6 +23,7 @@ const {getEmployeeNamesAndTheirShifts} = require("./GET/getEmployeeNamesAndTheir
 const {downloadReportInFormat} = require("./UTILS/downloadReportInFormat");
 const {sendEmail} = require("./POST/sendEmail");
 const {getReportFromEmail} = require("./GET/getReportFromEmail");
+const {getMailStorage} = require("./GET/getMailStorage");
 const app = express();
 
 // * ------ CORS POLICY ------
@@ -48,6 +49,7 @@ getShiftsTime(app, client)
 getEmployeeSalaryAndBonusCoefficient(app, client)
 findEmployeeIdByName(app, client)
 getEmployeeNamesAndTheirShifts(app, client)
+getMailStorage(app)
 
 // *** ------ POSTs ------
 addEmptyRow(app, client)
