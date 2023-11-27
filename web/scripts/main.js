@@ -852,7 +852,7 @@ btnActivateTimer.addEventListener("click", () => {
 })
 
 const mailStorage = document.querySelector('#storage-email-announcer')
-const mailSenderSuccessMessage = document.querySelector("#announce-successful-email-send")
+const mailSenderMessage = document.querySelector("#announce-message-on-email-send")
 const storageEmailAnnouncer = document.querySelector("#storage-email-announcer")
 const storageEmailShowBtn = document.querySelector("#storage-email-show-btn")
 const sendReportToEmailButton = document.querySelector("#send-report-to-email-btn")
@@ -861,7 +861,6 @@ fetch(`${host}` + '/get-mail-storage')
     .then(response => response.text())
     .then(mailName => {
         mailStorage.textContent = mailName
-        mailSenderSuccessMessage.textContent = `Отчёт отправлен на ${mailName}`
     })
 
 function displayAndHideRecieverEmailAnouncerOnClick() {
@@ -876,15 +875,25 @@ storageEmailShowBtn.addEventListener('click', () => {
     displayAndHideRecieverEmailAnouncerOnClick();
 })
 
-function temporaryDisplayOperationStatusMessage() {
-    mailSenderSuccessMessage.style.display = "initial"
-    setTimeout(() => {
-        mailSenderSuccessMessage.style.display = "none"
-    }, 1600)
+function temporaryDisplayOperationStatusMessage(message) {
+    mailSenderMessage.style.display = "initial"
+    mailSenderMessage.textContent = message
+    mailSenderMessage.addEventListener('click', ()=>{
+        mailSenderMessage.style.display = "none"
+    })
 }
 
 sendReportToEmailButton.addEventListener("click", () => {
-    temporaryDisplayOperationStatusMessage();
+    fetch(`${host}` + "/send-email", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.text())
+        .then(answer => {
+            temporaryDisplayOperationStatusMessage(answer)
+        })
 })
 
 const getEmailDataBtn = document.querySelector("#get-email-data-btn")
