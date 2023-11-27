@@ -714,7 +714,7 @@ function translateColumnNameIntoRussian(element) {
 
 // compose report
 
-const reportComposeBtn =document.querySelector("#btn-report-employees-and-shifts")
+const reportComposeBtn = document.querySelector("#btn-report-employees-and-shifts")
 const reportTableDOM = document.querySelector('.report-table')
 const emailOperationsDiv = document.querySelector(".email-operations-div")
 const btnDownloadReport = document.querySelector('#download-report-btn')
@@ -887,3 +887,27 @@ sendReportToEmailButton.addEventListener("click", () => {
     temporaryDisplayOperationStatusMessage();
 })
 
+const getEmailDataBtn = document.querySelector("#get-email-data-btn")
+const xmlReportArticle = document.querySelector("#xml-report")
+const jsonReportArticle = document.querySelector("#json-report")
+
+function stringifyXML(rawXML) {
+    let string = rawXML
+    string = string.replace("?>", "?>\n")
+    string = string.replace("<root>", "<root>\n\t")
+    string = string.replace("</shift_start_time>", "</shift_start_time>\n\t")
+    string = string.replace("</shift_end_time>", "</shift_end_time>\n\t")
+    string = string.replaceAll("</assigned_employee_list>", "</assigned_employee_list>\n\t")
+    string = string.substring(0, string.length - 8)
+    string += "</root>"
+    return string
+}
+
+getEmailDataBtn.addEventListener('click', () => {
+    fetch(`${host}` + "/get-data-from-email")
+        .then(response => response.json())
+        .then(data => {
+            xmlReportArticle.innerHTML = stringifyXML(data.xml);
+            jsonReportArticle.textContent = JSON.stringify(data.json)
+        })
+})
