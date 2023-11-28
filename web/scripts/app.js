@@ -4,5 +4,5 @@ import {initReportComponent} from "./components/report";
 import {initTable} from "./components/table";
 
 await initTable()
-initStoredProceduresComponent()
-initReportComponent()
+await initStoredProceduresComponent()
+await initReportComponent()
