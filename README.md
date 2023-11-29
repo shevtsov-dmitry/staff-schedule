@@ -43,13 +43,13 @@ It will create database, fill it with schema, views, stored procedures and exemp
 3. install execution environment _(if some problems will occur in a future with launching try this command again **with sudo**)_ \
    `npm install -g nodemon`
 4. install dependencies \
-   `npm install @json2csv/plainjs body-parser cors express pg jstoxml`
+   `npm install`
 5. move one folder back and into web \
    `cd ../web`
 6. install execution environment \
    `npm install -g vite` 
 7. install dependencies \
-   `npm install handsontable`
+   `npm install`
 
 ### run project
 1. go to server folder. \
