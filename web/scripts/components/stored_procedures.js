@@ -304,9 +304,11 @@ function countNewSalaryAction() {
         const hiddenOKButton = document.querySelector('.hidden-input-button')
         const hiddenInput = document.querySelector('.hidden-input')
         showChangeSalaryUI(changeSalaryButton, hiddenOKButton, hiddenInput);
-        const newSalary = updateHtmlWithNewSalary(hiddenInput, preparedHTML, currentSalary);
-        await updateSalaryOnClick(id, newSalary);
-        displayWatermark()
+        hiddenOKButton.addEventListener('click', async ()=> {
+            const newSalary = updateHtmlWithNewSalary(hiddenInput, preparedHTML, currentSalary);
+            await updateSalaryOnClick(id, newSalary);
+            displayWatermark()
+        })
     }
 
     async function executeAsyncFormCreationEnvironment(child) {
