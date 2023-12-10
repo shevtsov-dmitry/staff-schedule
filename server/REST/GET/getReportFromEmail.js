@@ -1,5 +1,5 @@
 const Imap = require('imap');
-const {MAIL_CREDENTIALS} = require("../configurations/MAIL_CREDENTIALS");
+const {MAIL_CREDENTIALS} = require("../../configurations/MAIL_CREDENTIALS");
 const simpleParser = require('mailparser').simpleParser;
 
 function getReportFromEmail(app) {
