@@ -1,5 +1,5 @@
 function deleteDepartment(app, client) {
-    app.post('/delete-dep', (req, res) => {
+    app.delete('/delete-dep', (req, res) => {
         const id = req.query.id;
         const query = `call sp_DeleteDepartment(${id})`;
 
