@@ -24,6 +24,16 @@ export const countBonusSecondaryOption = document.querySelector('.count-bonus-se
 const allOptions = [countNewSalary, chooseAndRemoveDepartment, countBonus, getAvailableEmployees,
     assignEmployeeToShift, shiftTimes, countBonusSecondaryOption]
 
+
+
+const actionInnerHtmlHashMap = {
+    'Рассчитать новую зарплату': 0,
+    'Выбрать и удалить отдел': 1,
+    'Рассчитать премию сотрудника': 2,
+    'Узнать доступных сотрудников': 3,
+    'Назначить сотрудника на смену': 4,
+}
+
 export function initStoredProceduresComponent() {
     useProcedureBtn.addEventListener('click', () => {
         divDisplayRegulator.style.display = "flex"
@@ -52,11 +62,7 @@ export async function fillLi(procedureDOM, fetchUrl) {
     function insertContentInUl(htmlContent) {
         let procedureName = procedureDOM.textContent
         allOptions.forEach(option => option.innerHTML = "")
-        if (procedureName === 'Рассчитать новую зарплату') allOptions[0].innerHTML = htmlContent
-        if (procedureName === 'Выбрать и удалить отдел') allOptions[1].innerHTML = htmlContent
-        if (procedureName === 'Рассчитать премию сотрудника') allOptions[2].innerHTML = htmlContent
-        if (procedureName === 'Узнать доступных сотрудников') allOptions[3].innerHTML = htmlContent
-        if (procedureName === 'Назначить сотрудника на смену') allOptions[4].innerHTML = htmlContent
+        allOptions[actionInnerHtmlHashMap[procedureName]].innerHTML = htmlContent
     }
 
     function composeLi(arrayOfObject) {
