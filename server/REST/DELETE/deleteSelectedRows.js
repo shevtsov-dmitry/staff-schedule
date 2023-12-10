@@ -6,6 +6,7 @@ function deleteSelectedRows(app, client) {
         const query = `DELETE
                        FROM department
                        WHERE department_id BETWEEN ${start} AND ${end}`
+
         client.query(query)
     })
 }

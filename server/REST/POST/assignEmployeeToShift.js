@@ -3,7 +3,6 @@ function assignEmployeeToShift(app, client) {
         let first_name, last_name, shift_start_time, shift_end_time
         const elements = req.body
 
-        let values = []
         for (let elementsKey in elements) {
             elements.push(elements[elementsKey])
         }

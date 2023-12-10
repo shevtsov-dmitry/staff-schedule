@@ -3,10 +3,9 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const {Client} = require('pg')
 
-const {addEmptyRow} = require("./REST/POST/addEmptyRow");
 const {assignEmployeeToShift} = require("./REST/POST/assignEmployeeToShift");
 const {changeEmployeeSalary} = require("./REST/POST/changeEmployeeSalary");
-const {deleteSelectedRows} = require("./REST/POST/deleteSelectedRows");
+const {deleteSelectedRows} = require("./REST/DELETE/deleteSelectedRows");
 const {saveTable} = require("./REST/POST/saveTable");
 const {sendEmail} = require("./REST/POST/sendEmail");
 const {updateEmployeeSalaryWithStoredProcedure} = require("./REST/POST/updateEmployeeSalaryWithStoredProcedure");
@@ -28,6 +27,7 @@ const {getTableNames} = require("./REST/GET/getTableNames");
 const {downloadReportInFormat} = require("./UTILS/downloadReportInFormat");
 
 const DATABASE_CONNECTION_CREDENTIALS = require("./configurations/DATABASE_CONNECTION_CREDENTIALS");
+const {updateEmployeeSalaryAndBonus} = require("./REST/POST/updateEmployeeSalaryAndBonus");
 
 const app = express();
 
@@ -57,13 +57,13 @@ getEmployeeNamesAndTheirShifts(app, client)
 getMailStorage(app)
 
 // *** ------ POSTs ------
-addEmptyRow(app, client)
 deleteSelectedRows(app, client)
 saveTable(app, client)
 verifyAdmin(app, client)
 assignEmployeeToShift(app, client)
 changeEmployeeSalary(app, client)
 updateEmployeeSalaryWithStoredProcedure(app, client)
+updateEmployeeSalaryAndBonus(app, client)
 
 // *** DOWNLOADS
 downloadReportInFormat(app, client)
