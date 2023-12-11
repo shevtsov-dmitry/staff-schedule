@@ -3,31 +3,31 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const {Client} = require('pg')
 
-const {addEmptyRow} = require("./POST/addEmptyRow");
-const {assignEmployeeToShift} = require("./POST/assignEmployeeToShift");
-const {changeEmployeeSalary} = require("./POST/changeEmployeeSalary");
-const {deleteSelectedRows} = require("./POST/deleteSelectedRows");
-const {saveTable} = require("./POST/saveTable");
-const {sendEmail} = require("./POST/sendEmail");
-const {updateEmployeeSalaryWithStoredProcedure} = require("./POST/updateEmployeeSalaryWithStoredProcedure");
-const {verifyAdmin} = require("./POST/verifyAdmin");
+const {assignEmployeeToShift} = require("./REST/POST/assignEmployeeToShift");
+const {changeEmployeeSalary} = require("./REST/POST/changeEmployeeSalary");
+const {deleteSelectedRows} = require("./REST/DELETE/deleteSelectedRows");
+const {saveTable} = require("./REST/POST/saveTable");
+const {sendEmail} = require("./REST/POST/sendEmail");
+const {updateEmployeeSalaryWithStoredProcedure} = require("./REST/POST/updateEmployeeSalaryWithStoredProcedure");
+const {verifyAdmin} = require("./REST/POST/verifyAdmin");
 
-const {findEmployeeIdByName} = require("./GET/findEmployeeIdByName");
-const {getAllDataFromTable} = require("./GET/getAllDataFromTable");
-const {getAvailableEmployees} = require("./GET/getAvailableEmployees");
-const {getColumnNames} = require("./GET/getColumnNames");
-const {getDepartmentNames} = require("./GET/getDepartmentNames");
-const {getEmployeeNamesAndTheirShifts} = require("./GET/getEmployeeNamesAndTheirShifts");
-const {getEmployeeSalaryAndBonusCoefficient} = require("./GET/getEmployeeSalaryAndBonusCoefficient");
-const {getEmployees} = require("./GET/getEmployees");
-const {getMailStorage} = require("./GET/getMailStorage");
-const {getReportFromEmail} = require("./GET/getReportFromEmail");
-const {getShiftsTime} = require("./GET/getShiftsTime");
-const {getTableNames} = require("./GET/getTableNames");
+const {findEmployeeIdByName} = require("./REST/GET/findEmployeeIdByName");
+const {getAllDataFromTable} = require("./REST/GET/getAllDataFromTable");
+const {getAvailableEmployees} = require("./REST/GET/getAvailableEmployees");
+const {getColumnNames} = require("./REST/GET/getColumnNames");
+const {getDepartmentNames} = require("./REST/GET/getDepartmentNames");
+const {getEmployeeNamesAndTheirShifts} = require("./REST/GET/getEmployeeNamesAndTheirShifts");
+const {getEmployeeSalaryAndBonusCoefficient} = require("./REST/GET/getEmployeeSalaryAndBonusCoefficient");
+const {getEmployees} = require("./REST/GET/getEmployees");
+const {getMailStorage} = require("./REST/GET/getMailStorage");
+const {getReportFromEmail} = require("./REST/GET/getReportFromEmail");
+const {getShiftsTime} = require("./REST/GET/getShiftsTime");
+const {getTableNames} = require("./REST/GET/getTableNames");
 
 const {downloadReportInFormat} = require("./UTILS/downloadReportInFormat");
 
 const DATABASE_CONNECTION_CREDENTIALS = require("./configurations/DATABASE_CONNECTION_CREDENTIALS");
+const {updateEmployeeSalaryAndBonus} = require("./REST/POST/updateEmployeeSalaryAndBonus");
 
 const app = express();
 
@@ -57,13 +57,13 @@ getEmployeeNamesAndTheirShifts(app, client)
 getMailStorage(app)
 
 // *** ------ POSTs ------
-addEmptyRow(app, client)
 deleteSelectedRows(app, client)
 saveTable(app, client)
 verifyAdmin(app, client)
 assignEmployeeToShift(app, client)
 changeEmployeeSalary(app, client)
 updateEmployeeSalaryWithStoredProcedure(app, client)
+updateEmployeeSalaryAndBonus(app, client)
 
 // *** DOWNLOADS
 downloadReportInFormat(app, client)

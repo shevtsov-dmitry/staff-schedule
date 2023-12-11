@@ -1,4 +1,4 @@
-const {MAIL_CREDENTIALS} = require("../configurations/MAIL_CREDENTIALS");
+const {MAIL_CREDENTIALS} = require("../../configurations/MAIL_CREDENTIALS");
 
 function getMailStorage(app){
     app.get("/get-mail-storage", (req, res)=> {

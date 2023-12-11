@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const axios = require('axios');
-const {MAIL_CREDENTIALS} = require("../configurations/MAIL_CREDENTIALS");
+const {MAIL_CREDENTIALS} = require("../../configurations/MAIL_CREDENTIALS");
 
 async function getXMLAndJSONReports() {
     const url = 'http://localhost:3000/download-report-in-format';
