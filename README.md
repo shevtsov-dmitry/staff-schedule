@@ -1,60 +1,58 @@
-## launch on ubuntu/debian
-### install software
-1. install git \
-`sudo apt install git`
-2. clone repo anywhere you want \
-`git clone https://github.com/shevtsov-dmitry/staff-schedule.git`
-3. install posgtreSQL\
-`sudo apt install postgresql`
-4. install curl \
-   `sudo apt install curl`
-5. install npm and node js
-  * `sudo apt-get update`
-  * `curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - &&\`
-  * `sudo apt-get install -y nodejs`
+## запуск на ubuntu/debian
+### установить программное обеспечение
+1. установите git \
+   `sudo apt install git`
+2. клонируем репозиторий куда угодно \
+   `git clone https://github.com/shevtsov-dmitry/staff-schedule.git`
+3. установить posgtreSQL\
+   `sudo apt install postgresql`
+4. установите curl \
+   `sudo apt install curl`. 
+5. установите npm и node js \
+`sudo apt-get update` \
+`curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - &&\` \
+``sudo apt-get install -y nodejs`` \
 
-### change database user password
-1. make sure database is running (should be active) \
- `systemctl status postgresql`
-2. enter database with sudo rules \
+### изменение пароля пользователя базы данных
+1. убедитесь, что база данных запущена (должна быть активной)\
+   `systemctl status postgresql`.
+2. войдите в базу данных с правилами sudo \
    `sudo -u postgres psql`
-3. change postgres user password. Initially it set to 123123. \
-If you **want to change** user credentials you should modify database autoconfig bash script _(look at the next step in this guide)_ \
- `ALTER USER postgres WITH PASSWORD '123123';` \
- on success you will see ALTER USER
-4. exit postgreSQL CLI with __CTRL + Z__
+3. измените пароль пользователя postgres. Изначально он был установлен на 123123. \
+   Если вы **хотите изменить** учетные данные пользователя, вам следует изменить скрипт автоконфигурации базы данных на bash _(смотрите следующий шаг в этом руководстве)_ \
+   `ALTER USER postgres WITH PASSWORD '123123';` \
+   в случае успеха вы увидите ALTER USER
+4. выйдите из PostgreSQL CLI с помощью __CTRL + Z__.
 
-### execute database autoconfig
-It will create database, fill it with schema, views, stored procedures and exemplary insert values.
-1. go to SQL folder \
+### выполнить автоконфигурацию базы данных
+Она создаст базу данных, заполнит ее схемой, представлениями, хранимыми процедурами и тестовыми данными.
+1. перейдите в папку SQL \
    `cd server/SQL`
-2. execute script \
+2. выполните скрипт \
    `./launch-database-autoconfig.sh`
 
-### download node.js dependencies
-1. open repo with terminal.
-2. go to server folder \
+### скачать зависимости node.js
+1. откройте корневую папку проекта с помощью терминала.
+2. перейдите в папку сервера \
    `cd /server`
-3. install execution environment _(if some problems will occur in a future with launching try this command again **with sudo**)_ \
-   `npm install -g nodemon`
-4. install dependencies \
+3. установите зависимости \
    `npm install`
-5. move one folder back and into web \
+4. переместите одну папку назад и в web \
    `cd ../web`
-6. install execution environment \
-   `npm install -g vite` 
-7. install dependencies \
+5. устанавливаем сборщик проекта \
+   `npm install -g vite`
+6. устанавливаем зависимости \
    `npm install`
 
-### run project
-1. go to server folder. \
-`cd /server`
-2. run command \
-`nodemon server.js` \
-you should see: server started on port 3000.
-3. __open new terminal__ _(you can press + button on top-left corner to open new tab or pres **CTRL + SHIFT + T**)._
-4. go to web folder \
+### запустить проект
+1. перейдите в папку сервера. \
+   `cd /server`
+2. выполните команду \
+   `node server.js` \
+   вы должны увидеть: server started on port 3000.
+3. Откройте новый терминал__ _(вы можете нажать кнопку + в левом верхнем углу, чтобы открыть новую вкладку или **CTRL + SHIFT + T**)._
+4. перейдите в папку web \
    `cd /web`
-5. run command \
-`npm start`
-6. you will see that app successfully started.
+5. выполните команду \
+   `npm start`
+6. Вы увидите, что приложение успешно запущено.
