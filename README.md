@@ -6,11 +6,13 @@
 
 ### Используемые технологии
 + REST API как основной архитектруный стиль
-+ Чистый javascript
++ SMTP, IMAP, POP3
++ Javascript
 + Handsontable API - библиотека, позволяющая сделать удобную интерактивную таблицу как Excel.
 + Vite - сборщик проекта
-+ Node.js + Express.js на бекенде для реализации логики REST API
-+ Библиотеки Node.js для рассылки и считывания Email.  
++ Node.js
++ Express.js
++ Библиотеки для парсинга XML, CSV и отчётов с Email
 + PostreSQL
 
 ### Основные функциональности
